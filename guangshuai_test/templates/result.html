@@ -8,10 +8,11 @@
 </head>
 
 <body>
-		<form action="/result/" method="post">
-    <input type="text" >
-    <input type="submit" value="result">
-</form>
+	<table class="table table-bordered">
+		 {% autoescape off %}
+		 {{ guangshuai_table }}
+		{% endautoescape %}
+</table>
 
 </body>
 </html>
