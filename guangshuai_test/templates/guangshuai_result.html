@@ -65,6 +65,14 @@
 		</div>
 		<div class="row">
 			<table class="table table-bordered">
+			<thead>
+				<th>SW_IP</th>
+				<th>Interface</th>
+				<th>RX(db)</th>
+				<th>TX(db)</th>
+				 {% autoescape off %}
+                 {{ guangshuai_table }}
+                {% endautoescape %}
 			</table>
 		</div>
 		</div>

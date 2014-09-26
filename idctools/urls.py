@@ -8,5 +8,5 @@ urlpatterns = [
   #  url(r'^guangshuai_test/',include('guangshuai_test.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$',index),
-    url(r'^result/$',result)
+    url(r'^guangshuai_result/$',guangshuai_result)
 ]
