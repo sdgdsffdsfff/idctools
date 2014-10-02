@@ -8,25 +8,48 @@
     <script src="/static/js/jquery-2.1.1.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
 <script>
-function check()
-{
-    var nameValue=document.getElementById("uname").value;
-    if (!nameValue)
-    {
-	alert("please input username")
-        return false;
-    }
-    return true;
-}
+ function exportToExcel(tableid){
+       var curTbl = document.getElementById(tableid);
+       var oXL;
+       try{
+                oXL = new ActiveXObject("Excel.Application"); //创建AX对象excel 
+       }catch(e){
+                alert("无法启动Excel!\n\n如果您确信您的电脑中已经安装了Excel，"+"那么请调整IE的安全级别。\n\n具体操作：\n\n"+"工具 → Internet选项 → 安全 → 自定义级别 → 对没有标记为安全的ActiveX进行初始化和脚本运行 → 启用");
+                return false;
+       }
+       var oWB = oXL.Workbooks.Add(); //获取workbook对象
+       var oSheet = oWB.ActiveSheet;//激活当前sheet 
+       var sel = document.body.createTextRange();
+       sel.moveToElementText(curTbl); //把表格中的内容移到TextRange中
+       sel.select(); //全选TextRange中内容 
+       sel.execCommand("Copy");//复制TextRange中内容 
+       oSheet.Paste();//粘贴到活动的EXCEL中
+       oXL.Visible = true; //设置excel可见属性
+       var fname = oXL.Application.GetSaveAsFilename("将table导出到excel.xls", "Excel Spreadsheets (*.xls), *.xls");
+       oWB.SaveAs(fname);
+       oWB.Close();
+       oXL.Quit();
+        }
 </script>
 </head>
 <body>
- <form action="/guangshuai_result/" method="post" role="form"  onsubmit="return check()">
-        <input type="text" name="username"  id="uname" class="form-control" placeholder="请输入交换机用户名" autocomplete="off">
-        <input type="password" class="form-control "name="password" placeholder="请输入交换机密码" autocomplete="off">
-
-        <textarea class="form-control" rows="12" name="ips" autocomplete="off" placeholder="格式：每行输入一个ip"></textarea>
-        <button type="submit" class="btn btn-primary">提交</button>
-</form>
+	<table class="table table-bordered" id="tableexcel">
+                        <thead>
+                                <th>SW_IP</th>
+                                <th>Interface</th>
+                                <th>RX(db)</th>
+                                <th>TX(db)</th>
+			</thead>
+			<tbody>
+			<tr><td rowspan="2">192.168.1.1</td>
+			   	<td>g0/1</td>
+				<td>-1</td>
+				<td>2</td>
+				</tr>
+			<tr><td>g0/2</td><td>-2</td><td>3</td></tr>
+			
+			</tbody>	
+                        </table>
+<input type="button" onclick="javascript:method1('tableexcel');" value="第一种方法导入到EXCEL"> 
 </body>
 </html>
