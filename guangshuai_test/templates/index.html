@@ -6,10 +6,25 @@
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <script src="/static/js/jquery-2.1.1.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
+</script>
+<script>
+function check()
+{
+    var nameValue=document.getElementById("uname").value;
+    var pwdValue=document.getElementById("pwd").value;
+    var ipValue=document.getElementById("ip_pool").value;
+    if (!nameValue || !pwdValue || !ipValue)
+    {
+        alert("please input username")
+        return false;
+    }
+    return true;
+}
+</script>
 </head>
 <body>	
 
-	<div class="container-fluid" id="page-container">
+	<div class="container-fluid">
 		<div class="container-fluid">
 		<div class="page-header">
 		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -24,13 +39,18 @@
 		
 		
 		<div class="container-fluid">	
-		<div class="page-header">
-		</div>
 		<div class="col-lg-2">
 			<div class="list-group">
   <a href="#" class="list-group-item active">
     交付chenk工具</a>
   <a href="#" class="list-group-item">初始化脚本批量部署</a>
+  <a href="#" class="list-group-item">Morbi leo risus</a>
+  <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+  <a href="#" class="list-group-item">Vestibulum at eros</a>
+</div>
+	                      <div class="list-group">
+  <a href="#" class="list-group-item">noting to do now</a>
+  <a href="#" class="list-group-item">nothing to do now</a>
   <a href="#" class="list-group-item">Morbi leo risus</a>
   <a href="#" class="list-group-item">Porta ac consectetur ac</a>
   <a href="#" class="list-group-item">Vestibulum at eros</a>
@@ -91,16 +111,16 @@ pan></button>
         <h4 class="modal-title" id="myModalLabel">请输入信息</h4>
       </div>
       <div class="modal-body">
-        <form action="/guangshuai_result/" method="post" role="form">
+        <form action="/guangshuai_result/" method="post" role="form"  onsubmit="return check()">
         <div class="form-group">
-        <input type="text" name="username" class="form-control" placeholder="请输入交换机用户名" autocomplete="off">
+        <input type="text" name="username" id="uname" class="form-control" placeholder="请输入交换机用户名" autocomplete="off">
         </div>
         <div class="form-group">
-        <input type="password" class="form-control "name="password" placeholder="请输入交换机密码" autocomplete="off">
+        <input type="password" class="form-control "name="password" id="pwd"placeholder="请输入交换机密码" autocomplete="off">
         </div>
 
         <div class="form-group">
-        <textarea class="form-control" rows="3" name="ips" autocomplete="off" placeholder="格式：每行输入一个ip"></textarea>
+        <textarea class="form-control" rows="12" name="ips" id="ip_pool"autocomplete="off" placeholder="格式：每行输入一个ip"></textarea>
         </div>
         <button type="submit" class="btn btn-primary">提交</button>
 </form>

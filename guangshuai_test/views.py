@@ -16,9 +16,11 @@ def guangshuai_result(request):
 	ip_pool = request.POST.get("ips").encode("utf-8")
 	username = request.POST.get("username").encode("utf-8")
 	password = request.POST.get("password").encode("utf-8")
-	
 	#do some detail with the ip of the switches
 	ip_list = re.split(r'\s+',ip_pool)
+	
+		
+		
 	
 	#create threading objects
 	collectors = []
@@ -42,5 +44,7 @@ def guangshuai_result(request):
 	return render_to_response("guangshuai_result.html",{"guangshuai_table":table})
 
 
-
+def test(request):
+	return render_to_response("mytest.html")
+	
 

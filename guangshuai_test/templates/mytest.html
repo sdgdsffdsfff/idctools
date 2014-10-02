@@ -1,0 +1,32 @@
+
+<!DOCTYPE>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>this is a test</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <script src="/static/js/jquery-2.1.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+<script>
+function check()
+{
+    var nameValue=document.getElementById("uname").value;
+    if (!nameValue)
+    {
+	alert("please input username")
+        return false;
+    }
+    return true;
+}
+</script>
+</head>
+<body>
+ <form action="/guangshuai_result/" method="post" role="form"  onsubmit="return check()">
+        <input type="text" name="username"  id="uname" class="form-control" placeholder="请输入交换机用户名" autocomplete="off">
+        <input type="password" class="form-control "name="password" placeholder="请输入交换机密码" autocomplete="off">
+
+        <textarea class="form-control" rows="12" name="ips" autocomplete="off" placeholder="格式：每行输入一个ip"></textarea>
+        <button type="submit" class="btn btn-primary">提交</button>
+</form>
+</body>
+</html>
