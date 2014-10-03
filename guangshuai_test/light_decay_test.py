@@ -37,12 +37,14 @@ class H3cLightDetector(threading.Thread):
 						interface =  list[0]
 						nextline = tfile.readline()
 						m2 = re.search('Current',nextline)
-                                        #       m3 = re.search('The transceiver does not support this function',nextline)
+                                                m3 = re.search('The transceiver does not support this function',nextline)
 						if m2:
 							x = tfile.readline()
 							x = tfile.readline()
 							newlist = re.split(r'\s+',x)
 							self.dict[interface] = {'rx':newlist[4],'tx':newlist[5]}
+						if m3:
+							self.dict[interface] = {'info':'The transceiver does not support this function'}
 						else:continue
 					else:continue
 				else:break

@@ -84,11 +84,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/dev/howto/static-files/
 STATIC_URL = '/static/'
-'''
-STATIC_FILE_DIRS=(
-	'/code/idctools/static'
-	)
-'''
 TEMPLATE_DIRS = (
 	'/code/idctools/guangshuai_test/templates',
 )

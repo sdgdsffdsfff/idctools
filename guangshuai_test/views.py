@@ -19,14 +19,12 @@ def guangshuai_result(request):
 	password = request.POST.get("password").encode("utf-8")
 	#do some detail with the ip of the switches
 	ip_list = re.split(r'\s+',ip_pool)
-	print "ip_list",ip_list
 	#detect devices
 	device_info = {}
 	spawns = {}
 	success_flag = {}
 	for ip in ip_list:
 		if ip != "":
-			print "ip:",ip
 			device_info[ip],spawns[ip],success_flag[ip] =  distinguish_device(ip,username,password)	
 		
 
@@ -62,7 +60,8 @@ def guangshuai_result(request):
         #merge the dicts and return to views.py of django
 		dict = {}
 		for i in collectors:
-			dict[i.host_ip] = i.dict
+			if i.dict != {}:
+				dict[i.host_ip] = i.dict
 		table = create_table(dict)
 	#######################################################################3
 	if not len(false_ip):
