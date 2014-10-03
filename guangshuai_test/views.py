@@ -64,10 +64,8 @@ def guangshuai_result(request):
 				dict[i.host_ip] = i.dict
 		table = create_table(dict)
 	#######################################################################3
-	if not len(false_ip):
-		pass
-	
-
+	if  len(false_ip):
+		print false_ip
 	#############################3
 	return render_to_response("guangshuai_result.html",{"guangshuai_table":table})
 

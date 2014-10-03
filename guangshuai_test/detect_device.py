@@ -6,7 +6,8 @@ import tempfile
 def distinguish_device(ip,username,password):
 	#this function include the process of err login failed... 
 	success_flag = True
-	myspawn = pexpect.spawn('telnet '+ ip)
+	device_info = 'unkonw'
+	myspawn = pexpect.spawn('telnet '+ ip,timeout=2)
 	index = myspawn.expect(["login:", "Username:","(?i)Unknown host", pexpect.EOF, pexpect.TIMEOUT])
 	
 	if index == 0:
@@ -25,7 +26,7 @@ def distinguish_device(ip,username,password):
 		elif index2 == 1:
 			device_info = "juniper"
 	
-	elif index == 2 or index == 3:
+	elif index == 2 or index == 3 or index == 4:
 		success_flag = False	
 
 	

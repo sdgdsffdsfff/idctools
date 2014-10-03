@@ -32,7 +32,6 @@ class H3cLightDetector(threading.Thread):
 				m1 = re.search('transceiver diagnostic',line)
 				if line:
 					if m1:
-						print line
 						list = re.split(r'\s+',line)
 						interface =  list[0]
 						nextline = tfile.readline()
