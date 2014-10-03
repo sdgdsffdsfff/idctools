@@ -44,7 +44,7 @@ class H3cLightDetector(threading.Thread):
 							newlist = re.split(r'\s+',x)
 							self.dict[interface] = {'rx':newlist[4],'tx':newlist[5]}
 						if m3:
-							self.dict[interface] = {'info':'The transceiver does not support this function'}
+							self.dict[interface] = {'info':'Transceiver does not support this function'}
 						else:continue
 					else:continue
 				else:break
