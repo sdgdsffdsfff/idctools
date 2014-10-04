@@ -27,26 +27,21 @@ class H3cLightDetector(threading.Thread):
 			tfile = tempfile.TemporaryFile()
 			tfile.write(self.spawn.before)
 			tfile.seek(0)
-			while True:
-				line = tfile.readline()
+			for line in tfile:
 				m1 = re.search('transceiver diagnostic',line)
-				if line:
-					if m1:
-						list = re.split(r'\s+',line)
-						interface =  list[0]
-						nextline = tfile.readline()
-						m2 = re.search('Current',nextline)
-                                                m3 = re.search('The transceiver does not support this function',nextline)
-						if m2:
-							x = tfile.readline()
-							x = tfile.readline()
-							newlist = re.split(r'\s+',x)
-							self.dict[interface] = {'rx':newlist[4],'tx':newlist[5]}
-						if m3:
-							self.dict[interface] = {'info':'Transceiver does not support this function'}
-						else:continue
-					else:continue
-				else:break
+				if m1:
+					list = re.split(r'\s+',line)
+					interface =  list[0]
+					nextline = tfile.next()
+					m2 = re.search('Current',nextline)
+					m3 = re.search('The transceiver does not support this function',nextline)
+					if m2:
+						x = tfile.next()
+						x = tfile.next()
+						newlist = re.split(r'\s+',x)
+						self.dict[interface] = {'rx':newlist[4],'tx':newlist[5]}
+					if m3:
+						self.dict[interface] = {'info':'Transceiver does not support this function'}
 		finally:
 			tfile.close()
 

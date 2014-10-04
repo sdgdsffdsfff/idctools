@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-def create_table(dict):
+def create_guangshuai_table(dict):
 	
 	switch_list = dict.keys()
 	#the function will eventually return the string opject table to the html
@@ -45,6 +45,15 @@ def create_table(dict):
 			elif len(dict[switch_list[i]][interface[0]].keys()) == 1:
 				table += '<tr class='+color+'><td>'+switch_list[i]+'</td>'+'<td>'+interface[0]+'</td>'+'<td colspan="2" align="right">'+str(dict[switch_list[i]][interface[0]]['info'])+'</td></tr>'	
 	return table
+
+
+def create_false_table(dict):
+	ip_list = dict.keys()
+        table = ''
+        for ip in ip_list:
+                table += '<tr><td>'+ip+'</td>'+'<td>'+dict[ip]+'</td></tr>'
+        return table
+
 ###############################################################################################################################
 if __name__ == "__main__":
 	dict = {'1.1.1.1':{'ge0':{'info':'not support'},'ge1':{'rx':1,'tx':5},'ge2':{'rx':1,'tx':3}},'2.2.2.2':{'ge3':{'rx':4,'tx':5},'ge1':{'rx':1,'tx':2}},'3.3.3.3':{'tge3':{'rx':-1,'tx':-2.5},'Tge2':{'rx':0.1,'tx':2},'tge1':{'rx':1,'tx':2},'tge0':{'rx':1,'tx':2}},'4.4.4.4':{'ge1':{'info':'not support 2'}}

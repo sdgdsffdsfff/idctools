@@ -7,6 +7,7 @@ from django.shortcuts import render_to_response
 from guangshuai_test.creattable import *
 from guangshuai_test.light_decay_test import *
 from guangshuai_test.detect_device import *
+import time
 # Create your views here.
 def index(requst):
 	return render_to_response('index.html')
@@ -22,18 +23,31 @@ def guangshuai_result(request):
 	#detect devices
 	device_info = {}
 	spawns = {}
-	success_flag = {}
+	#session_flag include 'success' 'timeout' 'unkonown host' 'wrong password'
+	session_flag = {}
+	detectors = []
+	ip_list_counter = []
+	#use ip_list_counter to skip the kongge from textarea
 	for ip in ip_list:
 		if ip != "":
-			device_info[ip],spawns[ip],success_flag[ip] =  distinguish_device(ip,username,password)	
-		
-
+			ip_list_counter.append(ip)
+	for ip in ip_list_counter:
+		d = distinguish_device(ip,username,password)
+		detectors.append(d)
+		print d,time.ctime()
+	for i in detectors:
+		i.start()
+	for i in detectors:
+		i.join()
+	for i in range(len(ip_list_counter)):
+		device_info[ip_list_counter[i]],spawns[ip_list_counter[i]],session_flag[ip_list_counter[i]] = detectors[i].device_info,detectors[i].myspawn,detectors[i].session_flag
+	print time.ctime()
 	#identify the ip telnet successfully whit the false	
 	success_ip = []
 	false_ip = []
-	for ip in ip_list:
+	for ip in ip_list_counter:
 		if ip != "":
-			if success_flag[ip] == True:
+			if session_flag[ip] == 'success':
 				success_ip.append(ip)
 			else:
 				false_ip.append(ip)
@@ -52,25 +66,39 @@ def guangshuai_result(request):
      		   #run the threading objects
 		for i in range(len(collectors)):
 			collectors[i].start()
-
+		print collectors
         #wait for the all the threading finished
 		for i in range(len(collectors)):
 			collectors[i].join()
-
+		print time.ctime()
         #merge the dicts and return to views.py of django
 		dict = {}
 		for i in collectors:
 			if i.dict != {}:
 				dict[i.host_ip] = i.dict
-		table = create_table(dict)
-	#######################################################################3
+		success_table = create_guangshuai_table(dict)
+		print time.ctime()
+		
+	#######################################################################
 	if  len(false_ip):
-		print false_ip
-	#############################3
-	return render_to_response("guangshuai_result.html",{"guangshuai_table":table})
-
+		false_dict = {}
+		for ip in false_ip:
+			false_dict[ip] = session_flag[ip]
+		false_table = create_false_table(false_dict)
+	#######################################################################
+	if len(success_ip) and len(false_ip):
+		print 'Time:',time.ctime()
+		return render_to_response("guangshuai_result.html",{"guangshuai_table":success_table,"false_table":false_table})
+	elif not len(success_ip):
+		return render_to_response("guangshuai_result.html",{'false_table':false_table})	
+	elif not len(false_ip):
+		return render_to_response("guangshuai_result.html",{"guangshuai_table":success_table})
+	else:
+		return render_to_response("index.html")
+	
+		
 
 def test(request):
-	return render_to_response("mytest.html")
+	return render_to_response("mytest.html",{'arg':'ok'})
 	
 

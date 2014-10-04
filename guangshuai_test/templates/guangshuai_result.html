@@ -1,6 +1,43 @@
 {% extends "index.html" %}
 
 {% block page-container %}
+	{% if false_table %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          Collapsible Group Item #2
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel">
+      <div class="panel-body">
+<table class="table table-bordered">
+                        <thead>
+                                <th>SW_IP</th>
+                                <th>Result</th>
+                        </thead>
+                        <tbody>
+                {% autoescape off %}
+                 {{ false_table }}
+                {% endautoescape %}
+                        </tbody>
+  </table>
+      </div>
+    </div>
+  </div>
+
+	{% endif %}
+
+
+
+
+
+
+
+
+
+	{% if guangshuai_table %}
 	<table class="table table-bordered">
                         <thead>
                                 <th>SW_IP</th>
@@ -14,4 +51,5 @@
                 {% endautoescape %}
 			</tbody>
                         </table>
+	 {% endif %}
 {% endblock %}

@@ -2,32 +2,44 @@
 import pexpect
 import re
 import tempfile
+import threading
+class distinguish_device(threading.Thread):
+	def __init__(self,ip,username,password):
+		threading.Thread.__init__(self)
+		self.ip = ip
+		self.username = username
+		self.password = password
+		#this function include the process of err login failed... 
+		self.session_flag = 'success'
+		self.device_info = 'unkonw'
 
-def distinguish_device(ip,username,password):
-	#this function include the process of err login failed... 
-	success_flag = True
-	device_info = 'unkonw'
-	myspawn = pexpect.spawn('telnet '+ ip,timeout=2)
-	index = myspawn.expect(["login:", "Username:","(?i)Unknown host", pexpect.EOF, pexpect.TIMEOUT])
+	def run(self):
+		self.myspawn = pexpect.spawn('telnet '+ self.ip,timeout=2)
+		index = self.myspawn.expect(["login:", "Username:","(?i)Unknown host","Unknown server error",pexpect.EOF, pexpect.TIMEOUT])
 	
-	if index == 0:
-		device_info = "juniper"
-		myspawn.sendline(username)
-		myspawn.expect("Password:")
-		myspawn.sendline(password)
-	elif index == 1:
-		myspawn.sendline(username)
-		myspawn.expect("Password:")
-		myspawn.sendline(password)
-		myspawn.sendline('n')
-		index2 = myspawn.expect([" % Incomplete command*","syntax error*"])
-		if index2 == 0:
-			device_info = "h3c"
-		elif index2 == 1:
-			device_info = "juniper"
+		if index == 0:
+			self.device_info = "juniper"
+			self.myspawn.sendline(self.username)
+			self.myspawn.expect("Password:")
+			self.myspawn.sendline(self.password)
+		elif index == 1:
+			self.myspawn.sendline(self.username)
+			self.myspawn.expect("Password:")
+			self.myspawn.sendline(self.password)
+			i = self.myspawn.expect(['% Login failed!','>'])
+			if i == 0:
+				self.session_flag = 'wrong password'
+				self.myspawn.close()
+			else:
+				self.myspawn.sendline('n')
+				index2 = self.myspawn.expect([" % Incomplete command*","syntax error*"])
+				if index2 == 0:
+					self.device_info = "h3c"
 	
-	elif index == 2 or index == 3 or index == 4:
-		success_flag = False	
-
+		elif index == 2 or index == 3: 
+			self.session_flag = 'unknown host'
+		elif  index == 5 or index == 4:
+			self.session_flag = 'timeout'	
+			
 	
-	return device_info,myspawn,success_flag
+	#	return device_info,myspawn,session_flag
