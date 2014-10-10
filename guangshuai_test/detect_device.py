@@ -18,7 +18,6 @@ class distinguish_device(threading.Thread):
 		index = self.myspawn.expect(["login:", "Username:","(?i)Unknown host","Unknown server error",pexpect.EOF, pexpect.TIMEOUT])
 	
 		if index == 0:
-			self.device_info = "juniper"
 			self.myspawn.sendline(self.username)
 			self.myspawn.expect("Password:")
 			self.myspawn.sendline(self.password)

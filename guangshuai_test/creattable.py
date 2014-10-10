@@ -25,25 +25,25 @@ def create_guangshuai_table(dict):
 
 		if int(interface_number[i]) > 1:
 			if len(dict[switch_list[i]][interface[0]].keys()) == 2:
-				table += '<tr class='+color+'><td rowspan="' + interface_number[i] +'">'+switch_list[i]+'</td>'
+				table += '<tbody><tr class='+color+'><td rowspan="' + interface_number[i] +'">'+switch_list[i]+'</td>'
 				table += '<td>'+interface[0]+'</td>'+'<td>'+str(dict[switch_list[i]][interface[0]]['rx'])+'</td>'+'<td>'+str(dict[switch_list[i]][interface[0]]['tx'])+'</td></tr>'
 			elif len(dict[switch_list[i]][interface[0]].keys()) == 1:
-				table += '<tr class='+color+'><td rowspan="' + interface_number[i] +'">'+switch_list[i]+'</td>'
+				table += '<tbody><tr class='+color+'><td rowspan="' + interface_number[i] +'">'+switch_list[i]+'</td>'
 				table += '<td>'+interface[0]+'</td>'+'<td colspan="2" align="right">'+str(dict[switch_list[i]][interface[0]]['info'])+'</td></tr>'
 			
 			interface = interface[1:]
 			for j in interface:
 				if len(dict[switch_list[i]][j].keys()) == 2:
-					table += '<tr class='+color+'><td>'+j+'</td>'+'<td>'+str(dict[switch_list[i]][j]['rx'])+'</td>'+'<td>'+str(dict[switch_list[i]][j]['tx'])+'</td></tr>'	
+					table += '<tr class='+color+'><td>'+j+'</td>'+'<td>'+str(dict[switch_list[i]][j]['rx'])+'</td>'+'<td>'+str(dict[switch_list[i]][j]['tx'])+'</td></tr></tbody>'	
 				elif len(dict[switch_list[i]][j].keys()) == 1:
-					table += '<tr class='+color+'><td>'+j+'</td>'+'<td colspan="2" align="right">'+str(dict[switch_list[i]][j]['info'])+'</td></tr>'	
+					table += '<tr class='+color+'><td>'+j+'</td>'+'<td colspan="2" align="right">'+str(dict[switch_list[i]][j]['info'])+'</td></tr></tbody>'	
 			
 		else:
 			interface = dict[switch_list[i]].keys()
 			if len(dict[switch_list[i]][interface[0]].keys()) == 2:
-				table += '<tr class='+color+'><td>'+switch_list[i]+'</td>'+'<td>'+interface[0]+'</td>'+'<td>'+str(dict[switch_list[i]][interface[0]]['rx'])+'</td>'+'<td>'+str(dict[switch_list[i]][interface[0]]['tx'])+'</td></tr>'
+				table += '<tbody><tr class='+color+'><td>'+switch_list[i]+'</td>'+'<td>'+interface[0]+'</td>'+'<td>'+str(dict[switch_list[i]][interface[0]]['rx'])+'</td>'+'<td>'+str(dict[switch_list[i]][interface[0]]['tx'])+'</td></tr></tbody>'
 			elif len(dict[switch_list[i]][interface[0]].keys()) == 1:
-				table += '<tr class='+color+'><td>'+switch_list[i]+'</td>'+'<td>'+interface[0]+'</td>'+'<td colspan="2" align="right">'+str(dict[switch_list[i]][interface[0]]['info'])+'</td></tr>'	
+				table += '<tbody><tr class='+color+'><td>'+switch_list[i]+'</td>'+'<td>'+interface[0]+'</td>'+'<td colspan="2" align="right">'+str(dict[switch_list[i]][interface[0]]['info'])+'</td></tr></tbody>'	
 	return table
 
 
