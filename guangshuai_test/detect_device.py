@@ -2,6 +2,7 @@
 import pexpect
 import re
 import tempfile
+import time
 import threading
 class distinguish_device(threading.Thread):
 	def __init__(self,ip,username,password):
@@ -39,6 +40,5 @@ class distinguish_device(threading.Thread):
 			self.session_flag = 'unknown host'
 		elif  index == 5 or index == 4:
 			self.session_flag = 'timeout'	
-			
-	
+			self.myspawn.close()
 	#	return device_info,myspawn,session_flag

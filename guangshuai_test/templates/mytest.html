@@ -58,9 +58,9 @@ tr>
 
 
 <table class="table table-bordered">
-                {% autoescape off %}
-                 {{ false_table }}
-                {% endautoescape %}
+	{% for i in iplist %}
+	<tr><td>{{ i }} </td></tr>
+	{% endfor %}
 </table>
 
 

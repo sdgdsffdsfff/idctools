@@ -44,7 +44,7 @@ class H3cLightDetector(threading.Thread):
 						self.dict[interface] = {'info':'Transceiver does not support this function'}
 		finally:
 			tfile.close()
-
+			self.spawn.close()
 
 
 class JuniperLightDetector(threading.Thread):
