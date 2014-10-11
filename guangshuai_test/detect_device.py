@@ -15,7 +15,7 @@ class distinguish_device(threading.Thread):
 		self.device_info = 'unkonw'
 
 	def run(self):
-		self.myspawn = pexpect.spawn('telnet '+ self.ip,timeout=2)
+		self.myspawn = pexpect.spawn('telnet '+ self.ip,timeout=3)
 		index = self.myspawn.expect(["login:", "Username:","(?i)Unknown host","Unknown server error",pexpect.EOF, pexpect.TIMEOUT])
 	
 		if index == 0:
@@ -28,7 +28,7 @@ class distinguish_device(threading.Thread):
 			self.myspawn.sendline(self.password)
 			i = self.myspawn.expect(['% Login failed!','>'])
 			if i == 0:
-				self.session_flag = 'wrong password'
+				self.session_flag = 'wrong username or password'
 				self.myspawn.close()
 			else:
 				self.myspawn.sendline('n')

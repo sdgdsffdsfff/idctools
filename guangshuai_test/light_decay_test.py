@@ -44,6 +44,7 @@ class H3cLightDetector(threading.Thread):
 						self.dict[interface] = {'info':'Transceiver does not support this function'}
 		finally:
 			tfile.close()
+			#print 'close spawn in h3clightconnector-----------------------------!'
 			self.spawn.close()
 
 

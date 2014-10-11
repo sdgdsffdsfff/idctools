@@ -14,6 +14,11 @@ import mako
 def index(requst):
 	return render_to_response('index.html')
 ################################################################################################################
+
+
+
+
+
 ##test the guangshuai of every switches
 def guangshuai_result(request):
 	#get the information
@@ -78,10 +83,11 @@ def guangshuai_result(request):
 	if len(success_ip) and len(false_ip):
 		return render_to_response("guangshuai_result.html",{"guangshuai_table":success_table,"false_table":false_table})
 	elif not len(success_ip):
-	#	return render_to_response("guangshuai_result.html",{'false_table':false_table})	
+		'''
 		for d in detectors:
-	#		d.myspawn.close()
+			d.myspawn.close()
 			print d.myspawn
+		'''
 		return render_to_response("guangshuai_result.html",{"false_table":false_table})		 
 	elif not len(false_ip):
 		return render_to_response("guangshuai_result.html",{"guangshuai_table":success_table})
@@ -92,9 +98,6 @@ def guangshuai_result(request):
 
 def test(request):
 	#return render_to_response("mytest.html",{'false_table':s})
-	while True:
-		print '1'
-		pass
 	return render_to_response("mytest.html")	
 	
 
