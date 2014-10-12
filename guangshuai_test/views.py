@@ -66,18 +66,20 @@ def guangshuai_result(request):
 		for i in range(len(collectors)):
 			collectors[i].join()
         #merge the dicts and return to views.py of django
-		dict = {}
+		success_dict = {}
+		print success_ip,collectors
 		for i in collectors:
 			if i.dict != {}:
-				dict[i.host_ip] = i.dict
-		success_table = create_guangshuai_table(dict)
+				success_dict[i.host_ip] = i.dict
+		print 'before ----------------------------------------------------------------create table'
+		success_table = create_guangshuai_table(success_dict,success_ip)
 		
 	#######################################################################
 	if  len(false_ip):
 		false_dict = {}
 		for ip in false_ip:
 			false_dict[ip] = session_flag[ip]
-		false_table = create_false_table(false_dict)
+		false_table = create_false_table(false_dict,false_ip)
 		print false_table
 	#######################################################################
 	if len(success_ip) and len(false_ip):

@@ -1,20 +1,20 @@
 #!/usr/bin/python
 
-def create_guangshuai_table(dict):
+def create_guangshuai_table(dict,list):
 	
-	switch_list = dict.keys()
+#	switch_list = dict.keys()
 	#the function will eventually return the string opject table to the html
 	table = ""
 	#count numbers of every switch
 	interface_number = []
-	for i in switch_list:
+	for i in list:
 		interface_number.append(str(len(dict[i])))	
 	colors = ["danger","info"]
 
 		
 	#create table with forloop
-	for i in range(len(switch_list)):
-		interface = dict[switch_list[i]].keys()
+	for i in range(len(list)):
+		interface = dict[list[i]].keys()
 		#define the color 
 		if i % 2 == 0 :
 			color = colors[0]
@@ -24,31 +24,35 @@ def create_guangshuai_table(dict):
 		#if interface_number >1 ,merge the row 
 
 		if int(interface_number[i]) > 1:
-			if len(dict[switch_list[i]][interface[0]].keys()) == 2:
-				table += '<tr class='+color+'><td rowspan="' + interface_number[i] +'">'+switch_list[i]+'</td>'
-				table += '<td>'+interface[0]+'</td>'+'<td>'+str(dict[switch_list[i]][interface[0]]['rx'])+'</td>'+'<td>'+str(dict[switch_list[i]][interface[0]]['tx'])+'</td></tr>'
-			elif len(dict[switch_list[i]][interface[0]].keys()) == 1:
-				table += '<tr class='+color+'><td rowspan="' + interface_number[i] +'">'+switch_list[i]+'</td>'
-				table += '<td>'+interface[0]+'</td>'+'<td colspan="2" align="right">'+str(dict[switch_list[i]][interface[0]]['info'])+'</td></tr>'
+			if len(dict[list[i]][interface[0]].keys()) == 2:
+				table += '<tr class='+color+'><td rowspan="' + interface_number[i] +'">'+list[i]+'</td>'
+				table += '<td>'+interface[0]+'</td>'+'<td>'+str(dict[list[i]][interface[0]]['rx'])+'</td>'+\
+					'<td>'+str(dict[list[i]][interface[0]]['tx'])+'</td></tr>'
+			elif len(dict[list[i]][interface[0]].keys()) == 1:
+				table += '<tr class='+color+'><td rowspan="' + interface_number[i] +'">'+list[i]+'</td>'
+				table += '<td>'+interface[0]+'</td>'+'<td colspan="2" align="right">'+str(dict[list[i]][interface[0]]['info'])+'</td></tr>'
 			
 			interface = interface[1:]
 			for j in interface:
-				if len(dict[switch_list[i]][j].keys()) == 2:
-					table += '<tr class='+color+'><td>'+j+'</td>'+'<td>'+str(dict[switch_list[i]][j]['rx'])+'</td>'+'<td>'+str(dict[switch_list[i]][j]['tx'])+'</td></tr>'	
-				elif len(dict[switch_list[i]][j].keys()) == 1:
-					table += '<tr class='+color+'><td>'+j+'</td>'+'<td colspan="2" align="right">'+str(dict[switch_list[i]][j]['info'])+'</td></tr>'	
+				if len(dict[list[i]][j].keys()) == 2:
+					table += '<tr class='+color+'><td>'+j+'</td>'+'<td>'+str(dict[list[i]][j]['rx'])+'</td>'+'<td>'+str(dict[list[i]][j]['tx'])+'</td></tr>'	
+				elif len(dict[list[i]][j].keys()) == 1:
+					table += '<tr class='+color+'><td>'+j+'</td>'+'<td colspan="2" align="right">'+str(dict[list[i]][j]['info'])+'</td></tr>'	
 			
 		else:
-			interface = dict[switch_list[i]].keys()
-			if len(dict[switch_list[i]][interface[0]].keys()) == 2:
-				table += '<tr class='+color+'><td>'+switch_list[i]+'</td>'+'<td>'+interface[0]+'</td>'+'<td>'+str(dict[switch_list[i]][interface[0]]['rx'])+'</td>'+'<td>'+str(dict[switch_list[i]][interface[0]]['tx'])+'</td></tr>'
-			elif len(dict[switch_list[i]][interface[0]].keys()) == 1:
-				table += '<tr class='+color+'><td>'+switch_list[i]+'</td>'+'<td>'+interface[0]+'</td>'+'<td colspan="2" align="right">'+str(dict[switch_list[i]][interface[0]]['info'])+'</td></tr>'	
+			interface = dict[list[i]].keys()
+			if len(dict[list[i]][interface[0]].keys()) == 2:
+				table += '<tr class='+color+'><td>'+list[i]+'</td>'+'<td>'+interface[0]+'</td>'+'<td>'+str(dict[list[i]][interface[0]]['rx'])+\
+					'</td>'+'<td>'+str(dict[list[i]][interface[0]]['tx'])+'</td></tr>'
+			elif len(dict[list[i]][interface[0]].keys()) == 1:
+				table += '<tr class='+color+'><td>'+list[i]+'</td>'+'<td>'+interface[0]+'</td>'+'<td colspan="2" align="right">'+\
+					str(dict[list[i]][interface[0]]['info'])+'</td></tr>'	
 	return table
 
 
-def create_false_table(dict):
-	ip_list = dict.keys()
+def create_false_table(dict,list):
+#	ip_list = dict.keys()
+	ip_list = list
         table = ''
         for ip in ip_list:
                 table += '<tr><td>'+ip+'</td>'+'<td>'+dict[ip]+'</td></tr>'
