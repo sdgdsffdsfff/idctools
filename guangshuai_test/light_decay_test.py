@@ -42,9 +42,9 @@ class H3cLightDetector(threading.Thread):
 						newlist = re.split(r'\s+',x)
 						self.dict[interface] = {'rx':newlist[4],'tx':newlist[5]}
 					elif m3:
-						self.dict[interface] = {'info':'Transceiver does not support this function'}
+						self.dict[interface] = {'info':'模块不兼容，无法显示收发数值'}
 					elif m4:
-						self.dict[interface] = {'info':'Error: The transceiver is absent.'}
+						self.dict[interface] = {'info':'接口无光模块'}
 		finally:
 			tfile.close()
 			#print 'close spawn in h3clightconnector-----------------------------!'
