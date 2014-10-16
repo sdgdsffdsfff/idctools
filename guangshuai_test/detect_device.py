@@ -11,8 +11,8 @@ class distinguish_device(threading.Thread):
 		self.username = username
 		self.password = password
 		#this function include the process of err login failed... 
-		self.session_flag = 'success'
-		self.device_info = 'unkonw'
+		self.session_flag = 'false'
+		self.device_info = 'init'
 
 	def run(self):
 		self.myspawn = pexpect.spawn('telnet '+ self.ip,timeout=3)
@@ -26,12 +26,15 @@ class distinguish_device(threading.Thread):
 			self.myspawn.sendline(self.username)
 			self.myspawn.expect("Password:")
 			self.myspawn.sendline(self.password)
+			print 'send usrname and password'
 			i = self.myspawn.expect(['% Login failed!','>'])
 			if i == 0:
 				self.session_flag = 'wrong username or password'
 				self.myspawn.close()
 			else:
+				self.session_flag = 'success'
 				self.myspawn.sendline('n')
+				
 				index2 = self.myspawn.expect([" % Incomplete command*","syntax error*"])
 				if index2 == 0:
 					self.device_info = "h3c"
@@ -41,4 +44,6 @@ class distinguish_device(threading.Thread):
 		elif  index == 5 or index == 4:
 			self.session_flag = 'timeout'	
 			self.myspawn.close()
+		else:
+			print 'Eoh'
 	#	return device_info,myspawn,session_flag

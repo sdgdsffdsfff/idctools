@@ -62,16 +62,17 @@ def guangshuai_result(request):
      		   #run the threading objects
 		for i in range(len(collectors)):
 			collectors[i].start()
+			print collectors[i],'-----------------------------start'
         #wait for the all the threading finished
 		for i in range(len(collectors)):
 			collectors[i].join()
+			print collectors[i],'------------------------------stop'
         #merge the dicts and return to views.py of django
 		success_dict = {}
-		print success_ip,collectors
 		for i in collectors:
 			if i.dict != {}:
 				success_dict[i.host_ip] = i.dict
-		print 'before ----------------------------------------------------------------create table'
+		print 'success_dict----------------------------',success_dict
 		success_table = create_guangshuai_table(success_dict,success_ip)
 		
 	#######################################################################
@@ -80,7 +81,6 @@ def guangshuai_result(request):
 		for ip in false_ip:
 			false_dict[ip] = session_flag[ip]
 		false_table = create_false_table(false_dict,false_ip)
-		print false_table
 	#######################################################################
 	if len(success_ip) and len(false_ip):
 		return render_to_response("guangshuai_result.html",{"guangshuai_table":success_table,"false_table":false_table})
@@ -95,6 +95,9 @@ def guangshuai_result(request):
 		return render_to_response("guangshuai_result.html",{"guangshuai_table":success_table})
 	else:
 		return render_to_response("index.html")
+
+def module_number(request):
+	pass
 	
 		
 

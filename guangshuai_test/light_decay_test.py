@@ -35,13 +35,16 @@ class H3cLightDetector(threading.Thread):
 					nextline = tfile.next()
 					m2 = re.search('Current',nextline)
 					m3 = re.search('The transceiver does not support this function',nextline)
+					m4 = re.search('Error: The transceiver is absent.',nextline)
 					if m2:
 						x = tfile.next()
 						x = tfile.next()
 						newlist = re.split(r'\s+',x)
 						self.dict[interface] = {'rx':newlist[4],'tx':newlist[5]}
-					if m3:
+					elif m3:
 						self.dict[interface] = {'info':'Transceiver does not support this function'}
+					elif m4:
+						self.dict[interface] = {'info':'Error: The transceiver is absent.'}
 		finally:
 			tfile.close()
 			#print 'close spawn in h3clightconnector-----------------------------!'

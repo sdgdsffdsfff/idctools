@@ -7,8 +7,11 @@ def create_guangshuai_table(dict,list):
 	table = ""
 	#count numbers of every switch
 	interface_number = []
+	print dict
+	print list
 	for i in list:
 		interface_number.append(str(len(dict[i])))	
+		print dict[i]
 	colors = ["danger","info"]
 
 		

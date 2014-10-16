@@ -56,7 +56,6 @@ function check()
   <a href="#" class="list-group-item">Vestibulum at eros</a>
 </div>
 		</div>
-		
 
 		<div class="col-lg-10">
 		<div class="row">
@@ -72,8 +71,10 @@ function check()
 </div>
 			<!---------------------------------------------------------------->
 			  <div class="btn-group">
-		    		<button  class="btn btn-success btn-lg" data-toggle="tooltip">统计光模块数量</button>
-			  </div>
+		    		<button  class="btn btn-success btn-lg" data-toggle="modal" data-target="#moduleNumber">
+统计光模块数量
+</button>
+</div>
 			  <div class="btn-group">
 			    <button class="btn btn-warning btn-lg" data-toggle="tooltip">测试聚合组</button>
 			  </div>
@@ -121,15 +122,15 @@ function check()
 
 
 
-<!-- Modal -->
+<!-- Modal guangshuai -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</s
 pan></button>
-        <h4 class="modal-title" id="myModalLabel">请输入信息</h4>
-      </div>
+		<h4 class="modal-title" id="myModalLabel"> 请输入信息</h4>
+	      </div>
       <div class="modal-body">
         <form action="/guangshuai_result/" method="post" role="form"  onsubmit="return check()">
         <div class="form-group">
@@ -153,6 +154,39 @@ pan></button>
   </div>		
 
 
+<div class="modal fade" id="moduleNumber" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</s
+pan></button>
+                <h4 class="modal-title" id="myModalLabel"> 请输入信息</h4>
+              </div>
+      <div class="modal-body">
+        <form action="/guangshuai_result/" method="post" role="form"  onsubmit="return check()">
+        <div class="form-group">
+        <input type="text" name="username" id="uname" class="form-control" placeholder="请输入交换机用户名aaa" autocomplete="off">
+        </div>
+        <div class="form-group">
+        <input type="password" class="form-control "name="password" id="pwd"placeholder="请输入交换机密码bbb" autocomplete="off">
+        </div>
+
+        <div class="form-group">
+<input type="password" class="form-control "name="password" id="pwd"placeholder="请输入交换机密码" autocomplete="off">
+        </div>
+        <div class="form-group">
+        <textarea class="form-control" rows="12" name="ips" id="ip_pool"autocomplete="off" placeholder="格式：每行输入一个ip" autocomp
+lete="off"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">提交</button>
+</form>
+
+      </div>
+  </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
 
 
 
