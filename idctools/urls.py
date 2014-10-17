@@ -9,5 +9,6 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$',index),
     url(r'^guangshuai_result/$',guangshuai_result),
-    url(r'^test/$',test)
+    url(r'^test/$',test),
+    url(r'^module_number',module_number)
 ]

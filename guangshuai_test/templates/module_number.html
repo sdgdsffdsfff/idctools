@@ -30,27 +30,16 @@
 
 	{% endif %}
 
-
-
-
-
-
-
-
-
-<a  class="bg-primary btn pull-right"  download="somedata.xls" href="#" onclick="return ExcellentExport.excel(this, 'guangshuai_table', 'Sheet Name Here');">将下表导出Excel</a>
-
-	{% if guangshuai_table %}
+	{% if module_number_table %}
 	<table class="table table-bordered" id="guangshuai_table">
                         <thead>
                                 <th>交换机地址</th>
-                                <th>接口</th>
-                                <th>收光RX(db)</th>
-                                <th>发光TX(db)</th>
+                                <th>主机名</th>
+                                <th>模块数</th>
 			</thead>
 			<tbody>
                                  {% autoescape off %}
-                 {{ guangshuai_table }}
+                 {{ module_number_table }}
                 {% endautoescape %}
 			</tbody>
                         </table>

@@ -15,7 +15,7 @@ class distinguish_device(threading.Thread):
 		self.device_info = 'init'
 
 	def run(self):
-		self.myspawn = pexpect.spawn('telnet '+ self.ip,timeout=3)
+		self.myspawn = pexpect.spawn('telnet '+ self.ip,timeout=8)
 		index = self.myspawn.expect(["login:", "Username:","(?i)Unknown host","Unknown server error",pexpect.EOF, pexpect.TIMEOUT])
 	
 		if index == 0:
@@ -41,8 +41,10 @@ class distinguish_device(threading.Thread):
 	
 		elif index == 2 or index == 3: 
 			self.session_flag = 'unknown host'
+			self.myspawn.close()
 		elif  index == 5 or index == 4:
 			self.session_flag = 'timeout'	
+			print '1'
 			self.myspawn.close()
 		else:
 			print 'Eoh'

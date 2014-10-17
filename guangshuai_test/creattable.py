@@ -7,11 +7,8 @@ def create_guangshuai_table(dict,list):
 	table = ""
 	#count numbers of every switch
 	interface_number = []
-	print dict
-	print list
 	for i in list:
 		interface_number.append(str(len(dict[i])))	
-		print dict[i]
 	colors = ["danger","info"]
 
 		
@@ -60,6 +57,16 @@ def create_false_table(dict,list):
         for ip in ip_list:
                 table += '<tr><td>'+ip+'</td>'+'<td>'+dict[ip]+'</td></tr>'
         return table
+
+
+def create_module_number_table(dict,list):
+	table = ""
+	for ip in list:
+		table += '<tr><td>'+ip+'</td>'+'<td>switchname</td>'+'<td>'+str(dict[ip])+'</td></tr>'
+	return table
+
+
+
 
 ###############################################################################################################################
 if __name__ == "__main__":
