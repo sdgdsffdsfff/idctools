@@ -150,16 +150,18 @@ def module_number(request):
         #merge the dicts and return to views.py of django
 		success_dict = {}
 		ip_for_create_table = []
+		summary_number = 0
 		for i in collectors:
 			tem_dict = {}
 			tem_dict['sysname'] = sysname[i.host_ip]
 			tem_dict['module_number'] = i.number
 			success_dict[i.host_ip] = tem_dict
 			ip_for_create_table.append(i.host_ip)
+			summary_number += i.number
 		if success_dict != {}:
 			module_number_table = create_module_number_table(success_dict,ip_for_create_table)
 		
-
+		info = ' 成功登录到'+str(len(success_ip))+' 台交换机，探测到光模块总数为：'+ str(summary_number)
 
 
         #######################################################################
@@ -170,11 +172,11 @@ def module_number(request):
                 false_table = create_false_table(false_dict,false_ip)
         #######################################################################
         if len(success_ip) and len(false_ip) and success_dict != {}:
-                return render_to_response("module_number.html",{"module_number_table":module_number_table,"false_table":false_table})
+                return render_to_response("module_number.html",{"module_number_table":module_number_table,"false_table":false_table,'info':info})
         elif not len(success_ip):
                 return render_to_response("module_number.html",{"false_table":false_table})
         elif not len(false_ip) and success_dict != {}:
-                return render_to_response("module_number.html",{"module_number_table":module_number_table})
+                return render_to_response("module_number.html",{"module_number_table":module_number_table,'info':info})
         else:
                 return render_to_response("index.html")
 

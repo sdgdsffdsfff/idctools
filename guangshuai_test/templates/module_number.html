@@ -31,6 +31,7 @@
 	{% endif %}
 
 	{% if module_number_table %}
+	<div class="alert alert-success" role="alert">{{ info }}</div>
 	<table class="table table-bordered" id="guangshuai_table">
                         <thead>
                                 <th>交换机地址</th>
@@ -38,7 +39,7 @@
                                 <th>模块数</th>
 			</thead>
 			<tbody>
-                                 {% autoescape off %}
+                  {% autoescape off %}
                  {{ module_number_table }}
                 {% endautoescape %}
 			</tbody>
