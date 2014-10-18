@@ -8,13 +8,15 @@ def create_guangshuai_table(dict,list):
 	#count numbers of every switch
 	interface_number = []
 	for i in list:
-		interface_number.append(str(len(dict[i])))	
+		interface_number.append(str(len(dict[i])-1))	
 	colors = ["danger","info"]
 
 		
 	#create table with forloop
+
 	for i in range(len(list)):
-		interface = dict[list[i]].keys()
+		interface = [ j for j in dict[list[i]].keys() if j != 'sysname']
+		print interface
 		#define the color 
 		if i % 2 == 0 :
 			color = colors[0]
@@ -26,10 +28,12 @@ def create_guangshuai_table(dict,list):
 		if int(interface_number[i]) > 1:
 			if len(dict[list[i]][interface[0]].keys()) == 2:
 				table += '<tr class='+color+'><td rowspan="' + interface_number[i] +'">'+list[i]+'</td>'
+				table += '<td rowspan="' + interface_number[i] +'">'+dict[list[i]]['sysname']+'</td>'
 				table += '<td>'+interface[0]+'</td>'+'<td>'+str(dict[list[i]][interface[0]]['rx'])+'</td>'+\
 					'<td>'+str(dict[list[i]][interface[0]]['tx'])+'</td></tr>'
 			elif len(dict[list[i]][interface[0]].keys()) == 1:
 				table += '<tr class='+color+'><td rowspan="' + interface_number[i] +'">'+list[i]+'</td>'
+				table += '<td rowspan="' + interface_number[i] +'">'+dict[list[i]]['sysname']+'</td>'
 				table += '<td>'+interface[0]+'</td>'+'<td colspan="2" align="right">'+str(dict[list[i]][interface[0]]['info'])+'</td></tr>'
 			
 			interface = interface[1:]
@@ -42,10 +46,10 @@ def create_guangshuai_table(dict,list):
 		else:
 			interface = dict[list[i]].keys()
 			if len(dict[list[i]][interface[0]].keys()) == 2:
-				table += '<tr class='+color+'><td>'+list[i]+'</td>'+'<td>'+interface[0]+'</td>'+'<td>'+str(dict[list[i]][interface[0]]['rx'])+\
+				table += '<tr class='+color+'><td>'+list[i]+'</td><td>'+dict[list[i]]['sysname']+'<td>'+interface[0]+'</td>'+'<td>'+str(dict[list[i]][interface[0]]['rx'])+\
 					'</td>'+'<td>'+str(dict[list[i]][interface[0]]['tx'])+'</td></tr>'
 			elif len(dict[list[i]][interface[0]].keys()) == 1:
-				table += '<tr class='+color+'><td>'+list[i]+'</td>'+'<td>'+interface[0]+'</td>'+'<td colspan="2" align="right">'+\
+				table += '<tr class='+color+'><td>'+list[i]+'</td><td>'+dict[list[i]]['sysname']+'<td>'+interface[0]+'</td>'+'<td colspan="2" align="right">'+\
 					str(dict[list[i]][interface[0]]['info'])+'</td></tr>'	
 	return table
 
@@ -62,7 +66,7 @@ def create_false_table(dict,list):
 def create_module_number_table(dict,list):
 	table = ""
 	for ip in list:
-		table += '<tr><td>'+ip+'</td>'+'<td>switchname</td>'+'<td>'+str(dict[ip])+'</td></tr>'
+		table += '<tr><td>'+ip+'</td>'+'<td>'+dict[ip]['sysname']+'</td>'+'<td>'+str(dict[ip]['module_number'])+'</td></tr>'
 	return table
 
 

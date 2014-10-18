@@ -33,6 +33,7 @@ def guangshuai_result(request):
 	spawns = {} 
 	#session_flag include 'success' 'timeout' 'unkonown host' 'wrong password'
 	session_flag = {}
+	sysname = {}
 	detectors = []
 	#use ip_list_counter to skip the kongge from textarea
 	ip_list_counter = [i for i in ip_list if i !=""]
@@ -44,8 +45,10 @@ def guangshuai_result(request):
 	for i in detectors:
 		i.join()
 	
+
 	for i in range(len(ip_list_counter)):
-		device_info[ip_list_counter[i]],spawns[ip_list_counter[i]],session_flag[ip_list_counter[i]] = detectors[i].device_info,detectors[i].myspawn,detectors[i].session_flag
+		device_info[ip_list_counter[i]],spawns[ip_list_counter[i]],session_flag[ip_list_counter[i]],sysname[ip_list_counter[i]] = \
+			detectors[i].device_info,detectors[i].myspawn,detectors[i].session_flag,detectors[i].sysname
 	#identify the ip telnet successfully whit the false	
 	success_ip = [ip for ip in ip_list_counter if session_flag[ip] == "success"]
 	false_ip = [ip for ip in ip_list_counter if session_flag[ip] != "success"]
@@ -73,6 +76,7 @@ def guangshuai_result(request):
 		ip_for_create_table = []
 		for i in collectors:
 			if i.dict != {}:
+				i.dict['sysname'] = sysname[i.host_ip]
 				success_dict[i.host_ip] = i.dict
 				ip_for_create_table.append(i.host_ip)
 		if success_dict != {}:
@@ -91,7 +95,7 @@ def guangshuai_result(request):
 		return render_to_response("guangshuai_result.html",{"false_table":false_table})		 
 	elif not len(false_ip) and success_dict != {}:
 		return render_to_response("guangshuai_result.html",{"guangshuai_table":success_table})
-	else:
+	elif success_dict == {}:
 		return render_to_response("index.html")
 
 
@@ -109,6 +113,7 @@ def module_number(request):
         #session_flag include 'success' 'timeout' 'unkonown host' 'wrong password'
         session_flag = {}
         detectors = []
+	sysname = {}
         #use ip_list_counter to skip the kongge from textarea
         ip_list_counter = [i for i in ip_list if i !=""]
         for ip in ip_list_counter:
@@ -120,7 +125,8 @@ def module_number(request):
                 i.join()	
 
 	for i in range(len(ip_list_counter)):
-		device_info[ip_list_counter[i]],spawns[ip_list_counter[i]],session_flag[ip_list_counter[i]] = detectors[i].device_info,detectors[i].myspawn,detectors[i].session_flag
+		device_info[ip_list_counter[i]],spawns[ip_list_counter[i]],session_flag[ip_list_counter[i]],sysname[ip_list_counter[i]] = \
+				 detectors[i].device_info,detectors[i].myspawn,detectors[i].session_flag,detectors[i].sysname
         #identify the ip telnet successfully whit the false     
         success_ip = [ip for ip in ip_list_counter if session_flag[ip] == "success"]
         false_ip = [ip for ip in ip_list_counter if session_flag[ip] != "success"]
@@ -145,7 +151,10 @@ def module_number(request):
 		success_dict = {}
 		ip_for_create_table = []
 		for i in collectors:
-			success_dict[i.host_ip] = i.number
+			tem_dict = {}
+			tem_dict['sysname'] = sysname[i.host_ip]
+			tem_dict['module_number'] = i.number
+			success_dict[i.host_ip] = tem_dict
 			ip_for_create_table.append(i.host_ip)
 		if success_dict != {}:
 			module_number_table = create_module_number_table(success_dict,ip_for_create_table)

@@ -9,11 +9,11 @@
     <script src="/static/js/excellentexport.js"></script>
 </script>
 <script>
-function check()
+function guangshuai_check()
 {
-    var nameValue=document.getElementById("uname").value;
-    var pwdValue=document.getElementById("pwd").value;
-    var ipValue=document.getElementById("ip_pool").value;
+    var nameValue=document.getElementById("guangshuai_uname").value;
+    var pwdValue=document.getElementById("guangshuai_pwd").value;
+    var ipValue=document.getElementById("guangshuai_ip_pool").value;
     if (!nameValue || !pwdValue || !ipValue)
     {
         alert("别闹！请输入必要的信息！！！")
@@ -21,6 +21,21 @@ function check()
     }
     return true;
 }
+
+
+function module_number_check()
+{
+    var nameValue=document.getElementById("module_number_uname").value;
+    var pwdValue=document.getElementById("module_number_pwd").value;
+    var ipValue=document.getElementById("module_number_ip_pool").value;
+    if (!nameValue || !pwdValue || !ipValue)
+    {
+        alert("别闹！请输入必要的信息！！！")
+        return false;
+     }
+	return true;
+}
+
 </script>
 </head>
 <body>	
@@ -111,7 +126,7 @@ function check()
 			<div class="page-header">
 			</div>
 		</div>
-
+		
 		<div class="row">
 			{% block page-container %}
 			<table class="table table-bordered">
@@ -133,24 +148,24 @@ pan></button>
 		<h4 class="modal-title" id="myModalLabel"> 请输入信息</h4>
 	      </div>
       <div class="modal-body">
-        <form action="/guangshuai_result/" method="post" role="form"  onsubmit="return check()">
+        <form action="/guangshuai_result/" method="post" role="form"  onsubmit="return guangshuai_check()">
         <div class="form-group">
-        <input type="text" name="username" id="uname" class="form-control" placeholder="请输入交换机用户名" autocomplete="off">
+        <input type="text" name="username" id="guangshuai_uname" class="form-control" placeholder="请输入交换机用户名" autocomplete="off">
         </div>
         <div class="form-group">
-        <input type="password" class="form-control "name="password" id="pwd"placeholder="请输入交换机密码" autocomplete="off">
+        <input type="password" class="form-control "name="password" id="guangshuai_pwd"placeholder="请输入交换机密码" autocomplete="off">
         </div>
 
         <div class="form-group">
-        <textarea class="form-control" rows="12" name="ips" id="ip_pool"autocomplete="off" placeholder="格式：每行输入一个ip" autocomplete="off"></textarea>
+        <textarea class="form-control" rows="12" name="ips" id="guangshuai_ip_pool"autocomplete="off" placeholder="格式：每行输入一个ip" autocomplete="off"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">提交</button>
-</form>
 
       </div>
-  </div>
       <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">提交</button>
       </div>
+</form>
+  </div>
     </div>
   </div>		
 
@@ -164,24 +179,24 @@ pan></button>
                 <h4 class="modal-title" id="myModalLabel"> 请输入信息</h4>
               </div>
       <div class="modal-body">
-        <form action="/module_number/" method="post" role="form" >
+        <form action="/module_number/" method="post" role="form" onsubmit="return module_number_check()">
         <div class="form-group">
-        <input type="text" name="username" id="uname" class="form-control" placeholder="请输入交换机用户名aaa" autocomplete="off">
+        <input type="text" name="username" id="module_number_uname" class="form-control" placeholder="请输入交换机用户名aaa" autocomplete="off">
         </div>
         <div class="form-group">
-        <input type="password" class="form-control "name="password" id="pwd"placeholder="请输入交换机密码bbb" autocomplete="off">
+        <input type="password" class="form-control "name="password" id="module_number_pwd"placeholder="请输入交换机密码bbb" autocomplete="off">
         </div>
         <div class="form-group">
-        <textarea class="form-control" rows="12" name="ips" id="ip_pool"autocomplete="off" placeholder="格式：每行输入一个ip" autocomp
+        <textarea class="form-control" rows="12" name="ips" id="module_number_ip_pool"autocomplete="off" placeholder="格式：每行输入一个ip" autocomp
 lete="off"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">提交</button>
-</form>
 
       </div>
+	<div class="modal-footer">
+        <button type="submit" class="btn btn-primary pull-right">提交</button>
+	</div>
+</form>
   </div>
-      <div class="modal-footer">
-      </div>
     </div>
   </div>
 
