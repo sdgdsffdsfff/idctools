@@ -16,7 +16,7 @@ class distinguish_device(threading.Thread):
 		self.sysname = ''
 
 	def run(self):
-		self.myspawn = pexpect.spawn('telnet '+ self.ip,timeout=8)
+		self.myspawn = pexpect.spawn('telnet '+ self.ip,timeout=7)
 		index = self.myspawn.expect(["login:", "Username:","(?i)Unknown host","Unknown server error",pexpect.EOF, pexpect.TIMEOUT])
 	
 		if index == 0:

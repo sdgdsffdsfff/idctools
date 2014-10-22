@@ -16,10 +16,6 @@ def index(requst):
 	return render_to_response('index.html')
 ################################################################################################################
 
-
-
-
-
 ##test the guangshuai of every switches
 def guangshuai_result(request):
 	#get the information
@@ -183,7 +179,8 @@ def module_number(request):
 
 
 
-
+def port_channel(request):
+	pass
 
 		
 

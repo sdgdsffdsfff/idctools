@@ -22,6 +22,7 @@ class H3cModuleNumberCounter(threading.Thread):
 
 	def run(self):
 		self.spawn.sendline('display transceiver diagnosis interface')
+		#self.spawn.sendline(' '*50)
 		self.spawn.sendline('quit')
 		self.spawn.expect(pexpect.EOF)
 		try:

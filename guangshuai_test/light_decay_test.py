@@ -22,6 +22,7 @@ class H3cLightDetector(threading.Thread):
 	
 	def run(self):
 		self.spawn.sendline('display transceiver diagnosis interface')
+		#self.spawn.sendline(' '*50)
 		self.spawn.sendline('quit')
 		self.spawn.expect(pexpect.EOF)
 		try:
@@ -48,7 +49,6 @@ class H3cLightDetector(threading.Thread):
 			tfile.close()
 			#print 'close spawn in h3clightconnector-----------------------------!'
 			self.spawn.close()
-
 
 class JuniperLightDetector(threading.Thread):
 	pass

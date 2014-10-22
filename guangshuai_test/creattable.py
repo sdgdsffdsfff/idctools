@@ -2,6 +2,7 @@
 
 def create_guangshuai_table(dict,list):
 	
+	print dict
 #	switch_list = dict.keys()
 	#the function will eventually return the string opject table to the html
 	table = ""
@@ -16,7 +17,7 @@ def create_guangshuai_table(dict,list):
 
 	for i in range(len(list)):
 		interface = [ j for j in dict[list[i]].keys() if j != 'sysname']
-		print interface
+		print '--------------------------------------------------------interface',interface
 		#define the color 
 		if i % 2 == 0 :
 			color = colors[0]
@@ -39,17 +40,19 @@ def create_guangshuai_table(dict,list):
 			interface = interface[1:]
 			for j in interface:
 				if len(dict[list[i]][j].keys()) == 2:
-					table += '<tr class='+color+'><td>'+j+'</td>'+'<td>'+str(dict[list[i]][j]['rx'])+'</td>'+'<td>'+str(dict[list[i]][j]['tx'])+'</td></tr>'	
+					table += '<tr class='+color+'><td>'+j+'</td>'+'<td>'+str(dict[list[i]][j]['rx'])+'</td>'+ \
+					'<td>'+str(dict[list[i]][j]['tx'])+'</td></tr>'	
 				elif len(dict[list[i]][j].keys()) == 1:
 					table += '<tr class='+color+'><td>'+j+'</td>'+'<td colspan="2" align="right">'+str(dict[list[i]][j]['info'])+'</td></tr>'	
 			
 		else:
-			interface = dict[list[i]].keys()
 			if len(dict[list[i]][interface[0]].keys()) == 2:
-				table += '<tr class='+color+'><td>'+list[i]+'</td><td>'+dict[list[i]]['sysname']+'<td>'+interface[0]+'</td>'+'<td>'+str(dict[list[i]][interface[0]]['rx'])+\
+				table += '<tr class='+color+'><td>'+list[i]+'</td><td>'+dict[list[i]]['sysname']+'<td>'+interface[0]+'</td>'+ \
+				'<td>'+str(dict[list[i]][interface[0]]['rx'])+\
 					'</td>'+'<td>'+str(dict[list[i]][interface[0]]['tx'])+'</td></tr>'
 			elif len(dict[list[i]][interface[0]].keys()) == 1:
-				table += '<tr class='+color+'><td>'+list[i]+'</td><td>'+dict[list[i]]['sysname']+'<td>'+interface[0]+'</td>'+'<td colspan="2" align="right">'+\
+				table += '<tr class='+color+'><td>'+list[i]+'</td><td>'+dict[list[i]]['sysname']+'<td>'+interface[0]+'</td>'+ \
+				'<td colspan="2" align="right">'+\
 					str(dict[list[i]][interface[0]]['info'])+'</td></tr>'	
 	return table
 
@@ -69,6 +72,79 @@ def create_module_number_table(dict,list):
 		table += '<tr><td>'+ip+'</td>'+'<td>'+dict[ip]['sysname']+'</td>'+'<td>'+str(dict[ip]['module_number'])+'</td></tr>'
 	return table
 
+
+def create_port_channel_table(list,dict):
+	table = ''
+	colors = ["danger","info"]
+	for ip in list:
+		color_index = list.index(ip)
+		if color_index % 2 == 0:
+			color = colors[0]
+		else:
+			color = colors[1]
+		ae_list = [i for i  in dict[ip].keys() if i != 'sysname']
+		sum_of_ae = len(ae_list)
+		sum_of_interface = 0
+		for ae in ae_list:
+			sum_of_interface += len(dict[ip][ae]['interface'].keys())
+		
+		table += '<tr class=' + color +'><td rowspan="' + str(sum_of_interface)  +'">' + ip + '</td><td rowspan="' +\
+			str(sum_of_interface) + '">' + dict[ip]['sysname'] + \
+			 '</td>' 
+		if len(ae_list) > 1:
+			interface_list = dict[ip][ae_list[0]]['interface'].keys()
+			table += '<td rowspan="' + str(len(interface_list)) + '">' + ae_list[0] + '</td><td rowspan="' \
+				+ str(len(interface_list)) + '">' + dict[ip][ae_list[0]]['state'] + \
+				'</td><td rowspan="'  + str(len(interface_list)) + '">'\
+				 + dict[ip][ae_list[0]]['speed'] + '</td>'
+			
+			if len(interface_list) == 1:
+				table += '<td>' + interface_list[0]  + '</td><td>' + \
+					 dict[ip][ae_list[0]]['interface'][interface_list[0]] + '</td></tr>'		
+		
+			else:
+				table += '<td>' + interface_list[0]  + '</td><td>' + \
+                                         dict[ip][ae_list[0]]['interface'][interface_list[0]] + '</td></tr>'
+				for interface  in interface_list[1:]:
+					table += '<tr class=' + color + '><td>' + interface  + '</td><td>' + \
+					dict[ip][ae_list[0]]['interface'][interface] + '</td></tr>'              
+		
+			for ae in ae_list[1:]:
+				interface_list = dict[ip][ae]['interface'].keys()
+				table += '<tr class=' + color + '><td rowspan="' + str(len(interface_list)) \
+					 + '">' + ae + '</td><td rowspan="' + str(len(interface_list)) + '">' + \
+					 dict[ip][ae]['state'] + '</td><td rowspan="'  + \
+					str(len(interface_list)) + '">'+ dict[ip][ae]['speed'] + '</td>'
+			
+				if len(interface_list) == 1:
+					table += '<td>' + interface_list[0]  + '</td><td>' + \
+						 dict[ip][ae]['interface'][interface_list[0]] + '</td></tr>'		
+			
+				else:
+					table += '<td>' + interface_list[0]  + '</td><td>' + \
+						 dict[ip][ae]['interface'][interface_list[0]] + '</td></tr>'
+					for interface  in interface_list[1:]:
+						table += '<tr class='+ color +'><td>' + interface  + '</td><td>' + \
+							 dict[ip][ae]['interface'][interface] + '</td></tr>'						
+			
+		elif len(ae_list) == 1:
+			interface_list = dict[ip][ae]['interface'].keys()
+			table += '<td rowspan="' + str(len(interface_list)) + '">' + ae + '</td><td rowspan="' \
+					  + str(len(interface_list)) + '">' + dict[ip][ae]['state'] + \
+					'</td><td rowspan="'  + str(len(interface_list)) + '">'\
+					 + dict[ip][ae]['speed'] + '</td>'
+			
+			if len(interface_list) == 1:
+				table += '<td>' + interface_list[0]  + '</td><td>' + \
+					 dict[ip][ae]['interface'][interface_list[0]] + '</td></tr>'		
+			
+			else:
+				table += '<td>' + interface_list[0]  + '</td><td>' + \
+					 dict[ip][ae]['interface'][interface_list[0]] + '</td></tr>'
+				for interface  in interface_list[1:]:
+					table += '<tr class='+ color +'><td>' + interface  + '</td><td>' + \
+						dict[ip][ae]['interface'][interface] + '</td></tr>'						
+	return table
 
 
 
