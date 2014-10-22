@@ -4,10 +4,11 @@ from django.http import HttpResponse
 from guangshuai_test.models import Guangshuai 
 from django.template import Context,loader
 from django.shortcuts import render_to_response
-from guangshuai_test.creattable import *
-from guangshuai_test.light_decay_test import *
+from guangshuai_test.creattable  import *
+from guangshuai_test.light_decay_test  import *
 from guangshuai_test.detect_device import *
 from guangshuai_test.module_number_counter import *
+from guangshuai_test.backend import mulutest
 import time
 import mako
 
