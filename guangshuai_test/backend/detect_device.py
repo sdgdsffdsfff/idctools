@@ -54,3 +54,4 @@ class distinguish_device(threading.Thread):
 		else:
 			print 'Eoh'
 	#	return device_info,myspawn,session_flag
+	
