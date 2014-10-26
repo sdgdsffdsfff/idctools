@@ -10,5 +10,6 @@ urlpatterns = [
     url(r'^$',index),
     url(r'^guangshuai_result/$',guangshuai_result),
     url(r'^test/$',test),
-    url(r'^module_number',module_number)
+    url(r'^module_number',module_number),
+    url(r'^port_channel',port_channel),
 ]

@@ -2,7 +2,6 @@
 
 def create_guangshuai_table(dict,list):
 	
-	print dict
 #	switch_list = dict.keys()
 	#the function will eventually return the string opject table to the html
 	table = ""

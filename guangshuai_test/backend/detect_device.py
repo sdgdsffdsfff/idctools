@@ -36,7 +36,6 @@ class distinguish_device(threading.Thread):
 				sysname = list(sysname_info)
 				sysname = sysname[1:]
 				self.sysname  = ''.join(sysname)
-				print self.ip,'---------------------sysname:',self.sysname
 				self.session_flag = 'success'
 				self.myspawn.sendline('n')
 				

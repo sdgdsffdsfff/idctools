@@ -1,0 +1,54 @@
+{% extends "index.html" %}
+
+{% block page-container %}
+	{% if false_table %}
+<div class="panel panel-danger">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          请点击此处展开未成功登录的设备信息
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel">
+      <div class="panel-body">
+
+<table class="table table-bordered">
+                        <thead>
+                                <th>交换机IP</th>
+                                <th>登录失败原因</th>
+                        </thead>
+                        <tbody>
+                {% autoescape off %}
+                 {{ false_table }}
+                {% endautoescape %}
+                        </tbody>
+  </table>
+      </div>
+    </div>
+  </div>
+
+	{% endif %}
+
+
+
+
+
+
+
+
+
+	{% if guangshuai_table %}
+<a  class="bg-primary btn pull-right"  download="somedata.xls" href="#" onclick="return ExcellentExport.excel(this, 'port_channel_table', 'Sheet Name Here');">将下表导出Excel</a>
+
+	<table class="table table-bordered" id="port_channel_table">
+                  
+			</thead>
+			<tbody>
+                                 {% autoescape off %}
+                 {{ port_channel_table }}
+                {% endautoescape %}
+			</tbody>
+                        </table>
+	 {% endif %}
+{% endblock %}
