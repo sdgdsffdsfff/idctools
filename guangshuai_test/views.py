@@ -8,7 +8,7 @@ from guangshuai_test.backend.creattable  import *
 from guangshuai_test.backend.light_decay_test  import *
 from guangshuai_test.backend.detect_device import *
 from guangshuai_test.backend.module_number_counter import *
-from guangshuai_test.backend.port_channel_detector import *
+from guangshuai_test.backend.aggregation_detector import *
 import time
 import mako
 
@@ -212,9 +212,9 @@ def port_channel(request):
 		collectors = []
 		for i in success_ip:
 			if device_info[i] == 'h3c':
-				c = H3cAggregetionDetector(i,username,password,spawns[i])
+				c = H3cAggregationDetector(i,username,password,spawns[i])
 			elif device_info[i] == 'juniper':
-				c = JuniperAggregetionDetector(i,username,password,spawns[i])
+				c = JuniperAggregationDetector(i,username,password,spawns[i])
 			collectors.append(c)
 
      		   #run the threading objects
@@ -230,12 +230,15 @@ def port_channel(request):
 		ip_for_create_table = []
 		for i in collectors:
 			if i.dict != {}:
-				print '//////////////////////////////////////////////////////',i.dict
 				i.dict['sysname'] = sysname[i.host_ip]
 				success_dict[i.host_ip] = i.dict
 				ip_for_create_table.append(i.host_ip)
+		#print 'ip_for_create_table:',ip_for_create_table
 		if success_dict != {}:
-			port_channel_table = create_guangshuai_table(success_dict,ip_for_create_table)
+			#print '----------------------------------------------------------------success_table',success_dict
+			port_channel_table = create_port_channel_table(success_dict,ip_for_create_table)
+
+		#print 'port_channel_table######################################',port_channel_table
 		
 	#######################################################################
 	if  len(false_ip):

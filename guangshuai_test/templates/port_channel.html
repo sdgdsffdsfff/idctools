@@ -38,14 +38,22 @@
 
 
 
-	{% if guangshuai_table %}
+	{% if port_channel_table %}
 <a  class="bg-primary btn pull-right"  download="somedata.xls" href="#" onclick="return ExcellentExport.excel(this, 'port_channel_table', 'Sheet Name Here');">将下表导出Excel</a>
 
 	<table class="table table-bordered" id="port_channel_table">
-                  
-			</thead>
+                  <thead>
+                                <th>交换机地址</th>
+                                <th>主机名</th>
+                                <th>聚合组名称</th>
+                                <th>聚合组状态</th>
+                                <th>聚合组速率</th>
+                                <th>成员接口</th>
+                                <th>成员接口状态(U-unselected,S-selected)</th>
+      </thead>
+			
 			<tbody>
-                                 {% autoescape off %}
+                  {% autoescape off %}
                  {{ port_channel_table }}
                 {% endautoescape %}
 			</tbody>

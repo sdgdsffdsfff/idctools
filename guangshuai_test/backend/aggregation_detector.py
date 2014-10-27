@@ -5,8 +5,7 @@ import tempfile
 import re
 import pexpect
 
-
-class H3cAggretionDetector(threading.Thread):
+class H3cAggregationDetector(threading.Thread):
 	def __init__(self,host_ip,username,password,spawn):
 		threading.Thread.__init__(self)
 		self.host_ip = host_ip
@@ -17,17 +16,18 @@ class H3cAggretionDetector(threading.Thread):
 
 
 	def run(self):
-		self.spawn.sendline('display interface Bridge-Aggregation')
+		self.spawn.sendline('dis interface Bridge-Aggregation')
 		self.spawn.sendline(' '*50)
-		self.spawn.sendline('display link-aggregation verbose')
+		self.spawn.sendline('dis link-aggregation verbose')
 		self.spawn.sendline(' '*50)
 		self.spawn.sendline('quit')
-
+		self.spawn.expect(pexpect.EOF)
 
 		try:
-			tfile = tempfile.TeporaryFile()
+			tfile = tempfile.TemporaryFile()
 			tfile.write(self.spawn.before)
 			tfile.seek(0)
+
 			for line in tfile:
 				m1 = re.search('current state',line)
 				if m1:
@@ -39,11 +39,13 @@ class H3cAggretionDetector(threading.Thread):
 					if m2:
 						list2 = re.split(r'\s+',x)
 						self.dict[list1[1]] = {}
-						self.dict[list[1]]['state'] = list1[4]
-						self.dict[list[1]]['speed'] = list2[1]
-				m4 = re.search('Aggregation Interface',line)
-				if m4:
+						self.dict[list1[1]]['state'] = list1[4]
+						self.dict[list1[1]]['speed'] = list2[1]
+
+				m2 = re.search('Aggregation Interface',line)
+				if m2:
 					list3 = re.split(r'\s+',line)
+
 					for subline in tfile:
 						m3 = re.search('Oper-Key',subline)
 						if m3:
@@ -51,13 +53,14 @@ class H3cAggretionDetector(threading.Thread):
 							x = tfile.next()
 							while True:
 								x = tfile.next()
-								m5 = re.search('GE',x)
-								if m5:
+								m3 = re.search('GE',x)
+								if m3:
 									list4 = re.split(r'\s+',x)
 									self.dict[list3[2]]['interface'][list4[1]] = list4[2]
 								else:
 									break
 							break
+			
 		finally:
 			tfile.close()
 			self.spawn.close()
