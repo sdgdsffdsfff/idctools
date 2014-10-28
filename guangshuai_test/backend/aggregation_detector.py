@@ -31,21 +31,31 @@ class H3cAggregationDetector(threading.Thread):
 			for line in tfile:
 				m1 = re.search('current state',line)
 				if m1:
-					list1 = re.split(r'\s+',line)
+
+					a = re.findall(r'Bridge-Agg.*',line)[0]
+					a = re.split(r'\s+',a)
+					print '-------------------------------',a
 					x = tfile.next()
 					x = tfile.next()
 					x = tfile.next()
 					m2 = re.search('speed mode',x)
+					print '----------------------------------------------------------------!',x
 					if m2:
-						list2 = re.split(r'\s+',x)
-						self.dict[list1[1]] = {}
-						self.dict[list1[1]]['state'] = list1[4]
-						self.dict[list1[1]]['speed'] = list2[1]
+						#list2 = re.split(r'\s+',x)
+						
+						speed = re.findall(r'[a-zA-Z0-9]*-[a-z]{5}',x)
+						#print speed[0]
+						self.dict[a[0]] = {}
+						self.dict[a[0]]['state'] = a[3]
+						#self.dict[a[0]]['speed'] = list2[1]
+						self.dict[a[0]]['speed'] = speed[0]
+						
 
 				m2 = re.search('Aggregation Interface',line)
 				if m2:
-					list3 = re.split(r'\s+',line)
-
+					list3 = re.findall(r'Aggregation Interface.*',line)[0]
+					list3 = re.split(r'\s+',list3)
+					
 					for subline in tfile:
 						m3 = re.search('Oper-Key',subline)
 						if m3:
@@ -55,8 +65,9 @@ class H3cAggregationDetector(threading.Thread):
 								x = tfile.next()
 								m3 = re.search('GE',x)
 								if m3:
-									list4 = re.split(r'\s+',x)
-									self.dict[list3[2]]['interface'][list4[1]] = list4[2]
+									list4 = re.findall(r'[A-Z]*[A-Z][A-Z][0-9]\/[0-9]\/[0-9][0-9]*.*',x)[0]
+									list4 = re.split(r'\s+',list4)
+									self.dict[list3[2]]['interface'][list4[0]] = list4[1]
 								else:
 									break
 							break
@@ -64,3 +75,15 @@ class H3cAggregationDetector(threading.Thread):
 		finally:
 			tfile.close()
 			self.spawn.close()
+
+
+
+
+class JuniperAggregationDetector(threading.Thread):
+	pass
+
+
+
+
+class HuaweiAggregationDetector(threading.Thread):
+	pass

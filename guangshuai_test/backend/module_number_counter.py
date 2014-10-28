@@ -32,8 +32,6 @@ class H3cModuleNumberCounter(threading.Thread):
 			for line in tfile:
 				m1 = re.search('transceiver diagnostic',line)
 				if m1:
-					list = re.split(r'\s+',line)
-					interface =  list[0]
 					nextline = tfile.next()
 					m2 = re.search('Current',nextline)
 					m3 = re.search('The transceiver does not support this function',nextline)
@@ -42,3 +40,16 @@ class H3cModuleNumberCounter(threading.Thread):
 		finally:
 			tfile.close()
 			self.spawn.close()
+
+
+
+
+class JuniperModuleNumberCounter(threading.Thread):
+	pass
+
+
+
+
+class HuaweiModuleNumberCounter(threading.Thread):
+	pass
+

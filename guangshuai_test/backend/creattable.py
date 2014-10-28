@@ -17,7 +17,7 @@ def create_guangshuai_table(dict,list):
 
 	for i in range(len(list)):
 		interface = [ j for j in dict[list[i]].keys() if j != 'sysname']
-		print '--------------------------------------------------------interface',interface
+		#print '--------------------------------------------------------interface',interface
 		#define the color 
 		if i % 2 == 0 :
 			color = colors[0]
@@ -80,7 +80,7 @@ def create_module_number_table(dict,list):
 ############################################################################################################################################
 def create_port_channel_table(dict,list):
 	table = ''
-	colors = ["success","warning"]
+	colors = ["warning","success"]
 
 	for ip in list:
 		color_index = list.index(ip)
@@ -91,6 +91,8 @@ def create_port_channel_table(dict,list):
 
 
 		ae_list = [i for i  in dict[ip].keys() if i != 'sysname']
+		ae_list.sort()
+		print '----------------------------------------------',ae_list
 		sum_of_ae = len(ae_list)
 
 		

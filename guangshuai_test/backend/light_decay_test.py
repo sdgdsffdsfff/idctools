@@ -32,23 +32,24 @@ class H3cLightDetector(threading.Thread):
 			for line in tfile:
 				m1 = re.search('transceiver diagnostic',line)
 				if m1:
-					list = re.split(r'\s+',line)
-					interface =  list[0]
+					a = re.findall(r'[A-Z]*[a-z]*[a-z]*-*[A-Z][a-z]{6}[A-Z][a-z]{7}[0-9]\/[0-9]\/[0-9][0-9]*',line)[0]
+					interface =  a
 					nextline = tfile.next()
 					m2 = re.search('Current',nextline)
 					m3 = re.search('The transceiver does not support this function',nextline)
-					m4 = re.search('Error: The transceiver is absent.',nextline)
 					if m2:
 						x = tfile.next()
 						x = tfile.next()
-						newlist = re.split(r'\s+',x)
-						self.dict[interface] = {'rx':newlist[4],'tx':newlist[5]}
+						newa = re.findall(r'[0-9].*',x)[0]
+						newa = re.split(r'\s+',newa)
+						self.dict[interface] = {'rx':newa[3],'tx':newa[4]}
 					elif m3:
 						self.dict[interface] = {'info':'模块不兼容，无法显示收发数值'}
 		finally:
 			tfile.close()
-			#print 'close spawn in h3clightconnector-----------------------------!'
 			self.spawn.close()
+
+
 
 class JuniperLightDetector(threading.Thread):
 	pass

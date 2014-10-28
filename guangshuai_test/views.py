@@ -10,7 +10,7 @@ from guangshuai_test.backend.detect_device import *
 from guangshuai_test.backend.module_number_counter import *
 from guangshuai_test.backend.aggregation_detector import *
 import time
-import mako
+#import mako
 
 # Create your views here.
 def index(requst):
@@ -56,11 +56,11 @@ def guangshuai_result(request):
 		for i in success_ip:
 			if device_info[i] == 'h3c':
 				c = H3cLightDetector(i,username,password,spawns[i])
-			elif device_info[i] == 'juniper':
-				c = JuniperLightDetector(i,username,password,spawns[i])
+			elif device_info[i] == 'huawei':
+				c = HuaweiLightDetector(i,username,password,spawns[i])
 			collectors.append(c)
 
-     		   #run the threading objects
+     	#run the threading objects
 		for i in range(len(collectors)):
 			collectors[i].start()
 			print collectors[i],'-----------------------------start'
@@ -238,7 +238,7 @@ def port_channel(request):
 			#print '----------------------------------------------------------------success_table',success_dict
 			port_channel_table = create_port_channel_table(success_dict,ip_for_create_table)
 
-		#print 'port_channel_table######################################',port_channel_table
+		
 		
 	#######################################################################
 	if  len(false_ip):
@@ -256,6 +256,34 @@ def port_channel(request):
 	elif success_dict == {}:
 		return render_to_response("index.html")
 	
+##############################################################################################################################################
+############################################################################################################################################
+###########################################################################################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def test(request):
