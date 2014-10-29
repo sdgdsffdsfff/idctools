@@ -58,6 +58,8 @@ def guangshuai_result(request):
 				c = H3cLightDetector(i,username,password,spawns[i])
 			elif device_info[i] == 'huawei':
 				c = HuaweiLightDetector(i,username,password,spawns[i])
+			elif device_info[i] == 'juniper':
+				c = JuiperLightDetector(i,username,password,spawns[i])
 			collectors.append(c)
 
      	#run the threading objects
@@ -132,7 +134,11 @@ def module_number(request):
 				c = H3cModuleNumberCounter(i,username,password,spawns[i])
 			elif device_info[i] == 'juniper':
 				c = JuniperModuleNumberCounter(i,username,password,spawns[i])
+			elif device_info[i] == 'huawei':
+				c = HuaweiModuleNumberCounter(i,username,password,spawns[i])
+
 			collectors.append(c)
+
 		for i in range(len(collectors)):
 			collectors[i].start()
 			print collectors[i],'-----------------------------start'

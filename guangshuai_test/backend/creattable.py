@@ -17,7 +17,6 @@ def create_guangshuai_table(dict,list):
 
 	for i in range(len(list)):
 		interface = [ j for j in dict[list[i]].keys() if j != 'sysname']
-		#print '--------------------------------------------------------interface',interface
 		#define the color 
 		if i % 2 == 0 :
 			color = colors[0]
@@ -92,17 +91,12 @@ def create_port_channel_table(dict,list):
 
 		ae_list = [i for i  in dict[ip].keys() if i != 'sysname']
 		ae_list.sort()
-		print '----------------------------------------------',ae_list
 		sum_of_ae = len(ae_list)
-
-		
-		 
-
-
 		sum_of_interface = 0
 		for ae in ae_list:
 			sum_of_interface += len(dict[ip][ae]['interface'].keys())
-			#the arg sum_of_interface is used to creat html table,so it should add the number that the aggregation's interface is 0
+			#the arg sum_of_interface is used to creat html table,so it should add 
+			#the number that the aggregation's interface is 0
 			if len(dict[ip][ae]['interface'].keys()) == 0:
 				sum_of_interface += 1
 		
@@ -178,16 +172,6 @@ def create_port_channel_table(dict,list):
 
 
 	return table
-
-
-
-
-
-
-
-
-
-
 
 
 

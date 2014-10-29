@@ -51,5 +51,30 @@ class JuniperModuleNumberCounter(threading.Thread):
 
 
 class HuaweiModuleNumberCounter(threading.Thread):
-	pass
+
+	def __init__(self,host_ip,username,password,spawn):
+		threading.Thread.__init__(self)
+		self.host_ip = host_ip
+		self.username = username
+		self.password = password
+		self.spawn = spawn
+		self.number = 0
+
+
+	def run(self):
+		self.spawn.sendline('dis interface transceiver verbose')
+		self.spawn.sendline(' '*50)
+		self.spawn.sendline('quit')
+		self.spawn.expect(pexpect.EOF)
+		try:
+			tfile = tempfile.TemporaryFile()
+			tfile.write(self.spawn.before)
+			tfile.seek(0)
+			for line in tfile:
+				key_character = re.search('transceiver information',line)
+				if key_character:
+					self.number += 1
+		finally:
+			tfile.close()
+			self.spawn.close()
 

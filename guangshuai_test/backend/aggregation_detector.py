@@ -6,6 +6,7 @@ import re
 import pexpect
 
 class H3cAggregationDetector(threading.Thread):
+
 	def __init__(self,host_ip,username,password,spawn):
 		threading.Thread.__init__(self)
 		self.host_ip = host_ip
@@ -14,7 +15,6 @@ class H3cAggregationDetector(threading.Thread):
 		self.spawn = spawn
 		self.dict = {}
 
-
 	def run(self):
 		self.spawn.sendline('dis interface Bridge-Aggregation')
 		self.spawn.sendline(' '*50)
@@ -22,7 +22,6 @@ class H3cAggregationDetector(threading.Thread):
 		self.spawn.sendline(' '*50)
 		self.spawn.sendline('quit')
 		self.spawn.expect(pexpect.EOF)
-
 		try:
 			tfile = tempfile.TemporaryFile()
 			tfile.write(self.spawn.before)
@@ -34,20 +33,14 @@ class H3cAggregationDetector(threading.Thread):
 
 					a = re.findall(r'Bridge-Agg.*',line)[0]
 					a = re.split(r'\s+',a)
-					print '-------------------------------',a
 					x = tfile.next()
 					x = tfile.next()
 					x = tfile.next()
 					m2 = re.search('speed mode',x)
-					print '----------------------------------------------------------------!',x
 					if m2:
-						#list2 = re.split(r'\s+',x)
-						
 						speed = re.findall(r'[a-zA-Z0-9]*-[a-z]{5}',x)
-						#print speed[0]
 						self.dict[a[0]] = {}
 						self.dict[a[0]]['state'] = a[3]
-						#self.dict[a[0]]['speed'] = list2[1]
 						self.dict[a[0]]['speed'] = speed[0]
 						
 
