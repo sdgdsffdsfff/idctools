@@ -39,7 +39,7 @@ class distinguish_device(threading.Thread):
                                 self.session_flag = 'success'
                                 self.myspawn.sendline('n')
 
-                                send_n_h3c_or_juniper_expect = self.myspawn.expect([" % Incomplete command*","syntax error*"])
+                                send_n_h3c_or_juniper_expect = self.myspawn.expect([" % Unrecognized command found*","syntax error*"])
 				#need to ensure!!!!
                                 if send_n_h3c_or_juniper_expect == 0:
 					h3c_hostname = self.myspawn.expect([">"])
@@ -48,7 +48,9 @@ class distinguish_device(threading.Thread):
 						sysname_info =  self.myspawn.before.strip()
 						sysname_infoa = re.findall(r'<.*',sysname_info)[0]
 						sysname = list(sysname_infoa)
+						sysname = sysname[1:]
                                			self.sysname  = ''.join(sysname)
+                               			print '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!self.sysname',self.sysname
                                        		
 				elif send_n_h3c_or_juniper_expect == 1:
 					self.device_info = "juniper"
@@ -63,7 +65,7 @@ class distinguish_device(threading.Thread):
 
 
 
-		#the Character is "User",so the device is huawei or h3c
+		#the Character is "Username",so the device is huawei or h3c
 		elif first_expect == 1:
 			self.myspawn.sendline(self.username)
 			self.myspawn.expect("Password:")
@@ -105,6 +107,7 @@ class distinguish_device(threading.Thread):
 					sysname = list(sysname_infoa)
                               		sysname = sysname[1:]
                               		self.sysname  = ''.join(sysname)
+                              	print 'finisd time ',time.ctime()
 
 
 ####################################################################################################################################

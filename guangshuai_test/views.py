@@ -4,7 +4,8 @@ from django.http import HttpResponse
 from guangshuai_test.models import Guangshuai 
 from django.template import Context,loader
 from django.shortcuts import render_to_response
-from guangshuai_test.backend.creattable  import *
+#from guangshuai_test.backend.creattable  import *
+from guangshuai_test.backend.createtable  import *
 from guangshuai_test.backend.light_decay_test  import *
 from guangshuai_test.backend.detect_device import *
 from guangshuai_test.backend.module_number_counter import *
@@ -43,9 +44,10 @@ def guangshuai_result(request):
 		i.join()
 	
 
-	for i in range(len(ip_list_counter)):
+	for i in xrange(len(ip_list_counter)):
 		device_info[ip_list_counter[i]],spawns[ip_list_counter[i]],session_flag[ip_list_counter[i]],sysname[ip_list_counter[i]] = \
 			detectors[i].device_info,detectors[i].myspawn,detectors[i].session_flag,detectors[i].sysname
+
 	#identify the ip telnet successfully whit the false	
 	success_ip = [ip for ip in ip_list_counter if session_flag[ip] == "success"]
 	false_ip = [ip for ip in ip_list_counter if session_flag[ip] != "success"]
@@ -55,21 +57,21 @@ def guangshuai_result(request):
 		collectors = []
 		for i in success_ip:
 			if device_info[i] == 'h3c':
-				c = H3cLightDetector(i,username,password,spawns[i])
+				c = H3cLightDetector(i,spawns[i])
 			elif device_info[i] == 'huawei':
-				c = HuaweiLightDetector(i,username,password,spawns[i])
+				c = HuaweiLightDetector(i,spawns[i])
 			elif device_info[i] == 'juniper':
 				c = JuiperLightDetector(i,username,password,spawns[i])
 			collectors.append(c)
 
      	#run the threading objects
-		for i in range(len(collectors)):
+		for i in xrange(len(collectors)):
 			collectors[i].start()
-			print collectors[i],'-----------------------------start'
+			print collectors[i],'-----------------------------start',time.ctime()
         #wait for the all the threading finished
-		for i in range(len(collectors)):
+		for i in xrange(len(collectors)):
 			collectors[i].join()
-			print collectors[i],'------------------------------stop'
+			print collectors[i],'------------------------------stop',time.ctime()
         #merge the dicts and return to views.py of django
 		success_dict = {}
 		ip_for_create_table = []
@@ -119,7 +121,7 @@ def module_number(request):
 	for i in detectors:
 		i.join()	
 
-	for i in range(len(ip_list_counter)):
+	for i in xrange(len(ip_list_counter)):
 		device_info[ip_list_counter[i]],spawns[ip_list_counter[i]],session_flag[ip_list_counter[i]],sysname[ip_list_counter[i]] = \
 			detectors[i].device_info,detectors[i].myspawn,detectors[i].session_flag,detectors[i].sysname
         #identify the ip telnet successfully whit the false     
@@ -131,25 +133,25 @@ def module_number(request):
 		collectors = []
 		for i in success_ip:
 			if device_info[i] == 'h3c':
-				c = H3cModuleNumberCounter(i,username,password,spawns[i])
+				c = H3cModuleNumberCounter(i,spawns[i])
 			elif device_info[i] == 'juniper':
-				c = JuniperModuleNumberCounter(i,username,password,spawns[i])
+				c = JuniperModuleNumberCounter(i,spawns[i])
 			elif device_info[i] == 'huawei':
-				c = HuaweiModuleNumberCounter(i,username,password,spawns[i])
+				c = HuaweiModuleNumberCounter(i,spawns[i])
 
 			collectors.append(c)
 
-		for i in range(len(collectors)):
+		for i in xrange(len(collectors)):
 			collectors[i].start()
 			print collectors[i],'-----------------------------start'
         #wait for the all the threading finished
-        for i in range(len(collectors)):
-            collectors[i].join()
-            print collectors[i],'------------------------------stop'
-        success_dict = {}
-        ip_for_create_table = []
-        summary_number = 0
-        for i in collectors:
+       		for i in xrange(len(collectors)):
+       			collectors[i].join()
+                	print collectors[i],'------------------------------stop'
+       		success_dict = {}
+        	ip_for_create_table = []
+        	summary_number = 0
+        	for i in collectors:
 			tem_dict = {}
 			tem_dict['sysname'] = sysname[i.host_ip]
 			tem_dict['module_number'] = i.number
@@ -158,7 +160,7 @@ def module_number(request):
 			summary_number += i.number
 			if success_dict != {}:
 				module_number_table = create_module_number_table(success_dict,ip_for_create_table)
-        info = ' 成功登录到'+str(len(success_ip))+' 台交换机，探测到光模块总数为：'+ str(summary_number)
+        		info = ' 成功登录到'+str(len(success_ip))+' 台交换机，探测到光模块总数为：'+ str(summary_number)
 
         #######################################################################
         if  len(false_ip):
@@ -206,7 +208,7 @@ def port_channel(request):
 		i.join()
 	
 
-	for i in range(len(ip_list_counter)):
+	for i in xrange(len(ip_list_counter)):
 		device_info[ip_list_counter[i]],spawns[ip_list_counter[i]],session_flag[ip_list_counter[i]],sysname[ip_list_counter[i]] = \
 			detectors[i].device_info,detectors[i].myspawn,detectors[i].session_flag,detectors[i].sysname
 	#identify the ip telnet successfully whit the false	
@@ -224,11 +226,11 @@ def port_channel(request):
 			collectors.append(c)
 
      		   #run the threading objects
-		for i in range(len(collectors)):
+		for i in xrange(len(collectors)):
 			collectors[i].start()
 			print collectors[i],'-----------------------------start'
         #wait for the all the threading finished
-		for i in range(len(collectors)):
+		for i in xrange(len(collectors)):
 			collectors[i].join()
 			print collectors[i],'------------------------------stop'
         #merge the dicts and return to views.py of django
@@ -247,7 +249,7 @@ def port_channel(request):
 		
 		
 	#######################################################################
-	if  len(false_ip):
+	if len(false_ip):
 		false_dict = {}
 		for ip in false_ip:
 			false_dict[ip] = session_flag[ip]

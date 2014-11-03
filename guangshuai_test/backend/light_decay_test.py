@@ -7,25 +7,37 @@ import re
 import readline
 import Queue
 import pexpect
+import time
+
 
 '''
+
 self.dict format {'ge-0/0/1':{'rx':'-2','tx':'-4'},'ge-0/0/2':{'rx':'-3','tx':'-3.5'}}
+
 '''
+class CoreH3cLightDetector(threading.Thread):
+	pass
+
+
+class CoreJuniperDetector(threading.Thread):
+	pass
+
+
+class CoreHuaweiDetector(threading.Thread):
+	pass
 
 
 class H3cLightDetector(threading.Thread):
 	
-	def __init__(self,host_ip,username,password,spawn):
+	def __init__(self,ip,spawn):
 		threading.Thread.__init__(self)
-		self.host_ip = host_ip
-		self.username = username
-		self.password = password
+		self.host_ip = ip
 		self.spawn = spawn
 		self.dict = {}
 	
 	def run(self):
 		self.spawn.sendline('display transceiver diagnosis interface')
-		self.spawn.sendline(' '*50)
+		self.spawn.sendline(' '*100)
 		self.spawn.sendline('quit')
 		self.spawn.expect(pexpect.EOF)
 		try:
@@ -35,19 +47,25 @@ class H3cLightDetector(threading.Thread):
 			for line in tfile:
 				m1 = re.search('transceiver diagnostic',line)
 				if m1:
-					a = re.findall(r'[A-Z]*[a-z]*[a-z]*-*[A-Z][a-z]{6}[A-Z][a-z]{7}[0-9]\/[0-9]\/[0-9][0-9]*',line)[0]
-					interface =  a
-					nextline = tfile.next()
-					m2 = re.search('Current',nextline)
-					m3 = re.search('The transceiver does not support this function',nextline)
-					if m2:
-						x = tfile.next()
-						x = tfile.next()
-						newa = re.findall(r'[0-9].*',x)[0]
-						newa = re.split(r'\s+',newa)
-						self.dict[interface] = {'rx':newa[3],'tx':newa[4]}
-					elif m3:
-						self.dict[interface] = {'info':'模块不兼容，无法显示收发数值'}
+					forty_port = re.search('FortyGigE',line)
+					#暂时过滤掉40G口子
+					if forty_port:
+						pass
+					else:
+						interface = re.findall(r'[A-Z]*[a-z]*[a-z]*-*[A-Z][a-z]{6}[A-Z][a-z]{7}[0-9]\/[0-9]\/[0-9][0-9]*',\
+							    line)[0]
+						#self.interface_order_list.append(interface)
+						nextline = tfile.next()
+						m2 = re.search('Current',nextline)
+						m3 = re.search('The transceiver does not support this function',nextline)
+						if m2:
+							x = tfile.next()
+							x = tfile.next()
+							newa = re.findall(r'[0-9].*',x)[0]
+							newa = re.split(r'\s+',newa)
+							self.dict[interface] = {'rx':newa[3],'tx':newa[4]}
+						elif m3:
+							self.dict[interface] = {'info':'模块不兼容，无法显示收发数值'}
 		finally:
 			tfile.close()
 			self.spawn.close()
@@ -60,23 +78,26 @@ class JuniperLightDetector(threading.Thread):
 
 class HuaweiLightDetector(threading.Thread):
 
-	def __init__(self,host_ip,username,password,spawn):
+	def __init__(self,host_ip,spawn):
 		threading.Thread.__init__(self)
 		self.host_ip = host_ip
-		self.username = username
-		self.password = password
 		self.spawn = spawn
 		self.dict = {}
 
 	def run(self):
+		print '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!@@@',time.ctime()
+		###这一段4行代码耗时3秒，需要优化
 		self.spawn.sendline('dis interface transceiver verbose')
-		self.spawn.sendline(' '*50)
+		for i in xrange(50):
+			self.spawn.sendline(' ')
 		self.spawn.sendline('quit')
 		self.spawn.expect(pexpect.EOF)
+		print '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!@@@',time.ctime()
 		try:
 			tfile = tempfile.TemporaryFile()
 			tfile.write(self.spawn.before)
 			tfile.seek(0)
+			print 'before for loop',time.ctime()
 			for line in tfile:
 				key_character_1 = re.search('transceiver information:',line)
 				if key_character_1:
@@ -102,7 +123,9 @@ class HuaweiLightDetector(threading.Thread):
 					tx_data = tx_data[1:]
 					tx_data = ''.join(tx_data)
 					self.dict[interface_name]['tx'] = tx_data
+			print 'after for loop',time.ctime()
 		finally:
 			tfile.close()
 			self.spawn.close()
+			
 

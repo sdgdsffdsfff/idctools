@@ -11,18 +11,16 @@ import pexpect
 
 
 class H3cModuleNumberCounter(threading.Thread):
-	def __init__(self,host_ip,username,password,spawn):
+	def __init__(self,host_ip,spawn):
 		threading.Thread.__init__(self)
 		self.host_ip = host_ip
-		self.username = username
-		self.password = password
 		self.spawn = spawn
 		self.number = 0
 
 
 	def run(self):
 		self.spawn.sendline('display transceiver diagnosis interface')
-		self.spawn.sendline(' '*50)
+		self.spawn.sendline(' '*100)
 		self.spawn.sendline('quit')
 		self.spawn.expect(pexpect.EOF)
 		try:
@@ -52,11 +50,9 @@ class JuniperModuleNumberCounter(threading.Thread):
 
 class HuaweiModuleNumberCounter(threading.Thread):
 
-	def __init__(self,host_ip,username,password,spawn):
+	def __init__(self,host_ip,spawn):
 		threading.Thread.__init__(self)
 		self.host_ip = host_ip
-		self.username = username
-		self.password = password
 		self.spawn = spawn
 		self.number = 0
 

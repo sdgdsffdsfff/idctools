@@ -4,7 +4,11 @@ import threading
 import tempfile
 import re
 import pexpect
+'''
+self.dict format 
 
+
+'''
 class H3cAggregationDetector(threading.Thread):
 
 	def __init__(self,host_ip,username,password,spawn):
