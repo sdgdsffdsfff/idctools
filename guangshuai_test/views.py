@@ -43,7 +43,7 @@ def guangshuai_result(request):
 	for i in detectors:
 		i.join()
 	
-
+		
 	for i in xrange(len(ip_list_counter)):
 		device_info[ip_list_counter[i]],spawns[ip_list_counter[i]],session_flag[ip_list_counter[i]],sysname[ip_list_counter[i]] = \
 			detectors[i].device_info,detectors[i].myspawn,detectors[i].session_flag,detectors[i].sysname
@@ -61,7 +61,8 @@ def guangshuai_result(request):
 			elif device_info[i] == 'huawei':
 				c = HuaweiLightDetector(i,spawns[i])
 			elif device_info[i] == 'juniper':
-				c = JuiperLightDetector(i,username,password,spawns[i])
+				c = JuniperLightDetector(i,spawns[i])
+				
 			collectors.append(c)
 
      	#run the threading objects

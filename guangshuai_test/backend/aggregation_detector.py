@@ -5,8 +5,8 @@ import tempfile
 import re
 import pexpect
 '''
-self.dict format 
 
+self.dict format 
 
 '''
 class H3cAggregationDetector(threading.Thread):

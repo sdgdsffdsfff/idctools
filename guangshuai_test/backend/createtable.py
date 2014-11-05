@@ -16,7 +16,7 @@ def create_guangshuai_table(dict,list):
 	#count numbers of every switch
 	interface_number = []
 	for i in list:
-		interface_number.append(str(len(dict[i])-1))	
+		interface_number.append(str(len(dict[i])-2))	
 	colors = ["info","success"]
 	table_list = []
 	temporary_list = []
@@ -24,7 +24,9 @@ def create_guangshuai_table(dict,list):
 	#create table with forloop
 
 	for i in xrange(len(list)):
-		interface = [ j for j in dict[list[i]].keys() if j != 'sysname']
+		print dict[list[i]]
+		interface = dict[list[i]]['interface']
+		#interface = [ j for j in dict[list[i]].keys() if j != 'sysname']
 		#define the color 
 		
 		if i % 2 == 0 :
@@ -35,41 +37,42 @@ def create_guangshuai_table(dict,list):
 		#if interface_number >1 ,merge the row 
 
 		if int(interface_number[i]) > 1:
-			if len(dict[list[i]][interface[0]].keys()) == 2:
+			if len(dict[list[i]][interface[0]].keys()) == 3:
 				temporary_list = ['<tr class=',color,'><td rowspan="',interface_number[i],'">',list[i],'</td><td rowspan="',\
 						interface_number[i],'">',dict[list[i]]['sysname'],'</td><td>',interface[0],'</td><td>',\
-						str(dict[list[i]][interface[0]]['rx']),'</td><td>',str(dict[list[i]][interface[0]]['tx']),\
-						'</td></tr>']	
-			elif len(dict[list[i]][interface[0]].keys()) == 1:
+						dict[list[i]][interface[0]]['mt'],'</td><td>',str(dict[list[i]][interface[0]]['rx']),'</td><td>',\
+						str(dict[list[i]][interface[0]]['tx']),'</td></tr>']
+
+			elif len(dict[list[i]][interface[0]].keys()) == 2:
 				temporary_list = ['<tr class=',color,'><td rowspan="',interface_number[i],'">',list[i],'</td><td rowspan="'\
 						,interface_number[i],'">',dict[list[i]]['sysname'],'</td><td>',interface[0],\
-						'</td><td colspan="2" align="right">',str(dict[list[i]][interface[0]]['info']),'</td></tr>']
+						'</td><td colspan="3" align="right">',str(dict[list[i]][interface[0]]['info']),'</td></tr>']
 			table_list.extend(temporary_list)
 
 			interface = interface[1:]
 			for j in interface:
-				print '------------------------------j',j,len(dict[list[i]][j].keys())
-				if len(dict[list[i]][j].keys()) == 2:
-					temporary_list = ['<tr class=',color,'><td>',j,'</td><td>',str(dict[list[i]][j]['rx']),'</td><td>',\
-					str(dict[list[i]][j]['tx']),'</td></tr>']
+				#print '------------------------------j',j,len(dict[list[i]][j].keys())
+				if len(dict[list[i]][j].keys()) == 3:
+					temporary_list = ['<tr class=',color,'><td>',j,'</td><td>',dict[list[i]][j]['mt'],'</td><td>',\
+					str(dict[list[i]][j]['rx']),'</td><td>',str(dict[list[i]][j]['tx']),'</td></tr>']
 						
-				elif len(dict[list[i]][j].keys()) == 1:
-					temporary_list = ['<tr class=',color,'><td>',j,'</td>','<td colspan="2" align="right">',\
+				elif len(dict[list[i]][j].keys()) == 2:
+					temporary_list = ['<tr class=',color,'><td>',j,'</td>','<td colspan="3" align="right">',\
 					str(dict[list[i]][j]['info']),'</td></tr>']
 				table_list.extend(temporary_list)
 
 			
 		else:
-			if len(dict[list[i]][interface[0]].keys()) == 2:
+			if len(dict[list[i]][interface[0]].keys()) == 3:
 				temporary_list = ['<tr class=',color,'><td>',list[i],'</td><td>',dict[list[i]]['sysname'],'<td>',interface[0],\
-				'</td><td>',str(dict[list[i]][interface[0]]['rx']),'</td><td>',str(dict[list[i]][interface[0]]['tx']),'</td></tr>']
-				
-			elif len(dict[list[i]][interface[0]].keys()) == 1:
+				'</td><td>',dict[list[i]][interface[0]]['mt'],'</td><td>',str(dict[list[i]][interface[0]]['rx']),'</td><td>', \
+						str(dict[list[i]][interface[0]]['tx']),'</td></tr>']
+			elif len(dict[list[i]][interface[0]].keys()) == 2:
 				temporary_list = ['<tr class=',color,'><td>',list[i],'</td><td>',dict[list[i]]['sysname'],'<td>',interface[0],\
-				'</td><td colspan="2" align="right">',str(dict[list[i]][interface[0]]['info']),'</td></tr>']
+					'</td><td colspan="3" align="right">',str(dict[list[i]][interface[0]]['info']),'</td></tr>']
 			table_list.extend(temporary_list)
 
-	
+	print table_list
 	return ''.join(table_list)
 
 #######################################################################################################################################
