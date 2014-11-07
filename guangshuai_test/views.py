@@ -221,9 +221,11 @@ def port_channel(request):
 		collectors = []
 		for i in success_ip:
 			if device_info[i] == 'h3c':
-				c = H3cAggregationDetector(i,username,password,spawns[i])
+				c = H3cAggregationDetector(i,spawns[i])
 			elif device_info[i] == 'juniper':
-				c = JuniperAggregationDetector(i,username,password,spawns[i])
+				c = JuniperAggregationDetector(i,spawns[i])
+			elif device_info[i] == 'huawei':
+				c = HuaweiAggregationDetector(i,spawns[i])
 			collectors.append(c)
 
      		   #run the threading objects

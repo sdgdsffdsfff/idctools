@@ -6,9 +6,6 @@
 #def merge_string(list):
 #	return ''.join(list)
 
-
-
-
 def create_guangshuai_table(dict,list):
 	
         #switch_list = dict.keys()
@@ -102,7 +99,7 @@ def create_module_number_table(dict,list):
 ############################################################################################################################################
 def create_port_channel_table(dict,list):
 	table = ''
-	colors = ["warning","success"]
+	colors = ["info","success"]
 	table_list = []
 	temporary_list = []
 	for ip in list:
@@ -111,8 +108,8 @@ def create_port_channel_table(dict,list):
 			color = colors[0]
 		else:
 			color = colors[1]
-		ae_list = [i for i  in dict[ip].keys() if i != 'sysname']
-		ae_list.sort()
+		#ae_list = [i for i  in dict[ip].keys() if i != 'sysname']
+		ae_list = dict[ip]['ae_order']
 		sum_of_ae = len(ae_list)
 		sum_of_interface = 0
 		for ae in ae_list:
@@ -171,22 +168,27 @@ def create_port_channel_table(dict,list):
 				table_list.extend(temporary_list)					
 			
 		elif len(ae_list) == 1:
-			interface_list = dict[ip][ae]['interface'].keys()
+			interface_list = dict[ip][ae_list[0]]['interface'].keys()
+			print interface_list
 			temporary_list = ['<td rowspan="',str(len(interface_list)),'">',ae,'</td><td rowspan="',str(len(interface_list)),\
 						'">',dict[ip][ae]['state'],'</td><td rowspan="',str(len(interface_list)),\
 						'">',dict[ip][ae]['speed'],'</td>']
 			table_list.extend(temporary_list)
 			if len(interface_list) == 1:
-				temporary_list = ['<td>',interface_list[0],'</td><td>',dict[ip][ae]['interface'][interface_list[0]],\
+				temporary_list = ['<td>',interface_list[0],'</td><td>',dict[ip][ae_list[0]]['interface'][interface_list[0]],\
 						'</td></tr>']
+
 			elif len(interface_list) == 0:
 				temporary_list = ['<td colspan="2" align="right">','该聚合组没有成员端口','</td></tr>']
+			
 			else:
 				temporary_list = ['<td>',interface_list[0],'</td><td>',dict[ip][ae]['interface'][interface_list[0]],\
 							'</td></tr>']
 				for interface  in interface_list[1:]:
+					print interface
 					sub_list = ['<tr class=',color,'><td>',interface,'</td><td>',dict[ip][ae]['interface'][interface],\
 						'</td></tr>']
+					temporary_list.extend(sub_list)
 
 			table_list.extend(temporary_list)
 	return ''.join(table_list)

@@ -40,12 +40,35 @@ tr>
 </table>
 
 <h1>h1. Bootstrap heading</h1>
+<div class="dropdown">
+  <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Dropdown trigger
+   <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+    ...
+  </ul>
+</div>
+<div class="dropdown">
+  <a id="dLabel" data-target="#" href="http://example.com" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Dropdown trigger
+    <span class="caret"></span>
+  </a>
 
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+    ...
+  </ul>
+</div>
+$('.dropdown-toggle').dropdown()
 
-
-
-
-
+<div class="btn-group" data-toggle="buttons">
+  <label class="btn btn-default active">
+    <input type="radio" name="options" id="option2" autocomplete="off" > Telnet
+  </label>
+  <label class="btn btn-default">
+    <input type="radio" name="options" id="option3" autocomplete="off"> SSH
+  </label>
+</div>
 
 	
 </body>

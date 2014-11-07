@@ -25,6 +25,9 @@ class distinguish_device(threading.Thread):
 		#% Login failed!-----------------------------huasan
 		#Error: Username or password error.----------huawei
 		self.myspawn = pexpect.spawn('telnet '+ self.ip,timeout=10)
+
+		#self.myspawn = pexpect.spawn('ssh ' + self.ip,timeout=10)
+		
 		first_expect = self.myspawn.expect(["login:", "Username:", \
 					"(?i)Unknown host","Unknown server error",pexpect.EOF, pexpect.TIMEOUT])
 		if first_expect == 0:

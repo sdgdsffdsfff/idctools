@@ -51,33 +51,36 @@ class H3cLightDetector(threading.Thread):
 			for line in tfile:
 				m1 = re.search('transceiver diagnostic',line)
 				if m1:
-					forty_port = re.search('FortyGigE',line)
 					#暂时过滤掉40G口子
+					forty_port = re.search('FortyGigE',line)
 					if forty_port:
-						pass
+						pass						
 					else:
 						interface = re.findall(r'[TF].*[0-9]\/[0-9]\/[0-9][0-9]*',line)
-						print interface
 						if interface != []:
 							interface = interface[0]
-							self.interface_order.append(interface)
 							nextline = tfile.next()
-							m2 = re.search('Current',nextline)
-							m3 = re.search('The transceiver does not support this function',nextline)
-							if m2:
-								x = tfile.next()
-								x = tfile.next()
-								newa = re.findall(r'[0-9].*',x)[0]
-								newa = re.split(r'\s+',newa)
-								self.dict[interface] = {'rx':newa[3],'tx':newa[4]}
-							elif m3:
-								self.dict[interface] = {'info':'模块不兼容，无法显示收发数值'}
+							absent_key = re.search('The transceiver is absent',nextline)
+							if not absent_key:
+								self.interface_order.append(interface)
+								m2 = re.search('Current',nextline)
+								m3 = re.search('The transceiver does not support this function',nextline)
+								if m2:
+									x = tfile.next()
+									x = tfile.next()
+									newa = re.findall(r'[0-9].*',x)[0]
+									newa = re.split(r'\s+',newa)
+									self.dict[interface] = {'rx':newa[3],'tx':newa[4]}
+								elif m3:
+									self.dict[interface] = {'info':'模块不兼容，无法显示收发数值'}
 
 				module_type = re.search('Transceiver Type',line)
 				if module_type:
-					module_type = re.findall(r'[0-9][0-9].*[A-Z]',line)[0]
+					print module_type
+					module_type = re.findall(r'[14]0G.*[A-Z]',line)[0]
 					self.module_type_order.append(module_type)
-			print self.interface_order		
+			print len(self.interface_order)
+			print len(self.module_type_order)		
 			for index in xrange(len(self.interface_order)):
 				self.dict[self.interface_order[index]]['mt'] = self.module_type_order[index]
 			self.dict['interface'] = self.interface_order
@@ -167,11 +170,10 @@ class HuaweiLightDetector(threading.Thread):
 			tfile = tempfile.TemporaryFile()
 			tfile.write(self.spawn.before)
 			tfile.seek(0)
-			print 'before for loop',time.ctime()
 			for line in tfile:
 				key_character_1 = re.search('transceiver information:',line)
 				if key_character_1:
-					print line
+					
 					interface_name = re.findall(r'[0-9]*[A-Z]{2}[0-9]\/[0-9]\/[0-9]*',line)[0]
 					self.dict[interface_name] = {}
 					self.interface_order.append(interface_name)
@@ -197,7 +199,6 @@ class HuaweiLightDetector(threading.Thread):
 					self.dict[interface_name]['tx'] = tx_data
 				module_type = re.search('Transceiver Type',line)
 				if module_type:
-					print module_type
 					module_type = re.findall(r'[0-9].*R',line)
 					if module_type != []:
 						module_type = module_type[0]
@@ -205,7 +206,6 @@ class HuaweiLightDetector(threading.Thread):
 
 			for index in xrange(len(self.interface_order)):
 				self.dict[self.interface_order[index]]['mt'] = self.module_type_order[index]
-			print self.interface_order
 			self.dict['interface'] = self.interface_order
 
 			
