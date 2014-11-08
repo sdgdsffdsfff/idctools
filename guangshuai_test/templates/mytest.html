@@ -31,45 +31,115 @@ tr>
     </div>
   </div>
 
-<a  class="bg-primary btn pull-right"  download="somedata.xls" href="#" onclick="return ExcellentExport.excel(this, 'testtable', 'Sheet Name Here');">Export to Excel</a>
-<button type="submit" class="btn btn-primary btn-lg" onsubmit="return ExcellentExport.excel(this, 'testtable', 'Sheet Name Here');">export</button>
 
-<table class="table table-bordered" id="testtable">
- <tr class=control><td rowspan="3">1.1.1.2</td><td rowspan="3">W-core-1.1.1.2-h01</td><td rowspan="1">Bridge-Aggregation1</td><td rowspan="1">DOWN</td><td rowspan="1">Unknown-speed</td><td>XGE1/0/52</td><td>U</td></tr><tr class=danger><td>Bridge-Aggregation3</td><td>DOWN</td><td>Unknown-speed</td><td >NO chengyuanduankou</td><td>aa</td></tr><tr class=danger><td rowspan="2">Bridge-Aggregation2</td><td rowspan="2">DOWN</td><td rowspan="2">Unknown-speed</td><td>GE1/0/50</td><td>U</td></tr><tr class=danger><td>GE1/0/49</td><td>U</td></tr>
 
-</table>
 
-<h1>h1. Bootstrap heading</h1>
+ 
+
+
+<div class="btn-group">
+      <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  测试接口光衰
+</button>
+</div>
+
+
+
+
+
+	
+
+
+  
+
+
+
+
+
+<!-- Modal guangshuai -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</s
+pan></button>
+    <h4 class="modal-title" id="myModalLabel"> 请输入信息</h4>
+        </div>
+      <div class="modal-body">
+ 
+
+   
+        <form action="/guangshuai_result/" method="post" role="form"  onsubmit="return guangshuai_check()">
+        <div class="form-group">
+        <input type="text" name="username" id="guangshuai_uname" class="form-control" placeholder="请输入交换机用户名" autocomplete="off">
+        </div>
+        <div class="form-group">
+        <input type="password" class="form-control "name="password" id="guangshuai_pwd"placeholder="请输入交换机密码" autocomplete="off">
+        </div>
+    
+
+
+<h4>选择登陆方式</h>
+  <div class="btn" data-toggle="buttons">
+     <label class="btn btn-default active">
+     <input type="radio" name="radiobutton" value ="telnet" id="option2" autocomplete="off" > Telnet
+    </label>
+    <label class="btn btn-default">
+     <input type="radio" name="radiobutton" value="ssh" id="option3" autocomplete="off"> SSH
+     </label>
+</div>
+
+
+
+
+        <div class="form-group">
+        <textarea class="form-control" rows="12" name="ips" id="guangshuai_ip_pool"autocomplete="off" placeholder="格式：每行输入一个ip" autocomplete="off"></textarea>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">提交</button>
+      </div>
+</form>
+  </div>
+    </div>
+  </div>    
+
+
+
+
+
+
+
+
 <div class="dropdown">
   <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Dropdown trigger
-   <span class="caret"></span>
+   <span class="caret">
+     
+
+  </ul>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+    2
+  </ul>
+   </span>
   </button>
-  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-    ...
-  </ul>
-</div>
-<div class="dropdown">
-  <a id="dLabel" data-target="#" href="http://example.com" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Dropdown trigger
-    <span class="caret"></span>
-  </a>
-
-  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-    ...
-  </ul>
-</div>
-$('.dropdown-toggle').dropdown()
-
-<div class="btn-group" data-toggle="buttons">
-  <label class="btn btn-default active">
-    <input type="radio" name="options" id="option2" autocomplete="off" > Telnet
-  </label>
-  <label class="btn btn-default">
-    <input type="radio" name="options" id="option3" autocomplete="off"> SSH
-  </label>
+  
 </div>
 
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

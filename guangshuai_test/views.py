@@ -298,6 +298,15 @@ def port_channel(request):
 
 
 def test(request):
-    return render_to_response("mytest.html")	
+	return render_to_response("mytest.html")	
 	
+
+def test2(request):
+	###################
+	choice = request.POST.get("radiobutton")
+	#####################
+	
+	print choice
+	print "2"
+	return render_to_response("index.html")
 

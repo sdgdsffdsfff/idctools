@@ -124,11 +124,13 @@ function port_channel_check()
 			  <div class="btn-group">
 		    		<button  class="btn btn-lg">批量添加帐号</button>
 			  </div>
+			
+        <div class="btn-group">
+            <button  class="btn btn-lg">一键检查</button>
+        </div>
+			 
 			  <div class="btn-group">
-		    		<button  class="btn btn-lg">巡检补充功能</button>
-			  </div>
-			  <div class="btn-group">
-		    		<button  class="btn btn-lg">测试聚合组</button>
+		    		<button  class="btn btn-lg">一键检查</button>
 			  </div>
 			  <div class="btn-group">
 		    		<button  class="btn btn-lg">测试聚合组</button>
@@ -165,7 +167,23 @@ pan></button>
 		<h4 class="modal-title" id="myModalLabel"> 请输入信息</h4>
 	      </div>
       <div class="modal-body">
+
+
+
         <form action="/guangshuai_result/" method="post" role="form"  onsubmit="return guangshuai_check()">
+<div class="form-group">
+    <h5>选择登陆方式</h>
+    <div class="btn-group" data-toggle="buttons">
+     <label class="btn btn-default active">
+     <input type="radio" name="radiobutton" value ="telnet"  autocomplete="off" > Telnet
+    </label>
+    <label class="btn btn-default">
+     <input type="radio" name="radiobutton" value="ssh"  autocomplete="off"> SSH
+     </label>
+      </div>
+      </div>
+
+
         <div class="form-group">
         <input type="text" name="username" id="guangshuai_uname" class="form-control" placeholder="请输入交换机用户名" autocomplete="off">
         </div>
@@ -173,8 +191,17 @@ pan></button>
         <input type="password" class="form-control "name="password" id="guangshuai_pwd"placeholder="请输入交换机密码" autocomplete="off">
         </div>
 
+        
+
+
+   
+
+
+
+
+
         <div class="form-group">
-        <textarea class="form-control" rows="12" name="ips" id="guangshuai_ip_pool"autocomplete="off" placeholder="格式：每行输入一个ip" autocomplete="off"></textarea>
+        <textarea class="form-control" rows="10" name="ips" id="guangshuai_ip_pool"autocomplete="off" placeholder="格式：每行输入一个ip" autocomplete="off"></textarea>
         </div>
 
       </div>
@@ -200,14 +227,30 @@ pan></button>
               </div>
       <div class="modal-body">
         <form action="/module_number/" method="post" role="form" onsubmit="return module_number_check()">
+
+        <div class="form-group">
+
+
+    <h5>选择登陆方式</h>
+    <div class="btn-group" data-toggle="buttons">
+     <label class="btn btn-default active">
+     <input type="radio" name="radiobutton" value ="telnet"  autocomplete="off" > Telnet
+    </label>
+    <label class="btn btn-default">
+     <input type="radio" name="radiobutton" value="ssh"  autocomplete="off"> SSH
+     </label>
+      </div>
+      </div>
         <div class="form-group">
         <input type="text" name="username" id="module_number_uname" class="form-control" placeholder="请输入交换机用户名" autocomplete="off">
         </div>
         <div class="form-group">
         <input type="password" class="form-control "name="password" id="module_number_pwd"placeholder="请输入交换机密码" autocomplete="off">
         </div>
+  
+   
         <div class="form-group">
-        <textarea class="form-control" rows="12" name="ips" id="module_number_ip_pool"autocomplete="off" placeholder="格式：每行输入一个ip" autocomp
+        <textarea class="form-control" rows="10" name="ips" id="module_number_ip_pool"autocomplete="off" placeholder="格式：每行输入一个ip" autocomp
 lete="off"></textarea>
         </div>
 
@@ -235,13 +278,30 @@ pan></button>
       <div class="modal-body">
         <form action="/port_channel/" method="post" role="form" onsubmit="return port_channel_check()">
         <div class="form-group">
+
+          <div class="form-group">
+
+
+    <h5>选择登陆方式     </h>
+    <div class="btn-group" data-toggle="buttons">
+     <label class="btn btn-default active">
+     <input type="radio" name="radiobutton" value ="telnet"  autocomplete="off" > Telnet
+    </label>
+    <label class="btn btn-default">
+     <input type="radio" name="radiobutton" value="ssh"  autocomplete="off"> SSH
+     </label>
+      </div>
+      </div>
         <input type="text" name="username" id="port_channel_uname" class="form-control" placeholder="请输入交换机用户名" autocomplete="off">
         </div>
         <div class="form-group">
         <input type="password" class="form-control "name="password" id="port_channel_pwd"placeholder="请输入交换机密码" autocomplete="off">
         </div>
+
+  
+   
         <div class="form-group">
-        <textarea class="form-control" rows="12" name="ips" id="port_channel_ip_pool"autocomplete="off" placeholder="格式：每行输入一个ip" autocomp
+        <textarea class="form-control" rows="10" name="ips" id="port_channel_ip_pool"autocomplete="off" placeholder="格式：每行输入一个ip" autocomp
 lete="off"></textarea>
         </div>
 
