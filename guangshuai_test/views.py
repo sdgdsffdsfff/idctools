@@ -24,7 +24,11 @@ def guangshuai_result(request):
 	ip_pool = request.POST.get("ips").encode("utf-8")
 	username = request.POST.get("username").encode("utf-8")
 	password = request.POST.get("password").encode("utf-8")
+	connect_protocol = request.POST.get("radiobutton").encode("utf-8")
+	print 'radiobutton--------------------------',connect_protocol
+
 	#do some detail with the ip of the switches
+
 	ip_list = re.split(r'\s+',ip_pool)
 	#detect devices
 	device_info = {}
@@ -36,8 +40,10 @@ def guangshuai_result(request):
 	#use ip_list_counter to skip the kongge from textarea
 	ip_list_counter = [i for i in ip_list if i !=""]
 	for ip in ip_list_counter:
-		d = distinguish_device(ip,username,password)
+		print 'create detect_device-------------------'
+		d = distinguish_device(ip,username,password,connect_protocol)
 		detectors.append(d)
+		print d
 	for i in detectors:
 		i.start()
 	for i in detectors:
@@ -77,11 +83,12 @@ def guangshuai_result(request):
 		success_dict = {}
 		ip_for_create_table = []
 		for i in collectors:
-			if i.dict != {}:
+			if i.dict['interface'] != []:
 				i.dict['sysname'] = sysname[i.host_ip]
 				success_dict[i.host_ip] = i.dict
 				ip_for_create_table.append(i.host_ip)
 		if success_dict != {}:
+			print 'success_dict','-------------------------------------',success_dict
 			success_table = create_guangshuai_table(success_dict,ip_for_create_table)
 		
 	#######################################################################
@@ -107,6 +114,7 @@ def module_number(request):
 	ip_pool = request.POST.get("ips").encode("utf-8")
  	username = request.POST.get("username").encode("utf-8")
  	password = request.POST.get("password").encode("utf-8")
+ 	connect_protocol = request.POST.get("radiobutton").encode("utf-8")
  	ip_list = re.split(r'\s+',ip_pool)
  	device_info = {}
  	spawns = {}
@@ -115,7 +123,7 @@ def module_number(request):
 	sysname = {}
 	ip_list_counter = [i for i in ip_list if i !=""]
 	for ip in ip_list_counter:
-		d = distinguish_device(ip,username,password)
+		d = distinguish_device(ip,username,password,connect_protocol)
 		detectors.append(d)
 	for i in detectors:
 		i.start()
@@ -189,6 +197,7 @@ def port_channel(request):
 	ip_pool = request.POST.get("ips").encode("utf-8")
 	username = request.POST.get("username").encode("utf-8")
 	password = request.POST.get("password").encode("utf-8")
+	connect_protocol = request.POST.get("radiobutton").encode("utf-8")
 	#do some detail with the ip of the switches
 	ip_list = re.split(r'\s+',ip_pool)
 	#detect devices
@@ -201,7 +210,7 @@ def port_channel(request):
 	#use ip_list_counter to skip the kongge from textarea
 	ip_list_counter = [i for i in ip_list if i !=""]
 	for ip in ip_list_counter:
-		d = distinguish_device(ip,username,password)
+		d = distinguish_device(ip,username,password,connect_protocol)
 		detectors.append(d)
 	for i in detectors:
 		i.start()
@@ -240,7 +249,7 @@ def port_channel(request):
 		success_dict = {}
 		ip_for_create_table = []
 		for i in collectors:
-			if i.dict != {}:
+			if i.dict['ae_order'] != []:
 				i.dict['sysname'] = sysname[i.host_ip]
 				success_dict[i.host_ip] = i.dict
 				ip_for_create_table.append(i.host_ip)

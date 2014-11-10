@@ -15,6 +15,7 @@ import time
 self.dict format {'ge-0/0/1':{'rx':'-2','tx':'-4'},'ge-0/0/2':{'rx':'-3','tx':'-3.5'}}
 
 '''
+
 class CoreH3cLightDetector(threading.Thread):
 	pass
 
@@ -76,8 +77,10 @@ class H3cLightDetector(threading.Thread):
 
 				module_type = re.search('Transceiver Type',line)
 				if module_type:
-					print module_type
-					module_type = re.findall(r'[14]0G.*[A-Z]',line)[0]
+					print '----------------------------------',re.findall(r'[14]0G.*[A-Z]',line)
+					module_type = re.findall(r'[14]0G.*[A-Z]',line)
+					if module_type != []:
+						module_type = module_type[0]				
 					self.module_type_order.append(module_type)
 			print len(self.interface_order)
 			print len(self.module_type_order)		

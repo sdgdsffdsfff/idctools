@@ -18,7 +18,8 @@ class H3cModuleNumberCounter(threading.Thread):
 		self.number = 0
 
 	def run(self):
-		self.spawn.sendline('dis transceiver manuinfo interface')
+		self.spawn.sendline(' '*3)
+		self.spawn.sendline('dis transceiver interface | inc Transceiver')
 		self.spawn.sendline(' '*100)
 		self.spawn.sendline('quit')
 		self.spawn.expect(pexpect.EOF)
@@ -27,13 +28,10 @@ class H3cModuleNumberCounter(threading.Thread):
 			tfile.write(self.spawn.before)
 			tfile.seek(0)
 			for line in tfile:
-				m1 = re.search('transceiver manufacture',line)
-				if m1:
-					nextline = tfile.next()
-					m2 = re.search('Serial Number',nextline)
-					m3 = re.search('The transceiver does not support this function',nextline)
-					if m2 or m3:
-						self.number += 1
+				print line
+				module_type = re.findall(r'[14]0G.*[A-Z]',line)
+				if module_type != []:	
+					self.number += 1
 		finally:
 			tfile.close()
 			self.spawn.close()

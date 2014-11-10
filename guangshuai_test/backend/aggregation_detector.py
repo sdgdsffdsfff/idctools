@@ -50,7 +50,6 @@ class H3cAggregationDetector(threading.Thread):
 				m2 = re.search('Aggregation Interface',line)
 				m3 = re.search('Aggregate Interface',line)
 				if m2 or m3:
-					print line
 					list3 = re.findall(r'Aggregat.* Interface.*',line)[0]
 					list3 = re.split(r'\s+',list3)						
 					for subline in tfile:
@@ -59,15 +58,13 @@ class H3cAggregationDetector(threading.Thread):
 						if m3 and m4:
 							self.dict[list3[2]]['interface'] = {}
 							x = tfile.next()
-							print x 
+							
 							while True:
 								x = tfile.next()
 								m3 = re.search('GE',x)
-								
 								if m3:
 									list4 = re.findall(r'[A-Z]*[A-Z][A-Z][0-9]\/[0-9]\/[0-9][0-9]*.*',x)[0]
-									list4 = re.split(r'\s+',list4)
-									print list4
+									list4 = re.split(r'\s+',list4)									
 									self.dict[list3[2]]['interface'][list4[0]] = list4[1]
 								else:
 									break
@@ -78,7 +75,7 @@ class H3cAggregationDetector(threading.Thread):
 		finally:
 			tfile.close()
 			self.spawn.close()
-			print self.dict
+
 
 
 
