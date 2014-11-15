@@ -13,4 +13,5 @@ urlpatterns = [
     url(r'^test2/$',test2),
     url(r'^module_number',module_number),
     url(r'^port_channel',port_channel),
+    url(r'^ajax',data_ajax),
 ]

@@ -8,138 +8,128 @@
     <script src="/static/js/jquery-2.1.1.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/excellentexport.js"></script>
-<script>
+    <script src="/static/js/highcharts.js"></script>
+    <script type="text/javascript">
+  $(function () {
+    $(document).ready(function () {
+        Highcharts.setOptions({
+            global: {
+                useUTC: false
+            }
+        });
+
+      //  $('#container').highcharts({
+            chart: {
+              //  type: 'spline',
+                  type: 'area',
+                animation: Highcharts.svg, // don't animate in old IE
+                marginRight: 10,
+                events: {
+                    load: function () {
+
+                        // set up the updating of the chart each second
+                        var series = this.series[0];
+                        setInterval(function () {
+                            var x = (new Date()).getTime(), // current time
+                                //y的值就是需要从后台数据库中查找的
+                                y = Math.random();
+                            series.addPoint([x, y], true, true);
+                        }, 1000);
+                    }
+                }
+            },
+            title: {
+                text: '网络流量监控图'
+            },
+            xAxis: {
+                type: 'datetime',
+                tickPixelInterval: 150
+            },
+            yAxis: {
+                title: {
+                    text: '速率'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 0.5,
+                    color: '#808080'
+                }]
+            },
+             
+
+            tooltip: {
+                formatter: function () {
+                    return '<b>' + this.series.name + '</b><br/>' +
+                        Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                        Highcharts.numberFormat(this.y, 2);
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            exporting: {
+                enabled: false
+            },
+            series: [{
+                name: '网络速率',
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
+
+                    for (i = -19; i <= 0; i += 1) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: Math.random()
+                        });
+                    }
+                    return data;
+                }())
+            }]
+        });
+    });
+});
+    </script>
+
+<script type="text/javascript">
+function get_data () {
+        // body...
+        $.ajax({  
+                         type:"Post",   
+                         url: "/ajax",  
+                         dataType:"json",   
+                         success:function (data){  
+                       //  alert("name:"+data.name +"\n" +"age:"+data.age)
+                        $("#out").html(data.name)
+                     }, 
+                        });  
+      
+      }
+
+
+  $(document).ready(function(){
+    window.setInterval(get_data,1000); 
+
+});
+
+
 </script>
+  
+
 </head>
 <body>
-<div class="panel panel-danger">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"  ia-expanded="false" aria-controls="collapseTwo">
-          Collapsible Group Item #2
-        </a>
-      </h4>
-    </div>
-    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel">
-      <div class="panel-body">
-<table class="table table-bordered">
-<tr><td>1.1.1.4</td><td>timeout</td></tr><tr><td>1.1.1.2</td><td>wrong password</td></tr><tr><td>1.1.1.3</td><td>wrong password</td></
-tr>
-
-</table>
-      </div>
-    </div>
-  </div>
 
 
-
-
- 
-
-
-<div class="btn-group">
-      <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-  测试接口光衰
-</button>
+<div class="container-fluid">
+<div id="container" style="min-width: 200px; height:550px; margin: 0 auto">  
 </div>
+<button>aa</button>
+
+<button id="btn-3" name="3">3</button>  
+<div id="out" color ="primary"></div>  
 
 
-
-
-
-	
-
-
-  
-
-
-
-
-
-<!-- Modal guangshuai -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</s
-pan></button>
-    <h4 class="modal-title" id="myModalLabel"> 请输入信息</h4>
-        </div>
-      <div class="modal-body">
- 
-
-   
-        <form action="/guangshuai_result/" method="post" role="form"  onsubmit="return guangshuai_check()">
-        <div class="form-group">
-        <input type="text" name="username" id="guangshuai_uname" class="form-control" placeholder="请输入交换机用户名" autocomplete="off">
-        </div>
-        <div class="form-group">
-        <input type="password" class="form-control "name="password" id="guangshuai_pwd"placeholder="请输入交换机密码" autocomplete="off">
-        </div>
-    
-
-
-<h4>选择登陆方式</h>
-  <div class="btn" data-toggle="buttons">
-     <label class="btn btn-default active">
-     <input type="radio" name="radiobutton" value ="telnet" id="option2" autocomplete="off" > Telnet
-    </label>
-    <label class="btn btn-default">
-     <input type="radio" name="radiobutton" value="ssh" id="option3" autocomplete="off"> SSH
-     </label>
 </div>
-
-
-
-
-        <div class="form-group">
-        <textarea class="form-control" rows="12" name="ips" id="guangshuai_ip_pool"autocomplete="off" placeholder="格式：每行输入一个ip" autocomplete="off"></textarea>
-        </div>
-
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">提交</button>
-      </div>
-</form>
-  </div>
-    </div>
-  </div>    
-
-
-
-
-
-
-
-
-<div class="dropdown">
-  <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Dropdown trigger
-   <span class="caret">
-     
-
-  </ul>
-    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-    2
-  </ul>
-   </span>
-  </button>
-  
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </body>
 </html>

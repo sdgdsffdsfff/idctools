@@ -5,10 +5,12 @@ import re
 import tempfile
 import time
 import threading
+
 '''
 the function of distinguish of h3c , huawei and juniper has been done
 cisco and other company's swith will be added later
 '''
+
 class distinguish_device(threading.Thread):
 
 	def __init__(self,ip,username,password,connect_protocol):
@@ -118,8 +120,6 @@ class distinguish_device(threading.Thread):
                               		sysname = sysname[1:]
                               		self.sysname  = ''.join(sysname)
                           
-
-
 ####################################################################################################################################
 		elif first_expect == 2 or first_expect == 3: 
 			self.session_flag = 'unknown host'
@@ -172,12 +172,6 @@ class distinguish_device(threading.Thread):
                                		sysname = sysname[1:]
                                 	self.sysname  = ''.join(sysname)
 
-
-
-
-
-
-
 		elif first_expect == 7:
 			print 'expect is password,send password'
 			self.myspawn.sendline(self.password)
@@ -192,10 +186,6 @@ class distinguish_device(threading.Thread):
 				####
 				self.session_flag = "success"
 				self.myspawn.sendline('n')
-				
-				
-
-				
 				device_info_expect = self.myspawn.expect([" % Unrecognized command found*","syntax error*",\
 							"The initial password poses","% Incomplete command*"])
 

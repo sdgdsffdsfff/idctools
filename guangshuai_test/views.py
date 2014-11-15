@@ -10,7 +10,10 @@ from guangshuai_test.backend.light_decay_test  import *
 from guangshuai_test.backend.detect_device import *
 from guangshuai_test.backend.module_number_counter import *
 from guangshuai_test.backend.aggregation_detector import *
+from guangshuai_test.backend.ping_tool import *
 import time
+import threading
+import json
 #import mako
 
 # Create your views here.
@@ -311,11 +314,15 @@ def test(request):
 	
 
 def test2(request):
-	###################
-	choice = request.POST.get("radiobutton")
-	#####################
-	
-	print choice
-	print "2"
-	return render_to_response("index.html")
+	aa = threading.Thread(target=ping_large_packet,args=("10.18.24.60","100","200"))
+	aa.start()
+	return render_to_response("ping_result.html")
 
+
+
+def data_ajax(request):	
+	#接受用户传递过来的参数，在redis数据库中查询结果并返回
+	response_data = {}
+	response_data['192.168.1.1'] = "2.33ms"
+	response_data['192.168.1.2'] = "4.33ms"
+	return HttpResponse(json.dumps(response_data),content_type="application/json")
