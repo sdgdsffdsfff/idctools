@@ -11,14 +11,19 @@ from guangshuai_test.backend.detect_device import *
 from guangshuai_test.backend.module_number_counter import *
 from guangshuai_test.backend.aggregation_detector import *
 from guangshuai_test.backend.ping_tool import *
+from guangshuai_test.backend.idctools_config import *
 import time
 import threading
 import json
+
 #import mako
 
 # Create your views here.
 def index(requst):
-	return render_to_response('index.html')
+	try:
+		redis_connection.flushdb()
+	finally:
+		return render_to_response('index.html')
 ################################################################################################################
 
 ##test the guangshuai of every switches
@@ -287,23 +292,25 @@ def port_channel(request):
 
 
 
+def ping_threading(request):
+	#传递这个参数到data_ajax中
+	global ping_ip_list_counter
 
+	ip_pool = request.POST.get("ips").encode("utf-8")
+	packet_size = request.POST.get("packet_size").encode("utf-8")
+	packet_number = request.POST.get("packet_number").encode("utf-8")
+	ip_list = re.split(r'\s+',ip_pool)
+	ping_ip_list_counter = [i for i in ip_list if i !=""]
+	ping_collectors = []
 
+	for ip in ping_ip_list_counter:
+		sub_ping = threading.Thread(target=ping_large_packet,args=(ip,packet_number,packet_size))
+		ping_collectors.append(sub_ping)
+	for sub_ping_instance in ping_collectors:
+		sub_ping_instance.start()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	table = create_ping_table(ping_ip_list_counter)
+	return render_to_response("ping_result.html",{'ping_table':table})
 
 
 
@@ -322,7 +329,18 @@ def test2(request):
 
 def data_ajax(request):	
 	#接受用户传递过来的参数，在redis数据库中查询结果并返回
-	response_data = {}
-	response_data['192.168.1.1'] = "2.33ms"
-	response_data['192.168.1.2'] = "4.33ms"
+	sub_ip_pool = ping_ip_list_counter
+	response_data = []
+	sub_dict = {}
+	sub_dict["info"] = len(sub_ip_pool)
+	#第一个info用来存储列表的长度
+	response_data.append(sub_dict)
+	
+
+	for index in xrange(len(sub_ip_pool)):
+		temp_dict = {}
+		temp_dict["info"] = redis_connection.get(sub_ip_pool[index])
+		response_data.append(temp_dict)
+
+	print response_data
 	return HttpResponse(json.dumps(response_data),content_type="application/json")

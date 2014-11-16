@@ -1,6 +1,50 @@
 {% extends "index.html" %}
+{% block head-js %}
+<script type="text/javascript">
+
+function get_data () {
+        $.ajax({  
+                type:"Post",   
+                url: "/ajax",  
+                dataType:"json", 
+                success:function (data){  
+                	var ky = eval(data)
+                	var length = ky[0].info + 2
+                	//alert(length)
+               		for (var i=1;i<length;i++)
+			{
+				info = "info" + i
+				id = "#h" + i				
+				$(id).html(ky[i].info)
+			}
+                 }, 
+                }); 
+}
+
+
+  $(document).ready(function(){
+    window.setInterval(get_data,1000); 
+});
+
+</script>
+{% endblock %}
+
 
 {% block page-container %}
+<table class="table table-bordered" id="ping_table">
+                        <thead>
+                                <th>交换机地址</th>
+                                <th>ping返回结果</th>
+			</thead>
+			<tbody>
+                      {% autoescape off %}
+               			  {{ ping_table }}
+               			 {% endautoescape %}
+			</tbody>
+                        </table>
+
+
+
 {% endblock %}
 
 

@@ -8,13 +8,35 @@
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/excellentexport.js"></script>
     <script src="/static/js/highcharts.js"></script>
-</script>
+
+{% block head-js %}
+  {% endblock %}
+
 <script>
+
+var ping_ip 
+
+
+function ping_check()
+{
+    var packet_number=document.getElementById("ping_packet_number").value;
+    var packet_size=document.getElementById("ping_packet_size").value;
+    var ping_ip = document.getElementById("ping_ip_pool").value;
+    if (!packet_number || !packet_size || !ping_ip)
+    {
+        alert("别闹！请输入必要的信息！！！")
+        return false;
+    }
+  
+    return true;
+}
+
+
 function guangshuai_check()
 {
     var nameValue=document.getElementById("guangshuai_uname").value;
     var pwdValue=document.getElementById("guangshuai_pwd").value;
-    var ipValue=document.getElementById("guangshuai_ip_pool").value;
+    var ipValue =document.getElementById("guangshuai_ip_pool").value;
     if (!nameValue || !pwdValue || !ipValue)
     {
         alert("别闹！请输入必要的信息！！！")
@@ -131,7 +153,7 @@ function port_channel_check()
         </div>
 			 
 			  <div class="btn-group">
-		    		<button  class="btn btn-lg">PING工具</button>
+		    		<button class="btn  btn-lg"  style="background:#8CEA00" data-toggle="modal" data-target="#ping_tool">PING工具</button>
 			  </div>
 			  <div class="btn-group">
 		    		<button  class="btn btn-lg">测试聚合组</button>
@@ -315,6 +337,60 @@ lete="off"></textarea>
   </div>
     </div>
   </div>
+
+
+
+
+
+
+
+<div class="modal fade" id="ping_tool" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</s
+pan></button>
+                <h4 class="modal-title" id="myModalLabel"> 请输入信息</h4>
+              </div>
+      <div class="modal-body">
+
+        <form action="/ping_monitor/" method="post" role="form" onsubmit="return  ping_check()">
+        <div class="form-group">
+        
+        <input type="text" name="packet_size" id="ping_packet_size" class="form-control" placeholder="请输入每个包的大小：如1500" autocomplete="off">
+        </div>
+
+        <div class="form-group">
+        <input type="text" class="form-control " name="packet_number" id="ping_packet_number" placeholder="请输入对每个IP各ping多少包" autocomplete="off">
+        
+   </div>
+ 
+        <div class="form-group">
+        <textarea class="form-control" rows="10" name="ips" id="ping_ip_pool" autocomplete="off" placeholder="格式：每行输入一个ip" autocomp
+lete="off"></textarea>
+        </div>
+
+      </div>
+  <div class="modal-footer">
+        <button type="submit" class="btn btn-primary pull-right">提交</button>
+  </div>
+</form>
+  </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
