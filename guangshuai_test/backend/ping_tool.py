@@ -17,6 +17,7 @@ def ping_large_packet(host,packet_number,packet_size):
 		if ping_result != "":
 			last_line = re.search(r'packets transmitted',ping_result)
 			time = re.findall(r'time=.*s',ping_result)
+			print ping_result;
 			if time != []:
 				redis_connection.set(host,ping_result)
 			elif last_line:

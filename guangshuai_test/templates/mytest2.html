@@ -1,0 +1,84 @@
+
+<!DOCTYPE>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>this is a test</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <script src="/static/js/jquery-2.1.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/excellentexport.js"></script>
+    <script src="/static/js/highcharts.js"></script>
+
+<script type="text/javascript">
+	var my_string = "10 packets transmitted, 10 received, 0% packet loss, time 9013ms"
+	if(my_string.indexOf(", 0% packet loss")>0){
+	}
+
+
+</script>
+
+</head>
+<body>
+
+
+<table class="table table-bordered" id="ping_table">
+                        <thead>
+                                <th>交换机地址</th>
+                                <th>ping返回结果</th>
+      </thead>
+      <tbody>
+                <tr><td class="col-sm-2">aa</td><td >bb</td></tr>
+      </tbody>
+                        </table>
+
+
+
+
+			  <div class="btn-group">
+		    		<button class="btn  btn-lg"  style="background:#8CEA00" data-toggle="modal" data-target="#ping_tool">PING工具</button>
+			  </div>
+
+<div class="modal fade" id="ping_tool" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</s
+pan></button>
+                <h4 class="modal-title" id="myModalLabel"> 请输入信息</h4>
+              </div>
+      <div class="modal-body">
+
+        <form class="form-horizontal" action="/ping_monitor/" method="post" role="form" onsubmit="return ">
+
+        <div class="form-group">
+        <div class="col-sm-6">
+        <input type="text" name="packet_size" id="ping_packet_size" class="form-control" placeholder="请输入每个包的大小：如1500" autocomplete="off">
+       
+         </div>
+        
+          <div class="col-sm-6">
+         <input type="text" class="form-control " name="packet_number" id="ping_packet_number" placeholder="请输入对每个IP各ping多少包" autocomplete="off">
+       
+        </div>
+ 	
+ 	</div>
+        <div class="form-group">
+         <div class="col-sm-12">
+        <textarea class="form-control" rows="10" name="ips" id="ping_ip_pool" autocomplete="off" placeholder="格式：每行输入一个ip" autocomp
+lete="off"></textarea>
+</div>
+        </div>
+
+      </div>
+  <div class="modal-footer">
+        <button type="submit" class="btn btn-primary pull-right">提交</button>
+  </div>
+</form>
+  </div>
+    </div>
+  </div>
+
+
+</body>
+</html>

@@ -12,12 +12,25 @@ function get_data () {
                 	var length = ky[0].info + 2
                 	//alert(length)
                		for (var i=1;i<length;i++)
-			{
-				info = "info" + i
-				id = "#h" + i				
-				$(id).html(ky[i].info)
-			}
-                 }, 
+		        	{
+			           	info = "info" + i
+			           	id = "#h" + i		
+                  tr_id = "#t" + i
+                  if(ky[i].info == "timeout") {
+                      $(tr_id).addClass("danger")
+                      //document.getElementById(tr_id).style.color="red";
+                  }
+                  if(ky[i].info.indexOf("packets transmitted")>0){
+                      if(ky[i].info.indexOf(", 0% packet loss")<0){
+                        $(tr_id).addClass("danger")
+                        $(id).html(ky[i].info)
+                   }
+}
+
+
+	 		        	$(id).html(ky[i].info)
+			         }
+                }, 
                 }); 
 }
 

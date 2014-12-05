@@ -200,8 +200,10 @@ def create_ping_table(mlist):
 	table_list = []
 	for ip in mlist:
 		div_id = mlist.index(ip) + 1
+		tr_id = "t" + str(div_id)
 		div_id = "h" + str(div_id)
-		temporary_list = ['<tr><td><h4>',ip,'</h4></td>','<td>' + '<h4 id=' + div_id + '></h4></td></tr>']
+	
+		temporary_list = ['<tr id=',tr_id ,'><td class="col-sm-2"><h4>',ip,'</h4></td>','<td><h4 id=',div_id,'></h4></td></tr>']
 		table_list.extend(temporary_list)
 	return ''.join(table_list)
 

@@ -100,7 +100,7 @@ class distinguish_device(threading.Thread):
 				self.sysname  = ''.join(sysname)
 				self.myspawn.sendline('n')
 				
-				h3c_or__huawei_hostname = self.myspawn.expect([" % Incomplete command*", \
+				h3c_or__huawei_hostname = self.myspawn.expect([" % Unrecognized command found *", \
 					"Error: Unrecognized command found at '^' position."])
 				if h3c_or__huawei_hostname == 0:
 					self.device_info = "h3c"

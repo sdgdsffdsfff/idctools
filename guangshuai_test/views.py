@@ -72,11 +72,11 @@ def guangshuai_result(request):
 		for i in success_ip:
 			if device_info[i] == 'h3c':
 				c = H3cLightDetector(i,spawns[i])
+				print "h3c"
 			elif device_info[i] == 'huawei':
 				c = HuaweiLightDetector(i,spawns[i])
 			elif device_info[i] == 'juniper':
-				c = JuniperLightDetector(i,spawns[i])
-				
+				c = JuniperLightDetector(i,spawns[i])	
 			collectors.append(c)
 
      	#run the threading objects
@@ -290,8 +290,6 @@ def port_channel(request):
 
 
 
-
-
 def ping_threading(request):
 	#传递这个参数到data_ajax中
 	global ping_ip_list_counter
@@ -315,15 +313,14 @@ def ping_threading(request):
 
 
 
-
+######################################################################################################
+######################################################################################################
 def test(request):
 	return render_to_response("mytest.html")	
 	
 
 def test2(request):
-	aa = threading.Thread(target=ping_large_packet,args=("10.18.24.60","100","200"))
-	aa.start()
-	return render_to_response("ping_result.html")
+	return render_to_response("mytest2.html")
 
 
 
@@ -335,12 +332,8 @@ def data_ajax(request):
 	sub_dict["info"] = len(sub_ip_pool)
 	#第一个info用来存储列表的长度
 	response_data.append(sub_dict)
-	
-
 	for index in xrange(len(sub_ip_pool)):
 		temp_dict = {}
 		temp_dict["info"] = redis_connection.get(sub_ip_pool[index])
 		response_data.append(temp_dict)
-
-	print response_data
 	return HttpResponse(json.dumps(response_data),content_type="application/json")
