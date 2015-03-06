@@ -1,7 +1,9 @@
 {% extends "index.html" %}
 
 {% block page-container %}
-	{% if false_table %}
+	
+  {% if false_table %}
+
 <div class="panel panel-danger">
     <div class="panel-heading">
       <h4 class="panel-title">
@@ -24,6 +26,10 @@
                 {% endautoescape %}
                         </tbody>
   </table>
+
+
+
+
       </div>
     </div>
   </div>
@@ -32,13 +38,21 @@
 
 
 
-
-
-
-
-
-
 	{% if guangshuai_table %}
+
+<div class="panel panel-danger">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo2" aria-expanded="false" aria-controls="collapseTwo">
+          请点击此处展开光衰信息
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo2" class="panel-collapse collapse" role="tabpanel">
+      <div class="panel-body">
+
+
+
 <a  class="bg-primary btn pull-right"  download="somedata.xls" href="#" onclick="return ExcellentExport.excel(this, 'guangshuai_table', 'Sheet Name Here');">将下表导出Excel</a>
 
 	<table class="table table-bordered" id="guangshuai_table">
@@ -56,5 +70,138 @@
                 {% endautoescape %}
 			</tbody>
                         </table>
+
+
+      </div>
+    </div>
+  </div>                      
 	 {% endif %}
+
+
+
+
+
+
+{% if cpu_mem_table %}
+
+<div class="panel panel-danger">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo3" aria-expanded="false" aria-controls="collapseTwo">
+          请点击此处展开CPU内存信息
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo3" class="panel-collapse collapse" role="tabpanel">
+      <div class="panel-body">
+
+
+
+<a  class="bg-primary btn pull-right"  download="somedata.xls" href="#" onclick="return ExcellentExport.excel(this, 'cpu_mem_table', 'Sheet Name Here');">将下表导出Excel</a>
+
+  <table class="table table-bordered" id="cpu_mem_table">
+                        <thead>
+                                <th>交换机地址</th>
+        <th>主机名</th>
+                                <th>CPU使用率</th>
+                                <th>内存使用率</th>
+      </thead>
+      <tbody>
+                      {% autoescape off %}
+                 {{ cpu_mem_table }}
+                {% endautoescape %}
+      </tbody>
+                        </table>
+
+
+      </div>
+    </div>
+  </div>                      
+   {% endif %}
+
+
+
+
+
+
+{% if int_err_table %}
+
+<div class="panel panel-danger">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo4" aria-expanded="false" aria-controls="collapseTwo">
+          请点击此处展开CPU内存信息
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo4" class="panel-collapse collapse" role="tabpanel">
+      <div class="panel-body">
+
+
+
+<a  class="bg-primary btn pull-right"  download="somedata.xls" href="#" onclick="return ExcellentExport.excel(this, 'cpu_mem_table', 'Sheet Name Here');">将下表导出Excel</a>
+
+  <table class="table table-bordered" id="cpu_mem_table">
+                        <thead>
+                                <th>交换机地址</th>
+        <th>主机名</th>
+                                <th>接口</th>
+                                <th>入错误包</th>
+                                <th>出错误包</th>
+      </thead>
+      <tbody>
+                      {% autoescape off %}
+                 {{ int_err_table }}
+                {% endautoescape %}
+      </tbody>
+                        </table>
+
+
+      </div>
+    </div>
+  </div>                      
+   {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {% endblock %}

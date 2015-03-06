@@ -15,4 +15,5 @@ urlpatterns = [
     url(r'^port_channel',port_channel),
     url(r'^ajax',data_ajax),
     url(r'^ping_monitor',ping_threading),
+    url(r'^once_check',once_check),
 ]

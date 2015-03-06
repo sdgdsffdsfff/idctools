@@ -56,7 +56,7 @@ function module_number_check()
         alert("别闹！请输入必要的信息！！！")
         return false;
      }
-  return true;
+	return true;
 }
 
 function port_channel_check()
@@ -76,62 +76,107 @@ function port_channel_check()
 
 </script>
 </head>
-<body>  
+<body>	
 
-  <div class="container-fluid">
-    <div class="container-fluid">
-    <div class="page-header">
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-            <div class="container-fluid">
-            <div class="navbar-header">
-               <a class="navbar-brand" href="#">数据中心工具包</a>
-             </div>   
-           </div>
-        </nav>
-    </div>
-    </div>
-    
-    
-    <div class="container-fluid"> 
-    <div class="col-lg-2">
-
-  <div class="list-group">
-  <a data-toggle="modal" href="#once_check" class="list-group-item">验收工具</a>
-  <a data-toggle="modal" href="#ping_tool" class="list-group-item">PING</a>
-  <a href="#" class="list-group-item">MAC地址互转</a>
-  <a href="#" class="list-group-item">子网计算</a>
-  <a href="#" class="list-group-item">子网合并</a>
+	<div class="container-fluid">
+		<div class="container-fluid">
+		<div class="page-header">
+		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      			<div class="container-fluid">
+        		<div class="navbar-header">
+       				 <a class="navbar-brand" href="#">数据中心工具包</a>
+    		   	 </div>   
+     			 </div>
+    		</nav>
+		</div>
+		</div>
+		
+		
+		<div class="container-fluid">	
+		<div class="col-lg-2">
+			<div class="list-group">
+  <a href="#" class="list-group-item active">
+    交付chenk工具</a>
+  <a href="#" class="list-group-item">初始化脚本批量部署</a>
+  <a href="#" class="list-group-item">Morbi leo risus</a>
+  <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+  <a href="#" class="list-group-item">Vestibulum at eros</a>
 </div>
-  <div class="list-group">
-  <a href="#" class="list-group-item">to be continued</a>
-  <a href="#" class="list-group-item">to be continued</a>
- 
-  <a href="#" class="list-group-item">to be continued</a>
-  <a href="#" class="list-group-item">to be continued</a>
-  <a href="#" class="list-group-item">to be continued</a>
+	<div class="list-group">
+  <a href="#" class="list-group-item">noting to do now</a>
+  <a href="#" class="list-group-item">nothing to do now</a>
+  <a href="#" class="list-group-item">Morbi leo risus</a>
+  <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+  <a href="#" class="list-group-item">Vestibulum at eros</a>
 </div>
-    </div>
+		</div>
 
-    <div class="col-lg-10">
-    <div class="row">
-    </div>
-    
+		<div class="col-lg-10">
+		<div class="row">
+		</div>
+		<div class="row">
+			<div class="btn-group btn-group-justified">
+			<!---------------------------------------------------------------->
+  			  	<!-- Large modal -->
+			<div class="btn-group">
+				<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  测试接口光衰
+</button>
+</div>
+			<!---------------------------------------------------------------->
+			  <div class="btn-group">
+		    		<button  class="btn btn-success btn-lg" data-toggle="modal" data-target="#moduleNumber">
+统计光模块数量
+</button>
+</div>
+			  <div class="btn-group">
+			    <button class="btn btn-warning btn-lg" data-toggle="modal" data-target="#portChannel">测试聚合组</button>
+			  </div>
 
 
-
-    <div class="row">
-
-      <div class="page-header">
-      </div>
-    </div>
-    
-    <div class="row">
-      {% block page-container %}
-      <table class="table table-bordered">
-      {% endblock %}
-      </table>
-    </div>
-    </div>
+			  <div class="btn-group">
+			    <button  class="btn btn-info btn-lg" data-toggle="tooltip">统计交换机群信息</button>
+			  </div>
+			  <div class="btn-group">
+			    <button  class="btn btn-danger btn-lg" data-toggle="tooltip" >ILO口检测</button>
+			  </div>
+			</div>
+		</div>
+		<div class="row">
+		<div class="btn-group btn-group-justified">
+			  <div class="btn-group">
+		    		<button  class="btn btn-lg">批量添加帐号</button>
+			  </div>
+			
+        <div class="btn-group">
+            <button  class="btn btn-lg">一键检查</button>
+        </div>
+			 
+			  <div class="btn-group">
+		    		<button class="btn  btn-lg"  style="background:#8CEA00" data-toggle="modal" data-target="#ping_tool">PING工具</button>
+			  </div>
+			  <div class="btn-group">
+		    		<button  class="btn btn-lg">掩码计算器</button>
+			  </div>
+			<div class="btn-group">
+          <button class="btn btn-warning btn-lg" data-toggle="modal" data-target="#once_check">
+          一键检查</button>
+        </div>
+		
+		</div>
+		</div>
+		<div class="row">
+			<div class="page-header">
+			</div>
+		</div>
+		
+		<div class="row">
+			{% block page-container %}
+			<table class="table table-bordered">
+			{% endblock %}
+			</table>
+		</div>
+		</div>
 </div>
 
 
@@ -143,8 +188,8 @@ function port_channel_check()
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</s
 pan></button>
-    <h4 class="modal-title" id="myModalLabel"> 请输入信息</h4>
-        </div>
+		<h4 class="modal-title" id="myModalLabel"> 请输入信息</h4>
+	      </div>
       <div class="modal-body">
 
 
@@ -180,7 +225,7 @@ pan></button>
 </form>
   </div>
     </div>
-  </div>    
+  </div>		
 
 
 
@@ -224,9 +269,9 @@ lete="off"></textarea>
         </div>
 
       </div>
-  <div class="modal-footer">
+	<div class="modal-footer">
         <button type="submit" class="btn btn-primary pull-right">提交</button>
-  </div>
+	</div>
 </form>
   </div>
     </div>
@@ -358,7 +403,7 @@ pan></button>
                 <h4 class="modal-title" id="myModalLabel"> 请输入信息</h4>
               </div>
       <div class="modal-body">
-        <form action="/once_check/" method="post" role="form" >
+        <form action="" method="post" role="form" >
 
         <div class="form-group">
 
@@ -366,53 +411,40 @@ pan></button>
     <h5>选择登陆方式</h>
     <div class="btn-group" data-toggle="buttons">
      <label class="btn btn-default ">
-     <input type="radio" name="radiobutton" value ="telnet"  autocomplete="off" active> Telnet
+     <input type="radio" name="radiobutton" value ="telnet"  autocomplete="off" > Telnet
     </label>
     <label class="btn btn-default">
-     <input type="radio" name="radiobutton" value="ssh"  autocomplete="off" disabled> SSH
+     <input type="radio" name="radiobutton" value="ssh"  autocomplete="off"> SSH
      </label>
       </div>
       </div>
       <div class="form-group">
       <h5>请选择要检测的项目</h>
   <div class="container-fluid">
- <div class="row">
- <a disabled>.</a>
- </div>
+ 
 <div class="row">
   <div class="col-md-4">
-   <input type="checkbox" value="1" name="checkbox" autocomplete="off" > 光衰
+   <input type="checkbox" autocomplete="off" > 光衰
    </div>
       <div class="col-md-4">
-   <input type="checkbox" value="4" name="checkbox" autocomplete="off" > 光模块数量
+   <input type="checkbox" autocomplete="off" > 光模块数量
    </div>  <div class="col-md-4">
-   <input type="checkbox" autocomplete="off" disabled> 聚合组
+   <input type="checkbox" autocomplete="off" > 聚合组
    </div>
 </div>
 <div class="row">
      <div class="col-md-4">
-   <input type="checkbox" value="5" name="checkbox" autocomplete="off" disabled=""> sn号统计
+   <input type="checkbox" autocomplete="off" > sn号统计
    </div>  
    <div class="col-md-4">
-   <input type="checkbox" value="3" name="checkbox"  autocomplete="off" > cpu.内存负载
+   <input type="checkbox" autocomplete="off" > cpu.内存负载
    </div>
      <div class="col-md-4">
-   <input type="checkbox" value="2" name="checkbox"  autocomplete="off" > 接口错误包
+   <input type="checkbox" autocomplete="off" > 接口错误包
    </div>
-
+  
 </div>
-<div class="row">
- <div class="col-md-4">
-   <input type="checkbox" value="6" name="checkbox" autocomplete="off" disabled=""> 告警信息(Alarms)
-   </div>  
-</div>
-
   </div>
-
-     <div class="row">
- <a disabled>.</a>
-
- </div>
         <div class="form-group">
         <input type="text" name="username" id="module_number_uname" class="form-control" placeholder="请输入交换机用户名" autocomplete="off">
     
@@ -420,9 +452,7 @@ pan></button>
         <div class="form-group">
         <input type="password" class="form-control "name="password" id="module_number_pwd"placeholder="请输入交换机密码" autocomplete="off">
         </div>
-        <div class="form-group">
-        <input type="text" class="form-control "name="snmpkey" id="module_number_pwd"placeholder="请输入SNMP-KEY" autocomplete="off">
-        </div>
+  
 
 
    
