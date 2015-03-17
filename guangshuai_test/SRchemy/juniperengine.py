@@ -105,3 +105,19 @@ class JuniperEngine(BaseEngine):
 		deacy_type = juniper_mod.findall(deacy_type_info)
 		self.result['module_type'] = self.count_module(deacy_type)
 
+
+	def show_port_channel(self):
+		self.check_login()
+		self.spawn.sendline('show interface ae* | no-more')
+		self.spawn.expect("{master:0}")
+		ae_info = self.spawn.before
+		ae_int = juniper_ae_name.findall(ae_info)
+		ae_int_state = juniper_ae_state.findall(ae_info)
+		ae_int_speed = juniper_ae_speed.findall(ae_info)
+		for index in xrange(len(ae_int)):
+			self.result["port_channel"][ae_int[index]] = \
+				    {'speed':ae_int_speed[index],'state':ae_int_state[index]}
+		
+
+
+

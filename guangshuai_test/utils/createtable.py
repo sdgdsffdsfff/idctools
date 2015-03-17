@@ -1,5 +1,5 @@
 #coding=utf-8
-
+from collections import OrderedDict
 def create_cpu_mem_table(enginelist):
 	
 	temporary_list = []
@@ -10,6 +10,45 @@ def create_cpu_mem_table(enginelist):
 		temporary_list = ['<tr><td>',i.ip,'</td>','<td>',i.result["sysname"],'</td><td>',i.result['resource']["cpu"],'</td></td><td>',i.result['resource']["mem"],'</td></tr>'] 
 		table_list.extend(temporary_list)
 	return ''.join(table_list)
+
+
+
+
+def creat_module_count(dict,list):
+	type_number = []
+	for i in list:
+		type_number.append(str(len(dict[i])-1))	
+	colors = ["info","success"]
+	table_list = []
+	temporary_list = []
+
+	for i in xrange(len(list)):
+		#interface = dict[list[i]]['module_type']
+		tlist = dict[list[i]].keys()
+		tlist.remove('sysname')
+		if i % 2 == 0 :
+			color = colors[0]
+		else:
+			color = colors[1]
+		if int(type_number[i]) > 1:
+			temporary_list = ['<tr class=',color,'><td rowspan="',type_number[i],'">',list[i],'</td><td rowspan="',\
+				type_number[i],'">',dict[list[i]]['sysname'],'</td><td>',tlist[0],'</td><td>',\
+				str(dict[list[i]][tlist[0]]),'</td></tr>']
+
+			table_list.extend(temporary_list)
+			tlist = tlist[1:]
+			
+			for j in tlist:
+					temporary_list = ['<tr class=',color,'><td>',j,'</td><td>',\
+					str(dict[list[i]][j]),'</td></tr>']
+					table_list.extend(temporary_list)			
+		else:
+			temporary_list = ['<tr class=',color,'><td>',list[i],'</td><td>',dict[list[i]]['sysname'],'<td>',tlist[0],\
+				'</td><td>',str(dict[list[i]][tlist[0]]),'</td></tr>']
+		
+			table_list.extend(temporary_list)
+	return ''.join(table_list)
+
 
 
 
@@ -56,11 +95,6 @@ def create_int_err_table(dict,list):
 		
 			table_list.extend(temporary_list)
 	return ''.join(table_list)
-
-
-
-
-
 
 
 
@@ -134,7 +168,7 @@ def create_module_number_table(dict,list):
 		table_list.extend(temporary_list)
 	return ''.join(table_list)
 
-def create_port_channel_table(dict,list):
+def create_port_channel_table_back(dict,list):
 	"""
 	return a table of port_channel
 	"""
@@ -230,7 +264,67 @@ def create_port_channel_table(dict,list):
 
 			table_list.extend(temporary_list)
 	return ''.join(table_list)
-           
+         
+
+def create_ae_table(successengine):
+	table_list = []
+	temporary_list = []
+	colors = ["info","success"]
+	for i in xrange(len(successengine)):
+		ae_dict = successengine[i].result["port_channel"]
+		if i % 2 == 0 :
+			color = colors[0]
+		else:
+			color = colors[1]
+		ae_interfaces = successengine[i].result["port_channel"].keys()
+		ae_num = len(ae_interfaces)
+		
+		if ae_num > 1:
+			temporary_list = ['<tr class=',color,'><td rowspan="',str(ae_num),'">',successengine[i].ip,'</td><td rowspan="',\
+				str(ae_num),'">',successengine[i].result["sysname"],'</td><td>',ae_interfaces[0],'</td><td>',\
+				ae_dict[ae_interfaces[0]]['state'],'</td><td>',ae_dict[ae_interfaces[0]]['speed'],'</td></tr>']	
+			table_list.extend(temporary_list)
+			ae_interfaces = ae_interfaces[1:]
+			for j in ae_interfaces:
+				temporary_list = ['<tr class=',color,'><td>',j,'</td><td>',ae_dict[j]['state'],'</td><td>',\
+				ae_dict[j]['speed'],'</td></tr>']
+				table_list.extend(temporary_list)
+
+		elif ae_num == 1:
+			temporary_list = ['<tr class=',color,'><td>',successengine[i].ip,'</td><td>',successengine[i].result["sysname"],'<td>',ae_interfaces[0],\
+			'</td><td>',ae_dict[ae_interfaces[0]]['state'],'</td><td>',ae_dict[ae_interfaces[0]]['speed'],'</td></tr>']
+			table_list.extend(temporary_list)
+		elif ae_num == 0:
+			#thereis a situation that check a lot of switchs,
+			#and choose check port_channel,but maybe some switchs
+			#doesn't have ae.
+			temporary_list = ['<tr class=',color,'><td>',successengine[i].ip,'</td><td>',successengine[i].result["sysname"],'<td>',"Have no ae",\
+			'</td><td>',"Have no ae",'</td><td>',"Have no ae",'</td></tr>']
+			table_list.extend(temporary_list)
+
+	return ''.join(table_list)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def create_ping_table(mlist):
 	"""
 	return a table of ping_result
@@ -249,8 +343,4 @@ def create_ping_table(mlist):
 
 #------------------------------------------------------------------------------------------------------
 if __name__ == "__main__":
-	dict = {'1.1.1.1':{'ge0':{'info':'not support'},'ge1':{'rx':1,'tx':5},'ge2':{'rx':1,'tx':3}},'2.2.2.2':{'ge3':{'rx':4,'tx':5},'ge1':{'rx':1,'tx':2}},'3.3.3.3':{'tge3':{'rx':-1,'tx':-2.5},'Tge2':{'rx':0.1,'tx':2},'tge1':{'rx':1,'tx':2},'tge0':{'rx':1,'tx':2}},'4.4.4.4':{'ge1':{'info':'not support 2'}}
-		}
-
-	t = create_table(dict)
-	print t
+	pass

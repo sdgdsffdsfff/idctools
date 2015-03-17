@@ -9,9 +9,9 @@ import os
 
 def system_detector(aclass):
 	"""
-	This function is to recognize the types of the devices,user has two way 
-	to input snmp community,first,input the snmp information in the html.
-	second,use a table of database which inited before(use the script 
+	This function is to recognize the types of the devices,user has two  
+	way to input snmp community,first,input the snmp information in the
+	html.second,use a table of database which inited before(use the script 
 	offered).Additionally,users have to use snmp to recognize device.
 	there is no other way supported.
 	"""

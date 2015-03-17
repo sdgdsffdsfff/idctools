@@ -73,7 +73,7 @@ class H3cEngine(BaseEngine):
 		module_type = self._snmp_walk(".1.3.6.1.4.1.25506.2.70.1.1.1.2")
 		module_type = self._oid_string_to_dict(module_type)
 		deacy_type = module_type.values()
-		self.result['mt'] = self.count_module(deacy_type)
+		self.result['module_type'] = self.count_module(deacy_type)
 		
 
 	def show_sn(self):

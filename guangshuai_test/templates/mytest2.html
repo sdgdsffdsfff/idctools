@@ -1,19 +1,67 @@
-<script>
-        // init bootpag
-        $('#page-selection').bootpag({
-            total: 10
-        }).on("page", function(event, /* page number here */ num){
-             $("#content").html("Insert content"); // some ajax content loading...
-        });
-    </script>
+<!DOCTYPE>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>this is a test</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <script src="/static/js/jquery-2.1.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/excellentexport.js"></script>
+    <script src="/static/js/highcharts.js"></script>
+<script type="text/javascript"> </script>
 
-<div id="content">Dynamic Content goes here</div>
+<script type="text/javascript"> 
+$(function () {
+    $('#container').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: 'Browser market shares at a specific website, 2010'
+        },
+        tooltip: {
+          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    color: '#000000',
+                    connectorColor: '#000000',
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'Browser share',
+            data: [
+                ['Firefox',   45.0],
+                ['IE',       26.8],
+                {
+                    name: 'Chrome',
+                    y: 12.8,
+                    sliced: true,
+                    selected: true
+                },
+                ['Safari',    8.5],
+                ['Opera',     6.2],
+                ['Others',   0.7]
+            ]
+        }]
+    });
+});       
+</script>
 
 
+</head>
 
 
-
-
+<body>
 <table class="table table-bordered" id="ping_table">
                         <thead>
                                 <th>交换机地址</th>
@@ -96,3 +144,44 @@ lete="off"></textarea>
     </div>
   </div>
 
+
+
+<div class="panel panel-danger">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          请点击此处展开获取信息失败的设备
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel">
+      <div class="panel-body">
+<div id="container" style="min-width:700px;height:400px"></div>
+
+<table class="table table-bordered">
+                        <thead>
+                                <th>交换机IP</th>
+                                <th>登录失败原因</th>
+                        </thead>
+                        <tbody>
+                {% autoescape off %}
+                 {{ false_table }}
+                {% endautoescape %}
+                        </tbody>
+  </table>
+
+
+
+
+      </div>
+    </div>
+  </div>
+
+
+ 
+
+
+
+
+</body>
+</html>

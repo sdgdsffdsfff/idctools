@@ -44,9 +44,9 @@ juniper_tx = re.compile(r'Laser output power                        : .* / (?P<t
 juniper_cpu = re.compile(r'Idle                      (?P<cpu>[0-9]{1,2}) percent')
 juniper_mem = re.compile(r'Memory utilization          (?P<mem>[0-9]{1,3}) percent')
 juniper_mod = re.compile(r'[XS]FP[+-]{1,2}10G-[ELSZ]R')
-
-
-
+juniper_ae_name = re.compile(r'Physical interface: (?P<interface>.*), Enabled')
+juniper_ae_state = re.compile(r'Enabled, Physical link is (?P<state>[A-Z][a-z]{1,3})')
+juniper_ae_speed = re.compile(r'Speed: (?P<speed>.*), BPDU Error:')
 
 
 #----------------------------------------------------------------------------

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>this is a test</title>
+    <title>数据中心工具包</title>
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <script src="/static/js/jquery-2.1.1.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
@@ -125,6 +125,40 @@ function port_channel_check()
       </div>
     </div>
     
+
+      {% if index %}
+<div class="alert alert-warning alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <strong>Warning!</strong> 目前本系统还只适用于批量的接入交换机，核心交换机的一些逻辑系统还没有具体实现，所以在使用时，请务对接入使用，否则会造成返回结果崩溃
+</div>
+<div class="alert alert-warning alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <strong>Warning!</strong> 目前只针对H3C和JUNIPER两家厂商的设备
+</div>
+<div class="alert alert-warning alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <strong>Warning!</strong> 如果是在虚拟机环境中使用PING工具，请将网络类型设置成侨接模式，否则，由于虚拟机限制，将发不出大包
+</div>
+
+<div class="alert alert-warning alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <strong>Warning!</strong> 连接方式预留了SSH的接口，但是没有实现，无论选择与否都是使用TELNET
+</div>
+<div class="alert alert-warning alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <strong>Warning!</strong> 一些不能选择的选项将在后面一段时间内慢慢添加
+</div>
+
+
+
+
+        {% endif %}
+
+
+
+
+
+
     <div class="row">
       {% block page-container %}
       <table class="table table-bordered">
@@ -385,8 +419,9 @@ pan></button>
    </div>
       <div class="col-md-4">
    <input type="checkbox" value="4" name="checkbox" autocomplete="off" > 光模块数量
+  
    </div>  <div class="col-md-4">
-   <input type="checkbox" autocomplete="off" disabled> 聚合组
+   <input type="checkbox" value="7" name="checkbox" autocomplete="off" > 聚合组
    </div>
 </div>
 <div class="row">

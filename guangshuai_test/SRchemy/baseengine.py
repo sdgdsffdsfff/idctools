@@ -35,6 +35,7 @@ class BaseEngine(threading.Thread):
 		self.result["interface_error"] = OrderedDict()
 		self.result["resource"] = {}
 		self.result["module_type"] = {}
+		self.result["port_channel"] = OrderedDict()
 		self.connect_protocal = connect_protocal
 		self.interface_name = {}
 
@@ -71,6 +72,8 @@ class BaseEngine(threading.Thread):
 			self.show_sn()
 		if 6 in self.action:
 			self.show_err_log()
+		if 7 in self.action:
+			self.show_port_channel()
 		
 		#self.show_in_out_error()
 		#try:
@@ -173,7 +176,7 @@ class BaseEngine(threading.Thread):
 		the result is a list
 		"""
 		command = ["snmpwalk"," -c ", self.snmp_key ," -v"," 2c ",self.ip,
-						" ",oid," -t"," 2"," -r"," 1"]
+						" ",oid," -t"," 5"," -r"," 1"]
 		command = ''.join(command)
 		result = os.popen(command)
 		result = result.read()

@@ -8,7 +8,7 @@
     <div class="panel-heading">
       <h4 class="panel-title">
         <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-          请点击此处展开未成功登录的设备信息
+          请点击此处展开获取信息失败的设备
         </a>
       </h4>
     </div>
@@ -58,7 +58,7 @@
 	<table class="table table-bordered" id="guangshuai_table">
                         <thead>
                                 <th>交换机地址</th>
-				<th>主机名</th>
+				                        <th>主机名</th>
                                 <th>接口</th>
                                 <th>模块类型</th>
                                 <th>收光RX(db)</th>
@@ -130,7 +130,7 @@
     <div class="panel-heading">
       <h4 class="panel-title">
         <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo4" aria-expanded="false" aria-controls="collapseTwo">
-          请点击此处展开CPU内存信息
+          接口错误包信息
         </a>
       </h4>
     </div>
@@ -139,9 +139,9 @@
 
 
 
-<a  class="bg-primary btn pull-right"  download="somedata.xls" href="#" onclick="return ExcellentExport.excel(this, 'cpu_mem_table', 'Sheet Name Here');">将下表导出Excel</a>
+<a  class="bg-primary btn pull-right"  download="somedata.xls" href="#" onclick="return ExcellentExport.excel(this, 'int_err_table', 'Sheet Name Here');">将下表导出Excel</a>
 
-  <table class="table table-bordered" id="cpu_mem_table">
+  <table class="table table-bordered" id="int_err_table">
                         <thead>
                                 <th>交换机地址</th>
         <th>主机名</th>
@@ -164,11 +164,83 @@
 
 
 
+{% if module_number_table %}
+
+<div class="panel panel-danger">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo5" aria-expanded="false" aria-controls="collapseTwo">
+          光模块数量类型统计
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo5" class="panel-collapse collapse" role="tabpanel">
+      <div class="panel-body">
+
+
+
+<a  class="bg-primary btn pull-right"  download="somedata.xls" href="#" onclick="return ExcellentExport.excel(this, 'module_number_table', 'Sheet Name Here');">将下表导出Excel</a>
+
+  <table class="table table-bordered" id="module_number_table">
+                        <thead>
+                                <th>交换机地址</th>
+        <th>主机名</th>
+                                <th>模块类型</th>
+                                <th>数量</th>
+      </thead>
+      <tbody>
+                      {% autoescape off %}
+                 {{ module_number_table }}
+                {% endautoescape %}
+      </tbody>
+                        </table>
+
+
+      </div>
+    </div>
+  </div>                      
+   {% endif %}
 
 
 
 
+{% if ae_table %}
 
+<div class="panel panel-danger">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo6" aria-expanded="false" aria-controls="collapseTwo">
+          端口聚合组信息
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo6" class="panel-collapse collapse" role="tabpanel">
+      <div class="panel-body">
+
+
+
+<a  class="bg-primary btn pull-right"  download="somedata.xls" href="#" onclick="return ExcellentExport.excel(this, 'ae_table', 'Sheet Name Here');">将下表导出Excel</a>
+
+  <table class="table table-bordered" id="ae_table">
+                        <thead>
+                                <th>交换机地址</th>
+                               <th>主机名</th>
+                                <th>聚合端口</th>
+                                <th>端口状态</th>
+                                <th>端口速率</th>
+      </thead>
+      <tbody>
+                      {% autoescape off %}
+                 {{ ae_table }}
+                {% endautoescape %}
+      </tbody>
+                        </table>
+
+
+      </div>
+    </div>
+  </div>                      
+   {% endif %}
 
 
 
