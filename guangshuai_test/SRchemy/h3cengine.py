@@ -51,13 +51,7 @@ class H3cEngine(BaseEngine):
 		"""
 		Get information of cpu usage,memory usage
  		"""
-		self.check_login()
-		if self.session_flag == 'failed' or \
-				self.session_flag == "password wrong":
-			#login failed
-			print "login failed"
-			return -1
-		else:
+		if(self.check_login()):
 			self.spawn.sendline("dis memory")
 			self.spawn.expect(">")
 			mem = self.spawn.before
@@ -68,6 +62,8 @@ class H3cEngine(BaseEngine):
 			cpu_usage = h3c_cpu.search(cpu)
 			self.result['resource']['mem'] = mem_usage.group('index')+"%"
 			self.result['resource']['cpu'] = cpu_usage.group('index')
+		else:
+			pass
 
 	def count_module_type(self):
 		module_type = self._snmp_walk(".1.3.6.1.4.1.25506.2.70.1.1.1.2")
@@ -78,3 +74,21 @@ class H3cEngine(BaseEngine):
 
 	def show_sn(self):
 		pass
+
+
+	def show_port_channel(self):
+		#check login
+		if(self.check_login()):
+			self.spawn.sendline("dis interface Bridge-Aggregation")
+			self.spawn.sendline(" "*20)
+			self.spawn.expect(">")
+			ae_info = self.spawn.before
+			ae_int = h3c_ae_name.findall(ae_info)
+			ae_int_state = h3c_ae_state.findall(ae_info)
+			ae_int_speed = h3c_ae_speed.findall(ae_info)
+			for index in xrange(len(ae_int)):
+				self.result["port_channel"][ae_int[index]] = \
+					{'speed':ae_int_speed[index],'state':ae_int_state[index]}
+		else:
+			pass
+

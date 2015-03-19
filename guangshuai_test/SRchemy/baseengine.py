@@ -209,7 +209,13 @@ class BaseEngine(threading.Thread):
 	def check_login(self):
 		if self.logined == False:
 			#login to the switch
-			self.connect() 
+			self.connect()
+		if self.session_flag == 'failed' or \
+			self.session_flag == "password wrong":
+		#login failed
+			return 0
+		else:
+			return 1
 
 
 	def count_module(self,tlist):

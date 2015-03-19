@@ -19,14 +19,7 @@ class JuniperEngine(BaseEngine):
 		If you want to get juniper dom information,you need to login 
 		int the device and send the commands
 		"""
-		self.check_login()
-
-		if self.session_flag == 'failed' or \
-				self.session_flag == "password wrong":
-			#login failed
-			print "login failed"
-			return -1
-		else:
+		if(self.check_login()):
 			self.spawn.sendline('show interfaces diagnostics optics | no-more')
 			self.spawn.expect("{master:0}")
 			deacy_info = self.spawn.before
@@ -46,6 +39,8 @@ class JuniperEngine(BaseEngine):
 				self.result["deacy"][deacy_int[i]]['mt'] = \
 														deacy_type[i]
 			self.result["deacy"]["interface"] = self.result["deacy"].keys()
+		else:
+			pass
 														
 	def connect(self,cprotocol="telnet"):
 		if self.connect_protocal is not None:
@@ -85,38 +80,42 @@ class JuniperEngine(BaseEngine):
 		"""
 		Get information of cpu usage,memory usage
  		"""
- 		self.check_login()
- 		self.spawn.sendline("show chassis routing-engine")
- 		self.spawn.expect("{master:0}")
- 		usage = self.spawn.before
- 		cpu_usage = juniper_cpu.search(usage)
- 		cpu_usage = str(int(100 - int(cpu_usage.group('cpu'))))+"%"
- 		self.result['resource']['cpu'] = cpu_usage
- 		mem_usage = juniper_mem.search(usage)
- 		self.result['resource']['mem'] = mem_usage.group('mem')+"%"
+ 		if(self.check_login()):
+ 			self.spawn.sendline("show chassis routing-engine")
+ 			self.spawn.expect("{master:0}")
+ 			usage = self.spawn.before
+ 			cpu_usage = juniper_cpu.search(usage)
+ 			cpu_usage = str(int(100 - int(cpu_usage.group('cpu'))))+"%"
+ 			self.result['resource']['cpu'] = cpu_usage
+ 			mem_usage = juniper_mem.search(usage)
+ 			self.result['resource']['mem'] = mem_usage.group('mem')+"%"
+ 		else:
+ 			pass
 
 	def count_module_type(self):
 		"""
 		"""
-		self.check_login()
-		self.spawn.sendline('show chassis hardware | no-more')
-		self.spawn.expect("{master:0}")
-		deacy_type_info = self.spawn.before
-		deacy_type = juniper_mod.findall(deacy_type_info)
-		self.result['module_type'] = self.count_module(deacy_type)
+		if(self.check_login()):
+			self.spawn.sendline('show chassis hardware | no-more')
+			self.spawn.expect("{master:0}")
+			deacy_type_info = self.spawn.before
+			deacy_type = juniper_mod.findall(deacy_type_info)
+			self.result['module_type'] = self.count_module(deacy_type)
 
 
 	def show_port_channel(self):
-		self.check_login()
-		self.spawn.sendline('show interface ae* | no-more')
-		self.spawn.expect("{master:0}")
-		ae_info = self.spawn.before
-		ae_int = juniper_ae_name.findall(ae_info)
-		ae_int_state = juniper_ae_state.findall(ae_info)
-		ae_int_speed = juniper_ae_speed.findall(ae_info)
-		for index in xrange(len(ae_int)):
-			self.result["port_channel"][ae_int[index]] = \
-				    {'speed':ae_int_speed[index],'state':ae_int_state[index]}
+		if(self.check_login()):
+			self.spawn.sendline('show interface ae* | no-more')
+			self.spawn.expect("{master:0}")
+			ae_info = self.spawn.before
+			ae_int = juniper_ae_name.findall(ae_info)
+			ae_int_state = juniper_ae_state.findall(ae_info)
+			ae_int_speed = juniper_ae_speed.findall(ae_info)
+			for index in xrange(len(ae_int)):
+				self.result["port_channel"][ae_int[index]] = \
+					    {'speed':ae_int_speed[index],'state':ae_int_state[index]}
+		else:
+			pass
 		
 
 

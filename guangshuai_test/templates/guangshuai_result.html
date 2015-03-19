@@ -1,8 +1,78 @@
 {% extends "index.html" %}
+{% block module-js %}
+
+<script type="text/javascript">
+$(function () {
+    $('#containeraa').highcharts({
+        chart: {
+            type: 'column',
+            margin: [ 50, 50, 100, 80]
+        },
+        title: {
+            text: '统计结果'
+        },
+        xAxis: {
+            categories:{{ categories | safe }},
+        
+            labels: {
+                rotation: -45,
+                align: 'right',
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        },
+        yAxis: {
+            min: 0,
+            max: 120,
+            title: {
+                text: '单位: (个)'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        tooltip: {
+            pointFormat: '<b>{point.y:.1f} 个</b>',
+        },
+        series: [{
+            name: 'Population',
+            data:{{ data }},
+            dataLabels: {
+                enabled: true,
+                rotation: -90,
+                color: '#FFFFFF',
+                align: 'right',
+                x: 4,
+                y: 10,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif',
+                    textShadow: '0 0 3px black'
+                }
+            }
+        }]
+    });
+});
+
+      </script>  
+
+  {% endblock %}
+
+
+
+
+
+
 
 {% block page-container %}
 	
   {% if false_table %}
+
+
+
+
 
 <div class="panel panel-danger">
     <div class="panel-heading">
@@ -177,7 +247,7 @@
     <div id="collapseTwo5" class="panel-collapse collapse" role="tabpanel">
       <div class="panel-body">
 
-
+       <div id="containeraa" ></div>
 
 <a  class="bg-primary btn pull-right"  download="somedata.xls" href="#" onclick="return ExcellentExport.excel(this, 'module_number_table', 'Sheet Name Here');">将下表导出Excel</a>
 

@@ -298,8 +298,7 @@ def create_ae_table(successengine):
 			#thereis a situation that check a lot of switchs,
 			#and choose check port_channel,but maybe some switchs
 			#doesn't have ae.
-			temporary_list = ['<tr class=',color,'><td>',successengine[i].ip,'</td><td>',successengine[i].result["sysname"],'<td>',"Have no ae",\
-			'</td><td>',"Have no ae",'</td><td>',"Have no ae",'</td></tr>']
+			temporary_list = ['<tr class=',color,'><td>',successengine[i].ip,'</td><td>',successengine[i].result["sysname"],'<td colspan="3">',"该设备没有聚合组",'</td></tr>']
 			table_list.extend(temporary_list)
 
 	return ''.join(table_list)

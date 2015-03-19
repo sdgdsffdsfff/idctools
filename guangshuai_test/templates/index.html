@@ -12,6 +12,10 @@
 {% block head-js %}
   {% endblock %}
 
+
+{% block module-js %}
+  {% endblock %}
+
 <script>
 
 var ping_ip 
@@ -30,6 +34,25 @@ function ping_check()
   
     return true;
 }
+
+
+function onec_check()
+{
+    var packet_number=document.getElementById("one_name").value;
+    var packet_size=document.getElementById("one_pwd").value;
+    var ping_ip = document.getElementById("one_ip_pool").value;
+    var snmp = document.getElementById("one_snmp").value;
+    if (!packet_number || !packet_size || !ping_ip)
+    {
+        alert("别闹！请输入必要的信息！！！")
+        return false;
+    }
+
+
+  
+    return true;
+}
+
 
 
 function guangshuai_check()
@@ -137,7 +160,7 @@ function port_channel_check()
 </div>
 <div class="alert alert-warning alert-dismissible" role="alert">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-  <strong>Warning!</strong> 如果是在虚拟机环境中使用PING工具，请将网络类型设置成侨接模式，否则，由于虚拟机限制，将发不出大包
+  <strong>Warning!</strong> 如果是在虚拟机环境中使用PING工具，且想发大于400字节的包的话，请将网络类型设置成侨接模式，否则，由于虚拟机限制，将发不出大包,PING发包的间隔已设置成200ms,因为经过广域网的测试可能结果相差较大，建议该工具只在局域网环境中使用.
 </div>
 
 <div class="alert alert-warning alert-dismissible" role="alert">
@@ -320,9 +343,6 @@ lete="off"></textarea>
 
 
 
-
-
-
 <div class="modal fade" id="ping_tool" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -337,7 +357,7 @@ pan></button>
 
         <div class="form-group">
         <div class="col-sm-6">
-        <input type="text" name="packet_size" id="ping_packet_size" class="form-control" placeholder="请输入每个包的大小：如1500" autocomplete="off">
+        <input type="text" name="packet_size" id="ping_packet_size" class="form-control" placeholder="输入每个包的大小：20-1500" autocomplete="off">
        
          </div>
         
@@ -392,7 +412,7 @@ pan></button>
                 <h4 class="modal-title" id="myModalLabel"> 请输入信息</h4>
               </div>
       <div class="modal-body">
-        <form action="/once_check/" method="post" role="form" >
+        <form action="/once_check/" method="post" role="form" onsubmit="return onec_check()">
 
         <div class="form-group">
 
@@ -449,20 +469,20 @@ pan></button>
 
  </div>
         <div class="form-group">
-        <input type="text" name="username" id="module_number_uname" class="form-control" placeholder="请输入交换机用户名" autocomplete="off">
+        <input type="text" name="username" id="one_name" class="form-control" placeholder="请输入交换机用户名" autocomplete="off">
     
         </div>
         <div class="form-group">
-        <input type="password" class="form-control "name="password" id="module_number_pwd"placeholder="请输入交换机密码" autocomplete="off">
+        <input type="password" class="form-control "name="password" id="one_pwd"placeholder="请输入交换机密码" autocomplete="off">
         </div>
         <div class="form-group">
-        <input type="text" class="form-control "name="snmpkey" id="module_number_pwd"placeholder="请输入SNMP-KEY" autocomplete="off">
+        <input type="text" class="form-control "name="snmpkey" id="one_snmp"placeholder="请输入SNMP-KEY" autocomplete="off">
         </div>
 
 
    
         <div class="form-group">
-        <textarea class="form-control" rows="10" name="ips" id="module_number_ip_pool"autocomplete="off" placeholder="格式：每行输入一个ip" autocomp
+        <textarea class="form-control" rows="10" name="ips" id="one_ip_pool"autocomplete="off" placeholder="格式：每行输入一个ip" autocomp
 lete="off"></textarea>
         </div>
 

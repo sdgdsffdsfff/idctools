@@ -8,8 +8,67 @@
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/excellentexport.js"></script>
     <script src="/static/js/highcharts.js"></script>
-<script type="text/javascript"> </script>
 
+
+<script type="text/javascript">
+$(function () {
+    $('#containeraa').highcharts({
+        chart: {
+            type: 'column',
+            margin: [ 50, 50, 100, 80]
+        },
+        title: {
+            text: 'Worlds largest cities per 2008'
+        },
+        xAxis: {
+            categories:{{ categories | safe }},
+        
+            labels: {
+                rotation: -45,
+                align: 'right',
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        },
+        yAxis: {
+            min: 0,
+            max: 120,
+            title: {
+                text: '单位: (个)'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        tooltip: {
+            pointFormat: '<b>{point.y:.1f} 个</b>',
+        },
+        series: [{
+            name: 'Population',
+            data:{{ data }},
+            dataLabels: {
+                enabled: true,
+                rotation: -90,
+                color: '#FFFFFF',
+                align: 'right',
+                x: 4,
+                y: 10,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif',
+                    textShadow: '0 0 3px black'
+                }
+            }
+        }]
+    });
+});
+
+
+
+
+</script>
 <script type="text/javascript"> 
 $(function () {
     $('#container').highcharts({
@@ -178,10 +237,9 @@ lete="off"></textarea>
   </div>
 
 
- 
 
 
-
+<div id="containeraa" style="min-width:700px;height:400px"></div
 
 </body>
 </html>

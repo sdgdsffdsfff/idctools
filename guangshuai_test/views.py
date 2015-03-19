@@ -4,12 +4,12 @@ from guangshuai_test.models import Guangshuai
 from django.template import Context,loader
 from django.shortcuts import render_to_response
 from guangshuai_test.utils.createtable  import *
-from guangshuai_test.utils.tool  import *
+from guangshuai_test.utils.ping_tool  import *
 from guangshuai_test.SRchemy import *
 import time
 import re
 import json
-
+from time import sleep
 
 def index(requst):
 	index = 1 
@@ -37,21 +37,28 @@ def once_check(request):
 	guangshuai_table,module_number_table,int_err_table,cpu_mem_table = \
     											None,None,None,None
 	ae_table = None
-	order_list = []
+	#define ajax default data
+	categories = None
+	data = None
+	order_list = [0]*len(ip_list)
 	for i in result_list:
-		order_list.insert(ip_list.index(i.ip),i)
+		order_list[ip_list.index(i.ip)] = i
+		#order_list.insert(ip_list.index(i.ip),i)
 	
 	false_ip = []
 	false_dict = {}
 
 	for i in result_list:
-		if i.device_flag == "snmpkey wrong or snmpwalk timeout":
+		if i.device_flag == \
+						"snmpkey wrong or snmpwalk timeout":
 			false_ip.append(i.ip)
-			false_dict[i.ip] = "snmpkey wrong or snmpwalk timeout"
+			false_dict[i.ip] = \
+					"snmpkey wrong or snmpwalk timeout"
 		else:
 			i.start()
 	for i in result_list:
-		if i.device_flag == "snmpkey wrong or snmpwalk timeout":
+		if i.device_flag == \
+					"snmpkey wrong or snmpwalk timeout":
 			pass
 		else:
 			i.join()
@@ -124,12 +131,11 @@ def once_check(request):
 				else:
 					sum_dict[t_list[j]] = \
 						int(i.result["module_type"][t_list[j]])
+		categories = sum_dict.keys()
+		data = sum_dict.values()
 
-
-
-		#print '~~~~~~~~~~~~~~~~~~~~~~~~',sum_dict
-
- 		module_number_table = creat_module_count(type_dict,ip_for_create_table)
+ 		module_number_table = \
+ 				 creat_module_count(type_dict,ip_for_create_table)
 	if 5 in action:
 		#self.show_sn()
 		pass
@@ -143,16 +149,17 @@ def once_check(request):
 
 
 	false_table = create_false_table(false_dict,false_ip)
-	success_ip = []
+	#success_ip = []
 	return render_to_response("guangshuai_result.html",
 		{"guangshuai_table":guangshuai_table,
 		"false_table":false_table,
 		"int_err_table":int_err_table,
 		"cpu_mem_table":cpu_mem_table,
 		"module_number_table":module_number_table,
-		"ae_table":ae_table})
-
-
+		"ae_table":ae_table,
+		"data":data,
+		"categories":categories
+		})
 
 
 
@@ -166,7 +173,8 @@ def port_channel(request):
 def ping_threading(request):
 	#传递这个参数到data_ajax中
 	global ping_ip_list_counter
-
+	global data_dict 
+	data_dict = {}
 	ip_pool = request.POST.get("ips").encode("utf-8")
 	packet_size = request.POST.get("packet_size").encode("utf-8")
 	packet_number = request.POST.get("packet_number").encode("utf-8")
@@ -176,7 +184,7 @@ def ping_threading(request):
 
 	for ip in ping_ip_list_counter:
 		sub_ping = threading.Thread(target=ping_large_packet,
-							args=(ip,packet_number,packet_size))
+							args=(ip,packet_number,packet_size,data_dict))
 		ping_collectors.append(sub_ping)
 	for sub_ping_instance in ping_collectors:
 		sub_ping_instance.start()
@@ -184,23 +192,24 @@ def ping_threading(request):
 	table = create_ping_table(ping_ip_list_counter)
 	return render_to_response("ping_result.html",{'ping_table':table})
 
+
+
 def test(request):
 	return render_to_response("mytest.html")	
 	
 def test2(request):
 	#check = request.POST.get("gs").encode("utf-8")
 	check_box_list = request.REQUEST.getlist('check_box') 
-		
-
-
-	return render_to_response("mytest2.html")
+	categories = ['10g','20g']
+	data = [10,20]	
+	return render_to_response("mytest2.html",{'data':data,\
+		'categories':categories,'user':request.user})
 
 
 
 
 
 def data_ajax(request):	
-	#接受用户传递过来的参数，在redis数据库中查询结果并返回
 	sub_ip_pool = ping_ip_list_counter
 	response_data = []
 	sub_dict = {}
@@ -209,7 +218,7 @@ def data_ajax(request):
 	response_data.append(sub_dict)
 	for index in xrange(len(sub_ip_pool)):
 		temp_dict = {}
-		temp_dict["info"] = redis_connection.get(sub_ip_pool[index])
+		temp_dict["info"] = data_dict.get(sub_ip_pool[index])
 		response_data.append(temp_dict)
-	return HttpResponse(json.dumps(response_data),
+	return HttpResponse(json.dumps(response_data),\
 							content_type="application/json")

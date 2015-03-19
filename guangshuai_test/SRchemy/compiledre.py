@@ -34,8 +34,10 @@ h3c_int = re.compile(r'')
 h3c_cpu = re.compile(r'(?P<index>[0-9]{1,3}%) in last 5 minutes')
 h3c_mem = re.compile(r'Used Rate: (?P<index>[0-9]{1,2})')
 h3c_relation = re.compile(r'\.(?P<index>[0-9]{1,3}) = [A-Z].*: (?P<interface>.*)')
-
-
+h3c_ae_name = re.compile(r'(?P<interface>B.*) current state:')
+h3c_ae_state = re.compile(r'current state: (?P<state>[A-Z]{2,4})')
+#h3c_ae_speed = re.compile(r'(?P<speed>[0-9].*U.*)-speed mode')
+h3c_ae_speed = re.compile(r'(?P<speed>[0-9]*U*.*)-speed mode')
 #-----------------------------------------------------------------------------
 juniper_flag = re.compile(r'Juniper')
 juniper_int = re.compile(r'Physical interface: (?P<interface>xe-[0-9]/[0-9]/[0-9])')
