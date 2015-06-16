@@ -1,28 +1,5 @@
 import re
-#oid = {
-#	"h3c":{
-#	"interface":"1.3.6.1.2.1.31.1.1.1.1",
-#	"rx":".1.3.6.1.4.1.25506.2.70.1.1.1.9",
-#	"tx":".1.3.6.1.4.1.25506.2.70.1.1.1.10",
-#	"in_err":"1.3.6.1.2.1.2.2.1.14",
-#	"out_err":"1.3.6.1.2.1.2.2.1.20"
-#	},
-#	"juniper":{
-#	"interface":"1.3.6.1.2.1.31.1.1.1.1",
-#	"rx":"",
-#	"tx":"",
-#	"in_err":"",
-#	"out_err":""
-#	},
-#	"huawei":{
-#	"interface":"",
-#	"rx":"",
-#	"tx":"",
-#	"in_err":"",
-#	"out_err":""
-#	}
-#
-#}
+
 
 sys_name = re.compile(r'".*"')
 
@@ -49,7 +26,7 @@ juniper_mod = re.compile(r'[XS]FP[+-]{1,2}10G-[ELSZ]R')
 juniper_ae_name = re.compile(r'Physical interface: (?P<interface>.*), Enabled')
 juniper_ae_state = re.compile(r'Enabled, Physical link is (?P<state>[A-Z][a-z]{1,3})')
 juniper_ae_speed = re.compile(r'Speed: (?P<speed>.*), BPDU Error:')
-
+juniper_begin = re.compile(r'.*@.*.')
 
 #----------------------------------------------------------------------------
 huawei_flag = re.compile(r'HUAWEI')
