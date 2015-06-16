@@ -92,3 +92,18 @@ class H3cEngine(BaseEngine):
 		else:
 			pass
 
+	def show_sn(self):
+		"""
+		Get serial number of device,mudole
+		"""	
+		#check login
+		if(self.check_login()):
+			self.spawn.sendline("dis device manuinfo")
+			self.spawn.sendline(" "*20)
+			self.spawn.expect(">")
+			sn_info = self.spawn.before
+			sn_res = h3c_sn.findall(sn_info)
+			sn_res = sn_res[0]
+			self.result["sn"] = sn_res
+		else:
+			pass

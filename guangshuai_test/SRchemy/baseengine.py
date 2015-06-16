@@ -61,6 +61,7 @@ class BaseEngine(threading.Thread):
 
 	def run(self):
 		if 1 in self.action:
+                        print "show deacy"
 			self.show_deacy()
 		if 2 in self.action:
 			self.show_in_out_error()
@@ -74,7 +75,8 @@ class BaseEngine(threading.Thread):
 			self.show_err_log()
 		if 7 in self.action:
 			self.show_port_channel()
-		
+		if 8 in self.action:
+			self.show_sn()
 		#self.show_in_out_error()
 		#try:
 		#	for action in self.action_list:

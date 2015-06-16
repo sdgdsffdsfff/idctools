@@ -27,9 +27,9 @@ def system_detector(aclass):
 			else:
 				#get system name
 				s = snmp_walk(ip,snmp_key,"1.3.6.1.2.1.1.5.0")
-				pattern = sys_name.findall(s)
+				pattern = sys_name.search(s)
 				try:
-					sysname = pattern[0]
+					sysname = pattern.group(0)
 					kargs["sysname"] = sysname
 				except GetSysNameError:
 					return aclass(ip)
@@ -49,6 +49,7 @@ def system_detector(aclass):
 			elif index == 3:
 				kargs['device_flag'] = "juniper"
 				return JuniperEngine(*args,**kargs)
+
 	return wrapper
 
 

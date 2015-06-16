@@ -26,8 +26,10 @@ class JuniperEngine(BaseEngine):
                         print "before",self.spawn.before
                         print "send kong ge"
 			self.spawn.sendline('show interfaces diagnostics optics | no-more')
+                        #self.spawn.sendline("show version")
+                        self.spawn.sendline(" "*10)
 			self.spawn.expect(juniper_cmdline)
-			self.spawn.expect(juniper_cmdline)
+			self.spawn.expect(">")
 			deacy_info = self.spawn.before
                         print "deacy_info",deacy_info
                         print "##"
