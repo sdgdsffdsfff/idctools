@@ -19,25 +19,37 @@ class JuniperEngine(BaseEngine):
 		If you want to get juniper dom information,you need to login 
 		int the device and send the commands
 		"""
+                print "11"
 		if(self.check_login()):
+                        self.spawn.sendline(' ')
+			self.spawn.expect(juniper_cmdline)
+                        print "before",self.spawn.before
+                        print "send kong ge"
 			self.spawn.sendline('show interfaces diagnostics optics | no-more')
-			self.spawn.expect("{master:0}")
+			self.spawn.expect(juniper_cmdline)
+			self.spawn.expect(juniper_cmdline)
 			deacy_info = self.spawn.before
+                        print "deacy_info",deacy_info
+                        print "##"
+                        print "a",deacy_info
 			deacy_int = juniper_int.findall(deacy_info)
 			deacy_rx = juniper_rx.findall(deacy_info)
 			deacy_tx = juniper_tx.findall(deacy_info)
 			self.spawn.sendline('show chassis hardware | no-more')
-			self.spawn.expect("{master:0}")
+			self.spawn.expect(">")
 			deacy_type_info = self.spawn.before
+                        print deacy_type_info
 			deacy_type = re.findall(r'[XS]FP[+-]{1,2}10G-[ELSZ]R',
 				deacy_type_info)
-			#print deacy_type
+			print deacy_type
+                        print deacy_int
 			for i in xrange(len(deacy_int)):
 				self.result["deacy"][deacy_int[i]] = {}
 				self.result["deacy"][deacy_int[i]]['rx'] = deacy_rx[i]
 				self.result["deacy"][deacy_int[i]]['tx'] = deacy_tx[i]
 				self.result["deacy"][deacy_int[i]]['mt'] = \
-														deacy_type[i]
+									deacy_type[i]
+                        print "self interfaces######",self.result["deacy"].keys()
 			self.result["deacy"]["interface"] = self.result["deacy"].keys()
 		else:
 			pass
@@ -55,10 +67,10 @@ class JuniperEngine(BaseEngine):
 				self.spawn.sendline(self.username)
 				self.spawn.expect("Password:")
 				self.spawn.sendline(self.password)
-				i = self.spawn.expect(["Login incorrect",">"])
+				i = self.spawn.expect(["Login incorrect",juniper_cmdline])
 				if i == 0:
 					self.session_flag = "password wrong"
-					device_flag = "password wrong"
+					self.device_flag = "password wrong"
 					raise ConnectError
 				else:
 					self.session_flag = "connected"
@@ -70,6 +82,7 @@ class JuniperEngine(BaseEngine):
 
 		except ConnectError:
 			#close the spawn
+                        print "failed"
 			self.spawn.close()
 		else:
 			self.session_flag = "connected"
@@ -82,7 +95,7 @@ class JuniperEngine(BaseEngine):
  		"""
  		if(self.check_login()):
  			self.spawn.sendline("show chassis routing-engine")
- 			self.spawn.expect("{master:0}")
+ 			self.spawn.expect(juniper_cmdline)
  			usage = self.spawn.before
  			cpu_usage = juniper_cpu.search(usage)
  			cpu_usage = str(int(100 - int(cpu_usage.group('cpu'))))+"%"
@@ -97,7 +110,7 @@ class JuniperEngine(BaseEngine):
 		"""
 		if(self.check_login()):
 			self.spawn.sendline('show chassis hardware | no-more')
-			self.spawn.expect("{master:0}")
+			self.spawn.expect(juniper_cmdline)
 			deacy_type_info = self.spawn.before
 			deacy_type = juniper_mod.findall(deacy_type_info)
 			self.result['module_type'] = self.count_module(deacy_type)
@@ -106,14 +119,14 @@ class JuniperEngine(BaseEngine):
 	def show_port_channel(self):
 		if(self.check_login()):
 			self.spawn.sendline('show interface ae* | no-more')
-			self.spawn.expect("{master:0}")
+			self.spawn.expect(juniper_cmdline)
 			ae_info = self.spawn.before
 			ae_int = juniper_ae_name.findall(ae_info)
 			ae_int_state = juniper_ae_state.findall(ae_info)
 			ae_int_speed = juniper_ae_speed.findall(ae_info)
 			for index in xrange(len(ae_int)):
 				self.result["port_channel"][ae_int[index]] = \
-					    {'speed':ae_int_speed[index],'state':ae_int_state[index]}
+					{'speed':ae_int_speed[index],'state':ae_int_state[index]}
 		else:
 			pass
 		

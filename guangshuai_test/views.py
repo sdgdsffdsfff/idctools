@@ -32,33 +32,30 @@ def once_check(request):
 	action = []
 	for i in check_box_list:
 		action.append(int(i))
-	print action
 	result_list  =  connect(ip_list,username,password,snmpkey,action)
 	guangshuai_table,module_number_table,int_err_table,cpu_mem_table = \
-    											None,None,None,None
+								None,None,None,None
 	ae_table = None
 	#define ajax default data
 	categories = None
 	data = None
-	order_list = [0]*len(ip_list)
+        order_list = []
+        for i in range(len(ip_list)):
+                order_list.append(0)
 	for i in result_list:
 		order_list[ip_list.index(i.ip)] = i
 		#order_list.insert(ip_list.index(i.ip),i)
 	
 	false_ip = []
 	false_dict = {}
-
 	for i in result_list:
-		if i.device_flag == \
-						"snmpkey wrong or snmpwalk timeout":
+		if i.device_flag == "snmpkey wrong or snmpwalk timeout":
 			false_ip.append(i.ip)
-			false_dict[i.ip] = \
-					"snmpkey wrong or snmpwalk timeout"
+			false_dict[i.ip] = "snmpkey wrong or snmpwalk timeout"
 		else:
 			i.start()
 	for i in result_list:
-		if i.device_flag == \
-					"snmpkey wrong or snmpwalk timeout":
+		if i.device_flag == "snmpkey wrong or snmpwalk timeout":
 			pass
 		else:
 			i.join()
@@ -82,11 +79,13 @@ def once_check(request):
 
 		ip_for_create_table = []
 		for i in success_list:
-			if i.result["deacy"]["interface"] != []:
-				guangshuai_dict[i.ip] = i.result["deacy"]
-				guangshuai_dict[i.ip]["sysname"] =  i.result['sysname']
-				ip_for_create_table.append(i.ip)
-
+                        try:
+			        if i.result["deacy"]["interface"] != []:
+			        	guangshuai_dict[i.ip] = i.result["deacy"]
+			        	guangshuai_dict[i.ip]["sysname"] =  i.result['sysname']
+			        	ip_for_create_table.append(i.ip)
+                        except KeyError:
+                                pass
 		if guangshuai_dict != {}:
 			guangshuai_table = create_guangshuai_table(guangshuai_dict,
 			ip_for_create_table)
@@ -161,9 +160,6 @@ def once_check(request):
 		"categories":categories
 		})
 
-
-
-
 def module_number(request):
 	pass
 
@@ -192,8 +188,6 @@ def ping_threading(request):
 	table = create_ping_table(ping_ip_list_counter)
 	return render_to_response("ping_result.html",{'ping_table':table})
 
-
-
 def test(request):
 	return render_to_response("mytest.html")	
 	
@@ -204,9 +198,6 @@ def test2(request):
 	data = [10,20]	
 	return render_to_response("mytest2.html",{'data':data,\
 		'categories':categories,'user':request.user})
-
-
-
 
 
 def data_ajax(request):	

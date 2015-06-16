@@ -1,8 +1,14 @@
 import re
+<<<<<<< HEAD
 
 
 sys_name = re.compile(r'".*"')
+=======
+>>>>>>> 9627428fdda8dbae836ad4de4dbb0e6d61a5193b
 
+#sys_name = re.compile(r'".*"')
+#SNMPv2-MIB::sysName.0 = STRING: W-3-1-P02-J3300-10.189.0.234
+sys_name = re.compile(r'.* = STRING: (?P<name>.*)')
 
 h3c_v5_flag = re.compile(r'H3C.*Version 5')
 h3c_v7_flag = re.compile(r'H3C.*Version 7')
@@ -15,6 +21,7 @@ h3c_ae_name = re.compile(r'(?P<interface>B.*) current state:')
 h3c_ae_state = re.compile(r'current state: (?P<state>[A-Z]{2,4})')
 #h3c_ae_speed = re.compile(r'(?P<speed>[0-9].*U.*)-speed mode')
 h3c_ae_speed = re.compile(r'(?P<speed>[0-9]*U*.*)-speed mode')
+h3c_sn = re.compile(r'DEVICE_SERIAL_NUMBER : (?P<sn>.*)');
 #-----------------------------------------------------------------------------
 juniper_flag = re.compile(r'Juniper')
 juniper_int = re.compile(r'Physical interface: (?P<interface>xe-[0-9]/[0-9]/[0-9])')
@@ -26,7 +33,11 @@ juniper_mod = re.compile(r'[XS]FP[+-]{1,2}10G-[ELSZ]R')
 juniper_ae_name = re.compile(r'Physical interface: (?P<interface>.*), Enabled')
 juniper_ae_state = re.compile(r'Enabled, Physical link is (?P<state>[A-Z][a-z]{1,3})')
 juniper_ae_speed = re.compile(r'Speed: (?P<speed>.*), BPDU Error:')
+<<<<<<< HEAD
 juniper_begin = re.compile(r'.*@.*.')
+=======
+juniper_cmdline = re.compile(r'.*@.*>')
+>>>>>>> 9627428fdda8dbae836ad4de4dbb0e6d61a5193b
 
 #----------------------------------------------------------------------------
 huawei_flag = re.compile(r'HUAWEI')
